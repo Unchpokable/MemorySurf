@@ -357,7 +357,7 @@ healthchecksdb
 MigrationBackup/
 
 #client deps project
-client/deps
+client/deps/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
