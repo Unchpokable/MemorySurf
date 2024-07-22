@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Broadcast">
+      <UniqueIdentifier>{9f989682-c54a-42f4-8ae4-6debf7a8d69d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Broadcast">
+      <UniqueIdentifier>{5a99b774-6005-4e6a-9bc1-d8a5d9e7c986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Memory">
+      <UniqueIdentifier>{22a9632b-3f44-47a2-bc15-e8905bacca80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Memory">
+      <UniqueIdentifier>{05c653e1-987a-439f-9884-ce95f3479256}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ASMemoryReaderUI.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtUic Include="ASMemoryReaderUI.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="ASMemoryReaderUI.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="ASMemoryReaderUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocketBroadcastService.cpp">
+      <Filter>Header Files\Broadcast</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocketBroadcastService.cpp">
+      <Filter>Source Files\Broadcast</Filter>
+    </ClCompile>
+    <ClCompile Include="AudiosurfMemoryScanner.cpp">
+      <Filter>Header Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="AudiosurfMemoryScanner.cpp">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="WebSocketBroadcastService.h">
+      <Filter>Header Files\Broadcast</Filter>
+    </QtMoc>
+    <QtMoc Include="AudiosurfMemoryScanner.h">
+      <Filter>Header Files\Memory</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>
