@@ -4,7 +4,12 @@
 #include "ui_ASMemoryReaderUI.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class ASMemoryReaderUIClass; };
+
+namespace Ui
+{
+    class ASMemoryReaderUIClass;
+};
+
 QT_END_NAMESPACE
 
 class ASMemoryReaderUI : public QMainWindow
@@ -12,9 +17,9 @@ class ASMemoryReaderUI : public QMainWindow
     Q_OBJECT
 
 public:
-    ASMemoryReaderUI(QWidget *parent = nullptr);
-    ~ASMemoryReaderUI();
+    ASMemoryReaderUI(QWidget* parent = nullptr);
+    ~ASMemoryReaderUI() override;
 
 private:
-    Ui::ASMemoryReaderUIClass *ui;
+    Ui::ASMemoryReaderUIClass* ui;
 };

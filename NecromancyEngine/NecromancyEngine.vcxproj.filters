@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\Necromancy">
+      <UniqueIdentifier>{ced7b97c-91f5-450c-b4f2-3fa0727e7c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Necromancy">
+      <UniqueIdentifier>{2a8cd26b-6c38-4572-9e3a-ec64bd5883e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Ipc">
+      <UniqueIdentifier>{3835de61-2632-42c2-a8eb-503de71b54fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Ipc">
+      <UniqueIdentifier>{a4465ce7-1b08-4ade-aa68-a72a3eb42c7a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelReader.h">
+      <Filter>Файлы заголовков\Necromancy</Filter>
+    </ClInclude>
+    <ClInclude Include="ThisToHostChannel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelReader.cpp">
+      <Filter>Исходные файлы\Necromancy</Filter>
+    </ClCompile>
+    <ClCompile Include="ThisToHostChannel.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

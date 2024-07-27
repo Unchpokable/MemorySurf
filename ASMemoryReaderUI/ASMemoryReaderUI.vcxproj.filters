@@ -33,6 +33,9 @@
     <Filter Include="Source Files\Memory">
       <UniqueIdentifier>{05c653e1-987a-439f-9884-ce95f3479256}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Exceptions">
+      <UniqueIdentifier>{0e5468d2-7fa6-42c3-a282-a9ebc906ea3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ASMemoryReaderUI.qrc">
@@ -72,5 +75,10 @@
     <QtMoc Include="AudiosurfMemoryScanner.h">
       <Filter>Header Files\Memory</Filter>
     </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TaggedException.hpp">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

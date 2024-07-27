@@ -1,9 +1,9 @@
 ﻿#ifndef PCH_H
 #define PCH_H
 
-// Добавьте сюда заголовочные файлы для предварительной компиляции
 #include "framework.h"
 #include <type_traits>
 #include <stdexcept>
+#include <TlHelp32.h>
 
 #endif //PCH_H

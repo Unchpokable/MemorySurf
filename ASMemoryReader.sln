@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASReader", "ASReader\ASRead
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASMemoryReaderUI", "ASMemoryReaderUI\ASMemoryReaderUI.vcxproj", "{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyEngine", "NecromancyEngine\NecromancyEngine.vcxproj", "{71D0ABD3-382D-4B74-873D-2F3561BBF44D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x64.Build.0 = Release|x64
 		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x86.ActiveCfg = Release|x64
 		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x86.Build.0 = Release|x64
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Debug|x64.ActiveCfg = Debug|x64
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Debug|x64.Build.0 = Debug|x64
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Debug|x86.ActiveCfg = Debug|Win32
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Debug|x86.Build.0 = Debug|Win32
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Release|x64.ActiveCfg = Release|x64
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Release|x64.Build.0 = Release|x64
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Release|x86.ActiveCfg = Release|Win32
+		{71D0ABD3-382D-4B74-873D-2F3561BBF44D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

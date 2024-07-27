@@ -9,6 +9,7 @@
 class ASREADER_EXPORT MemoryReader {
 
 public:
+
     using VoidPtr = LPCVOID;
 
     struct ByteArray
@@ -17,13 +18,15 @@ public:
         DWORD DataLength;
     };
 
+    enum class SearchMode
+    {
+        Absolute,
+        Relative
+    };
+
+    MemoryReader() = default;
     explicit MemoryReader(HANDLE target) : _targetProc(target) {}
     explicit MemoryReader(DWORD pid);
-
-    MemoryReader(const MemoryReader&) = delete;
-    MemoryReader(MemoryReader&&) = delete;
-    MemoryReader& operator=(const MemoryReader&) = delete;
-    MemoryReader& operator=(MemoryReader&&) = delete;
 
     ~MemoryReader()
     {
@@ -31,24 +34,46 @@ public:
             CloseHandle(_targetProc);
     }
 
-    ByteArray ReadMemory(VoidPtr address, DWORD size) const;
+    MemoryReader(const MemoryReader&) = delete;
+    MemoryReader(MemoryReader&&) = delete;
+    MemoryReader& operator=(const MemoryReader&) = delete;
+    MemoryReader& operator=(MemoryReader&&) = delete;
 
-    ByteArray ReadMemoryPattern(BYTE* pattern, BYTE* mask, size_t patternSize);
+    void setSearchModeToAbsolute()
+    {
+        _mode = SearchMode::Absolute;
+    }
+
+    void setSearchModeToRelative()
+    {
+        _mode = SearchMode::Relative;
+    }
+
+    void setTarget(DWORD pid);
+    void setBaseModule(const WCHAR* moduleName);
+
+    ByteArray readMemory(uintptr_t offset, DWORD size) const;
+
+    ByteArray readMemoryPattern(BYTE* pattern, BYTE* mask, size_t patternSize) const;
 
     template<typename T, std::enable_if_t<is_simple_struct_v<T>, bool> = true>
-    std::optional<T> ReadMemory(VoidPtr address) const;
+    std::optional<T> readMemory(VoidPtr address) const;
 
     template<typename T, std::enable_if_t<is_simple_struct_v<T>, bool> = true>
-    std::optional<T> ReadMemoryPattern(BYTE* pattern, BYTE* mask, size_t patternSize);
+    std::optional<T> readMemoryPattern(BYTE* pattern, BYTE* mask, size_t patternSize);
 
 private:
-    static bool CompareMemoryPattern(BYTE* data, BYTE* pattern, BYTE* mask, size_t patternSize);
+    static bool compareMemoryPattern(BYTE* data, BYTE* pattern, BYTE* mask, size_t patternSize);
 
+    DWORD _targetPid = 0;
     HANDLE _targetProc { nullptr };
+    uintptr_t _baseAddress = 0;
+
+    SearchMode _mode = SearchMode::Relative;
 };
 
 template <typename T, std::enable_if_t<is_simple_struct_v<T>, bool> = true>
-std::optional<T> MemoryReader::ReadMemory(VoidPtr address) const
+std::optional<T> MemoryReader::readMemory(VoidPtr address) const
 {
     BYTE* buff = new BYTE[sizeof(T)];
     SIZE_T bytesRead;
@@ -62,9 +87,9 @@ std::optional<T> MemoryReader::ReadMemory(VoidPtr address) const
 }
 
 template <typename T, std::enable_if_t<is_simple_struct_v<T>, bool>>
-std::optional<T> MemoryReader::ReadMemoryPattern(BYTE* pattern, BYTE* mask, size_t patternSize)
+std::optional<T> MemoryReader::readMemoryPattern(BYTE* pattern, BYTE* mask, size_t patternSize)
 {
-    ByteArray rawData = ReadMemoryPattern(pattern, mask, patternSize);
+    ByteArray rawData = readMemoryPattern(pattern, mask, patternSize);
 
     auto object = reinterpret_cast<T*>(rawData.Data);
 

@@ -7,13 +7,13 @@
 
 struct AudiosurfData;
 
-class WebSocketBroadcastService  : public QObject
+class WebSocketBroadcastService : public QObject
 {
     Q_OBJECT
 
 public:
-    WebSocketBroadcastService(quint16 port, QObject *parent = nullptr);
-    ~WebSocketBroadcastService();
+    explicit WebSocketBroadcastService(quint16 port, QObject* parent = nullptr);
+    ~WebSocketBroadcastService() override;
 
 public slots:
     void broadcastMessage(const QString& message) const;
@@ -24,7 +24,7 @@ private slots:
     void socketDisconnected();
 
 private:
-    QString FormatJson(const AudiosurfData& data);
+    QString formatJson(const AudiosurfData& data);
 
     QWebSocketServer* _server;
     QList<QWebSocket*> _clients;

@@ -103,6 +103,9 @@
   <ItemGroup>
     <QtMoc Include="AudiosurfMemoryScanner.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TaggedException.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

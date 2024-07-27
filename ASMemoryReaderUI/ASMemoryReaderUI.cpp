@@ -1,8 +1,8 @@
 #include "ASMemoryReaderUI.h"
 
-ASMemoryReaderUI::ASMemoryReaderUI(QWidget *parent)
+ASMemoryReaderUI::ASMemoryReaderUI(QWidget* parent)
     : QMainWindow(parent)
-    , ui(new Ui::ASMemoryReaderUIClass())
+      , ui(new Ui::ASMemoryReaderUIClass())
 {
     ui->setupUi(this);
 }
