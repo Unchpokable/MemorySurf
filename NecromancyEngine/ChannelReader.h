@@ -15,7 +15,7 @@ public:
     ChannelReader();
     explicit ChannelReader(const std::string& chName);
 
-    AudiosurfData readData();
+    AudiosurfData readData() const;
 private:
     std::string _chGuid;
     A3d_ChannelGroup* _targetGroup;
