@@ -45,6 +45,9 @@
     <ClInclude Include="StaticQuest3DFuncs.h">
       <Filter>Файлы заголовков\Necromancy</Filter>
     </ClInclude>
+    <ClInclude Include="EngineInterfaceProxy.h">
+      <Filter>Файлы заголовков\Necromancy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="StaticQuest3DFuncs.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineInterfaceProxy.cpp">
+      <Filter>Исходные файлы\Necromancy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
