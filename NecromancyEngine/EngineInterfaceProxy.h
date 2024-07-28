@@ -2,7 +2,7 @@
 
 class EngineInterfaceProxy {
 public:
-    static const EngineInterface* getEngine();
+    static EngineInterface* getEngine();
     static void setEngine(EngineInterface* engine);
 
 private:

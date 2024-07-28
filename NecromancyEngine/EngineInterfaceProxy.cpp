@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EngineInterfaceProxy.h"
 
-const EngineInterface * EngineInterfaceProxy::getEngine() {
+EngineInterface* EngineInterfaceProxy::getEngine() {
     return _engine;
 }
 
