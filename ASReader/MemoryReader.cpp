@@ -99,7 +99,7 @@ MemoryReader::ByteArray MemoryReader::readMemoryPattern(BYTE* pattern, BYTE* mas
                 }
             }
 
-            delete buffer;
+            delete[] buffer;
         }
 
         baseAddress = static_cast<BYTE*>(mbi.BaseAddress) + mbi.RegionSize;

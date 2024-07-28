@@ -34,13 +34,14 @@ namespace Patterns
 
 struct AudiosurfData
 {
-    DWORD GoldMedalThreshold;
-    DWORD BlockStatRed;
-    DWORD BlockStatYellow;
-    DWORD BlockStatGreen;
-    DWORD BlockStatBlue;
-    DWORD BlockStatPurple;
-    DWORD Score;
+    // looks like audiosurf uses float variables to store EVERYTHING
+    float GoldMedalThreshold;
+    float BlockStatRed;
+    float BlockStatYellow;
+    float BlockStatGreen;
+    float BlockStatBlue;
+    float BlockStatPurple;
+    float Score;
 };
 
 class AudiosurfMemoryScanner : public QObject

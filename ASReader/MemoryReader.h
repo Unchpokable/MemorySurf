@@ -72,7 +72,7 @@ private:
     SearchMode _mode = SearchMode::Relative;
 };
 
-template <typename T, std::enable_if_t<is_simple_struct_v<T>, bool> = true>
+template <typename T, std::enable_if_t<is_simple_struct_v<T>, bool>>
 std::optional<T> MemoryReader::readMemory(VoidPtr address) const
 {
     BYTE* buff = new BYTE[sizeof(T)];

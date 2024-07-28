@@ -25,6 +25,9 @@
     <Filter Include="Файлы заголовков\Ipc">
       <UniqueIdentifier>{a4465ce7-1b08-4ade-aa68-a72a3eb42c7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Dto">
+      <UniqueIdentifier>{a866eb8b-961f-4b6d-921f-3c588183ea3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -34,7 +37,13 @@
       <Filter>Файлы заголовков\Necromancy</Filter>
     </ClInclude>
     <ClInclude Include="ThisToHostChannel.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ASData.h">
+      <Filter>Файлы заголовков\Dto</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticQuest3DFuncs.h">
+      <Filter>Файлы заголовков\Necromancy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +57,9 @@
       <Filter>Исходные файлы\Necromancy</Filter>
     </ClCompile>
     <ClCompile Include="ThisToHostChannel.cpp">
+      <Filter>Исходные файлы\Ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticQuest3DFuncs.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,5 +14,7 @@ public:
 
 private:
     std::string _chGuid;
+
+    A3d_ChannelGroup _targetGroup;
 };
 
