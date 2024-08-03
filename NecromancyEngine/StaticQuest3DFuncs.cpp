@@ -22,4 +22,13 @@ void InitTrueCallChannel()
 }
 
 void DetourQ3dFunctions() {
+    Aco_FloatChannel_GetFloat =
+        (float(__thiscall*)(void*))
+        DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll", "?GetFloat@Aco_FloatChannel@@UAEMXZ");
+    Aco_FloatChannel_GetDefaultFloat =
+        (float(__thiscall*)(void*))
+        DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll", "?GetDefaultFloat@Aco_FloatChannel@@UAEMXZ");
+    Aco_FloatChannel_SetFloat =
+        (void(__thiscall*)(void*, float))
+        DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll", "?SetFloat@Aco_FloatChannel@@UAEXM@Z");
 }

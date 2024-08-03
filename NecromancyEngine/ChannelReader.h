@@ -1,7 +1,11 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 #include <vector>
+
+template<typename T>
+class ChannelCaller;
 
 struct AudiosurfData;
 
@@ -16,10 +20,11 @@ public:
     explicit ChannelReader(const std::string& chName);
 
     AudiosurfData readData() const;
-private:
-    std::string _chGuid;
-    A3d_ChannelGroup* _targetGroup;
 
-    std::vector<int> _targetChannelsIndices; // indices of Aco_FloatChannel that stores a needed data
+    void setTargetIndices(const std::vector<int>& indices);
+private:
+    A3d_ChannelGroup* _target;
+    std::string _chGuid;
+    std::unordered_map<int> _targetChannelsIndices; // indices of Aco_FloatChannel that stores a needed data
 };
 

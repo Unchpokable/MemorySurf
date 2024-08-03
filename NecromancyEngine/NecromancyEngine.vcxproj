@@ -148,13 +148,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ASData.h" />
+    <ClInclude Include="ChannelCaller.hpp" />
     <ClInclude Include="ChannelReader.h" />
     <ClInclude Include="EngineInterfaceProxy.h" />
+    <ClInclude Include="InterestedChannel.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StaticQuest3DFuncs.h" />
     <ClInclude Include="ThisToHostChannel.h" />
+    <ClInclude Include="traits.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChannelCaller.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ChannelReader.cpp" />
     <ClCompile Include="EngineInterfaceProxy.cpp" />
