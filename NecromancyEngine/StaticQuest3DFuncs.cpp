@@ -31,4 +31,12 @@ void DetourQ3dFunctions() {
     Aco_FloatChannel_SetFloat =
         (void(__thiscall*)(void*, float))
         DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll", "?SetFloat@Aco_FloatChannel@@UAEXM@Z");
+
+    // get a dylan's shitcode
+    Aco_ArrayTable_GetTable = 
+        (void*(__thiscall*)(void*))
+        DetourFindFunction("6918910A-F8BA-43C4-B8D4-CD6587D0F67C.dll", "?GetTable@Aco_Array_Table@@UAEPAVARRAY_TABLE_NEW@@XZ");
+    Aco_ArrayTable_GetTimeStamp =
+        (int(__thiscall*)(void*))
+        DetourFindFunction("6918910A-F8BA-43C4-B8D4-CD6587D0F67C.dll", "?GetTimeStamp@Aco_Array_Table@@UAEKXZ");
 }

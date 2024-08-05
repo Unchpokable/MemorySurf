@@ -6,6 +6,6 @@ public:
     static void setEngine(EngineInterface* engine);
 
 private:
-    static EngineInterface* _engine { nullptr };
+    inline static EngineInterface* _engine = nullptr;
 };
 

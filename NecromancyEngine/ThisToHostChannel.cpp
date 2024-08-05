@@ -7,7 +7,7 @@ ThisToHostChannel::ThisToHostChannel() : _channel("Necromancy_sender_channel"), 
 
 void ThisToHostChannel::start() {
     _shouldSend = true;
-    _sendingThread = std::thread(&ThisToHostChannel::sendingLoop);
+    _sendingThread = std::thread(&ThisToHostChannel::sendingLoop, this);
 }
 
 void ThisToHostChannel::stop() {

@@ -3,7 +3,7 @@
 #include "ASData.h"
 #include "EngineInterfaceProxy.h"
 #include "ChannelCaller.hpp"
-
+#include "DefaultCallers.hpp"
 #include "StaticQuest3DFuncs.h"
 
 Necromancy::ChannelReader::ChannelReader() = default;
@@ -15,16 +15,7 @@ Necromancy::ChannelReader::ChannelReader(const std::string & chName) {
 
 AudiosurfData Necromancy::ChannelReader::readData() const
 {
-    std::vector<ChannelCaller<float>*> channels;
-
-    for (const auto& idx: _targetChannelsIndices)
-    {
-        auto reader = new ChannelCaller<float>();
-        reader->assignChannel(reinterpret_cast<Aco_FloatChannel*>(_target->GetChannel(idx)));
-        reader->assignGetFunc(Aco_FloatChannel_GetFloat);
-        reader->assignGetDefault(Aco_FloatChannel_GetDefaultFloat);
-        reader->assignSet(Aco_FloatChannel_SetFloat);
-    }
+    auto floatChannels = ChannelCaller<float>::DefaultCaller::createForChannels(_target, _targetChannelsIndices);
 
     return {};
 }

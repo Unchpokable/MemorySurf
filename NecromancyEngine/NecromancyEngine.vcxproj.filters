@@ -31,6 +31,9 @@
     <Filter Include="Файлы заголовков\Necromancy\Internal">
       <UniqueIdentifier>{f273eb23-d5f5-4d28-9c0c-920fb4456e04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Necromancy\Internal">
+      <UniqueIdentifier>{62dee298-569c-428c-88f6-30d8c35b4eac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="InterestedChannel.h">
       <Filter>Файлы заголовков\Necromancy\Internal</Filter>
     </ClInclude>
+    <ClInclude Include="DefaultCallers.hpp">
+      <Filter>Файлы заголовков\Necromancy\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -82,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="ChannelCaller.cpp">
       <Filter>Исходные файлы\Necromancy</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultCallers.cpp">
+      <Filter>Исходные файлы\Necromancy\Internal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -79,13 +79,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\q3dsdk\include;$(LIBRARIES_DIR)\CppIpc\include;$(LIBRARIES_DIR)\detours\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(LIBRARIES_DIR)\CppIpc\Lib;C:\q3dsdk\lib;$(DXSDK_DIR)Lib\X86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;ipc.lib;d3dx9.lib;d3dx9d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(LIBRARIES_DIR)\CppIpc\Lib;C:\q3dsdk\lib;$(DXSDK_DIR)Lib\X86;$(LIBRARIES_DIR)\detours\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;ipcd.lib;d3dx9.lib;d3dx9d.lib;detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -150,6 +151,7 @@
     <ClInclude Include="ASData.h" />
     <ClInclude Include="ChannelCaller.hpp" />
     <ClInclude Include="ChannelReader.h" />
+    <ClInclude Include="DefaultCallers.hpp" />
     <ClInclude Include="EngineInterfaceProxy.h" />
     <ClInclude Include="InterestedChannel.h" />
     <ClInclude Include="pch.h" />
@@ -159,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChannelCaller.cpp" />
+    <ClCompile Include="DefaultCallers.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ChannelReader.cpp" />
     <ClCompile Include="EngineInterfaceProxy.cpp" />

@@ -25,6 +25,6 @@ public:
 private:
     A3d_ChannelGroup* _target;
     std::string _chGuid;
-    std::unordered_map<int> _targetChannelsIndices; // indices of Aco_FloatChannel that stores a needed data
+    std::vector<int> _targetChannelsIndices; // indices of Aco_FloatChannel that stores a needed data
 };
 
