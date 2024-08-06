@@ -27,7 +27,7 @@ public:
     template<typename T, std::enable_if_t<is_a3d_channel_v<T>, bool> = true>
     void assignChannel(T* channelPtr);
 
-    void assignGetFunc(CVal(__thiscall* readFunc)(void*));
+    void assignGet(CVal(__thiscall* readFunc)(void*));
 
     void assignGetDefault(CVal(__thiscall* readDefaultFunc)(void*));
 
@@ -53,7 +53,7 @@ void ChannelCaller<CVal>::assignChannel(T* channelPtr)
 }
 
 template<typename CVal>
-void ChannelCaller<CVal>::assignGetFunc(CVal(__thiscall *readFunc)(void*)) {
+void ChannelCaller<CVal>::assignGet(CVal(__thiscall *readFunc)(void*)) {
     _channelGet = readFunc;
 }
 

@@ -66,6 +66,9 @@
     <ClInclude Include="DefaultCallers.hpp">
       <Filter>Файлы заголовков\Necromancy\Internal</Filter>
     </ClInclude>
+    <ClInclude Include="ArrayTableReader.h">
+      <Filter>Файлы заголовков\Necromancy\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -89,7 +92,13 @@
     <ClCompile Include="ChannelCaller.cpp">
       <Filter>Исходные файлы\Necromancy</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultCallers.cpp">
+    <ClCompile Include="DefaultCallers_Float.cpp">
+      <Filter>Исходные файлы\Necromancy\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultCallers_VoidPtr.cpp">
+      <Filter>Исходные файлы\Necromancy\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayTableReader.cpp">
       <Filter>Исходные файлы\Necromancy\Internal</Filter>
     </ClCompile>
   </ItemGroup>

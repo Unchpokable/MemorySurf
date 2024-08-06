@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayTableReader.h" />
     <ClInclude Include="ASData.h" />
     <ClInclude Include="ChannelCaller.hpp" />
     <ClInclude Include="ChannelReader.h" />
@@ -160,8 +161,10 @@
     <ClInclude Include="traits.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayTableReader.cpp" />
     <ClCompile Include="ChannelCaller.cpp" />
-    <ClCompile Include="DefaultCallers.cpp" />
+    <ClCompile Include="DefaultCallers_Float.cpp" />
+    <ClCompile Include="DefaultCallers_VoidPtr.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ChannelReader.cpp" />
     <ClCompile Include="EngineInterfaceProxy.cpp" />

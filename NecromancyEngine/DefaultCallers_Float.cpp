@@ -5,7 +5,7 @@
 ChannelCaller<float>* ChannelCaller<float>::DefaultCaller::create(A3d_Channel* target) {
     auto reader = new ChannelCaller();
     reader->assignChannel(target);
-    reader->assignGetFunc(Aco_FloatChannel_GetFloat);
+    reader->assignGet(Aco_FloatChannel_GetFloat);
     reader->assignGetDefault(Aco_FloatChannel_GetDefaultFloat);
     reader->assignSet(Aco_FloatChannel_SetFloat);
     return reader;
