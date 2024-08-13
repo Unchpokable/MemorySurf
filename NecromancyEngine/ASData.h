@@ -1,12 +1,13 @@
 #pragma once
 
+struct BlockStats {
+    float** Data;
+    int Rows;
+    int Cols;
+};
+
 struct AudiosurfData {
-    // looks like audiosurf uses float variables to store EVERYTHING
+    BlockStats Stats; 
     float GoldMedalThreshold;
-    float BlockStatRed;
-    float BlockStatYellow;
-    float BlockStatGreen;
-    float BlockStatBlue;
-    float BlockStatPurple;
     float Score;
 };
