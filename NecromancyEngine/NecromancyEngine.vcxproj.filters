@@ -25,14 +25,14 @@
     <Filter Include="Файлы заголовков\Ipc">
       <UniqueIdentifier>{a4465ce7-1b08-4ade-aa68-a72a3eb42c7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Dto">
-      <UniqueIdentifier>{a866eb8b-961f-4b6d-921f-3c588183ea3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы заголовков\Necromancy\Internal">
       <UniqueIdentifier>{f273eb23-d5f5-4d28-9c0c-920fb4456e04}</UniqueIdentifier>
     </Filter>
     <Filter Include="Исходные файлы\Necromancy\Internal">
       <UniqueIdentifier>{62dee298-569c-428c-88f6-30d8c35b4eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protobuf">
+      <UniqueIdentifier>{7a599a8d-a268-44e5-856b-7a72abe629eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,11 +42,8 @@
     <ClInclude Include="ChannelReader.h">
       <Filter>Файлы заголовков\Necromancy</Filter>
     </ClInclude>
-    <ClInclude Include="ThisToHostChannel.h">
+    <ClInclude Include="ProtobufSender.h">
       <Filter>Файлы заголовков\Ipc</Filter>
-    </ClInclude>
-    <ClInclude Include="ASData.h">
-      <Filter>Файлы заголовков\Dto</Filter>
     </ClInclude>
     <ClInclude Include="StaticQuest3DFuncs.h">
       <Filter>Файлы заголовков\Necromancy</Filter>
@@ -69,6 +66,12 @@
     <ClInclude Include="ArrayTableReader.h">
       <Filter>Файлы заголовков\Necromancy\Internal</Filter>
     </ClInclude>
+    <ClInclude Include="vtablehelpers.hpp">
+      <Filter>Файлы заголовков\Necromancy\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="protobuf\asdata.pb.h">
+      <Filter>protobuf</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -80,7 +83,7 @@
     <ClCompile Include="ChannelReader.cpp">
       <Filter>Исходные файлы\Necromancy</Filter>
     </ClCompile>
-    <ClCompile Include="ThisToHostChannel.cpp">
+    <ClCompile Include="ProtobufSender.cpp">
       <Filter>Исходные файлы\Ipc</Filter>
     </ClCompile>
     <ClCompile Include="StaticQuest3DFuncs.cpp">
@@ -101,5 +104,13 @@
     <ClCompile Include="ArrayTableReader.cpp">
       <Filter>Исходные файлы\Necromancy\Internal</Filter>
     </ClCompile>
+    <ClCompile Include="protobuf\asdata.pb.cc">
+      <Filter>protobuf</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="protobuf\asdata.proto">
+      <Filter>protobuf</Filter>
+    </None>
   </ItemGroup>
 </Project>

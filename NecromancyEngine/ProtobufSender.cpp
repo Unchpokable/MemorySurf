@@ -1,22 +1,22 @@
 #include "pch.h"
-#include "ThisToHostChannel.h"
+#include "ProtobufSender.h"
 
-ThisToHostChannel::ThisToHostChannel() : _channel("Necromancy_sender_channel"), _shouldSend(false) {
+ProtobufSender::ProtobufSender() : _shouldSend(false) {
     // empty
 }
 
-void ThisToHostChannel::start() {
+void ProtobufSender::start() {
     _shouldSend = true;
-    _sendingThread = std::thread(&ThisToHostChannel::sendingLoop, this);
+    _sendingThread = std::thread(&ProtobufSender::sendingLoop, this);
 }
 
-void ThisToHostChannel::stop() {
+void ProtobufSender::stop() {
     _shouldSend = false;
     if(_sendingThread.joinable())
         _sendingThread.join();
 }
 
-void ThisToHostChannel::sendData(const std::vector<AudiosurfData>& data) {
+void ProtobufSender::sendData(const std::vector<ASScanData>& data) {
     std::lock_guard<std::mutex> lock(_mutex);
 
     for (const auto& it: data)
@@ -27,7 +27,7 @@ void ThisToHostChannel::sendData(const std::vector<AudiosurfData>& data) {
     _condition.notify_all();
 }
 
-void ThisToHostChannel::sendingLoop() {
+void ProtobufSender::sendingLoop() {
     while(_shouldSend)
     {
         std::unique_lock<std::mutex> lock(_mutex);
@@ -40,7 +40,7 @@ void ThisToHostChannel::sendingLoop() {
         {
             auto data = _dataQueue.front();
             _dataQueue.pop();
-            _channel.send(&data, sizeof(AudiosurfData));
+            // todo: send data
         }
     }
 }

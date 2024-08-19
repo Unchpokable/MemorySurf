@@ -6,7 +6,7 @@ class ArrayTableReader {
 public:
     explicit ArrayTableReader(A3d_Channel* channel);
 
-    float readAt(int i, int j) const;
+    std::vector<float> readData() const;
 
 private:
     ChannelCaller<void*>* _caller;

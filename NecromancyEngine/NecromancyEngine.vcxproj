@@ -70,13 +70,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;NECROMANCYENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\q3dsdk\include;$(LIBRARIES_DIR)\CppIpc\include;$(LIBRARIES_DIR)\detours\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -149,16 +152,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ArrayTableReader.h" />
-    <ClInclude Include="ASData.h" />
     <ClInclude Include="ChannelCaller.hpp" />
     <ClInclude Include="ChannelReader.h" />
     <ClInclude Include="DefaultCallers.hpp" />
     <ClInclude Include="EngineInterfaceProxy.h" />
     <ClInclude Include="InterestedChannel.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="protobuf\asdata.pb.h" />
     <ClInclude Include="StaticQuest3DFuncs.h" />
-    <ClInclude Include="ThisToHostChannel.h" />
+    <ClInclude Include="ProtobufSender.h" />
     <ClInclude Include="traits.hpp" />
+    <ClInclude Include="vtablehelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayTableReader.cpp" />
@@ -174,8 +178,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="protobuf\asdata.pb.cc" />
     <ClCompile Include="StaticQuest3DFuncs.cpp" />
-    <ClCompile Include="ThisToHostChannel.cpp" />
+    <ClCompile Include="ProtobufSender.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="protobuf\asdata.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

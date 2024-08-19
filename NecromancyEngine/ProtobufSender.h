@@ -1,28 +1,25 @@
 #pragma once
 
-#include <ipc.h>
 #include <queue>
 #include <mutex>
+#include "protobuf/asdata.pb.h"
 
-#include "ASData.h"
-
-class ThisToHostChannel {
+class ProtobufSender {
 
 public:
-    ThisToHostChannel();
+    ProtobufSender();
 
     void start();
     void stop();
 
-    void sendData(const std::vector<AudiosurfData>& data);
+    void sendData(const std::vector<ASScanData>& data);
 
 private:
     void sendingLoop();
 
-    ipc::channel _channel;
 
     int _sendInterval = 10;
-    std::queue<AudiosurfData> _dataQueue;
+    std::queue<ASScanData> _dataQueue;
 
     // sync
     std::mutex _mutex;
