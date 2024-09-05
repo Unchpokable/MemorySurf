@@ -10,7 +10,11 @@ ProtobufSender::ProtobufSender() {
 void ProtobufSender::sendData(ASScanData &data) {
     WaitForSingleObject(_mutex, INFINITE);
 
-    std::memcpy(_mapView, &data, data.ByteSizeLong());
+    uint32_t size = data.ByteSizeLong();
+
+    std::memcpy(_mapView, &size, sizeof(uint32_t));
+
+    // TODO serialize and send protobuf ASScanData 
 
     ReleaseMutex(_mutex);
 }
