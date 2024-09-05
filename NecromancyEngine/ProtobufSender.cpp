@@ -1,46 +1,33 @@
 #include "pch.h"
+
 #include "ProtobufSender.h"
+#include "InitializationError.h"
 
-ProtobufSender::ProtobufSender() : _shouldSend(false) {
-    // empty
+ProtobufSender::ProtobufSender() {
+    initializeSharedMemory();
 }
 
-void ProtobufSender::start() {
-    _shouldSend = true;
-    _sendingThread = std::thread(&ProtobufSender::sendingLoop, this);
+void ProtobufSender::sendData(ASScanData &data) {
+    WaitForSingleObject(_mutex, INFINITE);
+
+    std::memcpy(_mapView, &data, data.ByteSizeLong());
+
+    ReleaseMutex(_mutex);
 }
 
-void ProtobufSender::stop() {
-    _shouldSend = false;
-    if(_sendingThread.joinable())
-        _sendingThread.join();
-}
+void ProtobufSender::initializeSharedMemory() {
+    _mutex = CreateMutex(NULL, false, _mutexName);
+    if(_mutex == NULL)
+        throw InitializationError("Can not create mutex");
 
-void ProtobufSender::sendData(const std::vector<ASScanData>& data) {
-    std::lock_guard<std::mutex> lock(_mutex);
+    _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 
+        _messageMaxSize, _sharedMemoryName);
 
-    for (const auto& it: data)
-    {
-        _dataQueue.push(it);
-    }
+    if(_sharedMemoryMapping == NULL)
+        throw InitializationError("Unable to initialize shared memory!");
 
-    _condition.notify_all();
-}
+    _mapView = MapViewOfFile(_sharedMemoryMapping, FILE_MAP_ALL_ACCESS, 0, 0, _messageMaxSize);
 
-void ProtobufSender::sendingLoop() {
-    while(_shouldSend)
-    {
-        std::unique_lock<std::mutex> lock(_mutex);
-        _condition.wait_for(lock, std::chrono::milliseconds(_sendInterval), [this]
-        {
-            return !_dataQueue.empty() || !_shouldSend;
-        });
-
-        while(!_dataQueue.empty())
-        {
-            auto data = _dataQueue.front();
-            _dataQueue.pop();
-            // todo: send data
-        }
-    }
+    if(_mapView == NULL)
+        throw InitializationError("Unable to create shared memory map view");
 }

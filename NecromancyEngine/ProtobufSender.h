@@ -1,7 +1,5 @@
 #pragma once
 
-#include <queue>
-#include <mutex>
 #include "protobuf/asdata.pb.h"
 
 class ProtobufSender {
@@ -9,23 +7,17 @@ class ProtobufSender {
 public:
     ProtobufSender();
 
-    void start();
-    void stop();
-
-    void sendData(const std::vector<ASScanData>& data);
+    void sendData(ASScanData& data);
 
 private:
-    void sendingLoop();
+    void initializeSharedMemory();
 
+    const wchar_t* _mutexName = L"Global\\NecromancyShareMemMutex";
+    const wchar_t* _sharedMemoryName = L"Global\\NecromancyShareMem";
 
-    int _sendInterval = 10;
-    std::queue<ASScanData> _dataQueue;
+    const size_t _messageMaxSize = 1024; // 1 KiB for message. Actually ScanData should weight a MUCH LESS
 
-    // sync
-    std::mutex _mutex;
-    std::condition_variable _condition;
-    std::thread _sendingThread;
-
-    bool _shouldSend;
+    HANDLE _mutex;
+    HANDLE _sharedMemoryMapping;
+    LPVOID _mapView;
 };
-

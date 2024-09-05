@@ -156,6 +156,7 @@
     <ClInclude Include="ChannelReader.h" />
     <ClInclude Include="DefaultCallers.hpp" />
     <ClInclude Include="EngineInterfaceProxy.h" />
+    <ClInclude Include="InitializationError.h" />
     <ClInclude Include="InterestedChannel.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="protobuf\asdata.pb.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ChannelReader.cpp" />
     <ClCompile Include="EngineInterfaceProxy.cpp" />
+    <ClCompile Include="InitializationError.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

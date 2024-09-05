@@ -34,6 +34,12 @@
     <Filter Include="protobuf">
       <UniqueIdentifier>{7a599a8d-a268-44e5-856b-7a72abe629eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Necromancy\Err">
+      <UniqueIdentifier>{daded1df-41eb-4422-899a-7a95bb7f9104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Necromancy\Err">
+      <UniqueIdentifier>{b1852708-28e5-4a55-8f86-2e6baffa6512}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -72,6 +78,9 @@
     <ClInclude Include="protobuf\asdata.pb.h">
       <Filter>protobuf</Filter>
     </ClInclude>
+    <ClInclude Include="InitializationError.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="protobuf\asdata.pb.cc">
       <Filter>protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="InitializationError.cpp">
+      <Filter>Исходные файлы\Necromancy\Err</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
