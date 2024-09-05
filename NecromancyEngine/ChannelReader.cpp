@@ -5,21 +5,19 @@
 #include "ChannelCaller.hpp"
 #include "DefaultCallers.hpp"
 #include "StaticQuest3DFuncs.h"
+#include "protobuf/asdata.pb.h"
 
 Necromancy::ChannelReader::ChannelReader() = default;
 
-Necromancy::ChannelReader::ChannelReader(const std::string & chName) {
+Necromancy::ChannelReader::ChannelReader(const std::string& chName) {
     _chGuid = chName;
-    _target = EngineInterfaceProxy::getEngine()->GetChannelGroup("C682A43C-22B3-4CDD-A0EA-CF1B3FAE63D5"); // whats wrong with your names dylan
+    _target = EngineInterfaceProxy::getEngine()->GetChannelGroup("StatsCollector.cgr");
+
+
 }
 
-AudiosurfData Necromancy::ChannelReader::readData() const
+ASScanData Necromancy::ChannelReader::readData() const
 {
-    auto floatChannels = ChannelCaller<float>::DefaultCaller::createForChannels(_target, _targetChannelsIndices);
-
     return {};
 }
 
-void Necromancy::ChannelReader::setTargetIndices(const std::vector<int>& indices) {
-    _targetChannelsIndices = indices;
-}
