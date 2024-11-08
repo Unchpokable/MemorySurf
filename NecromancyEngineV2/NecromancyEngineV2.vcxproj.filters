@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Protobuf Files">
+      <UniqueIdentifier>{1d380b7c-7883-49b6-a71d-66b8c78d8ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\memory">
+      <UniqueIdentifier>{a4778ae3-7b04-43cf-b1f2-cd224b4f6c3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ipc">
+      <UniqueIdentifier>{b38698fc-a2a5-4ebe-8e64-d092b69ea5ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hooks">
+      <UniqueIdentifier>{118b3219-d3ee-4db6-b89a-2eeba89165c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Headers\memory">
+      <UniqueIdentifier>{8a9cd464-2db7-4018-a038-f6221e45b395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\ipc">
+      <UniqueIdentifier>{682eca3c-04a0-4cba-9e6e-d1b1ee78ad1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\hooks">
+      <UniqueIdentifier>{6e984c6a-5d97-4e6e-baa1-f1262283afcb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="vftableutils.hpp">
+      <Filter>Headers\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="typedefs.h">
+      <Filter>Headers\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="q3ddetours.h">
+      <Filter>Headers\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hkfunctions.h">
+      <Filter>Headers\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="hook.h">
+      <Filter>Headers\hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="asdata.pb.h">
+      <Filter>Protobuf Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hkfunctions.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="hook.cpp">
+      <Filter>Source Files\hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="asdata.pb.cc">
+      <Filter>Protobuf Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asdata.proto">
+      <Filter>Protobuf Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

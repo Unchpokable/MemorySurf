@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message ASScanData {
+    float score = 1;
+    repeated float array_data = 2;
+    int32 rows = 3;
+    int32 cols = 4;
+    int32 gold_threshold = 5;
+}
