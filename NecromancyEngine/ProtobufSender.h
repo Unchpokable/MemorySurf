@@ -7,7 +7,7 @@ class ProtobufSender {
 public:
     ProtobufSender() = default;
 
-    void sendData(ASScanData& data);
+    void sendData(const ASScanData& data) const;
 
 private:
     void initializeSharedMemory();

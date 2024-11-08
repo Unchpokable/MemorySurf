@@ -3,7 +3,8 @@
 #include "ProtobufSender.h"
 #include "InitializationError.h"
 
-void ProtobufSender::sendData(ASScanData &data) {
+void ProtobufSender::sendData(const ASScanData &data) const
+{
     WaitForSingleObject(_mutex, INFINITE);
 
     uint32_t size = data.ByteSizeLong();

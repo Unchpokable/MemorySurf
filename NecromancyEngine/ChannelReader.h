@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "ArrayTableReader.h"
 #include "protobuf/asdata.pb.h"
 
 template<typename T>
@@ -45,8 +46,8 @@ private:
         { Channels::Overfills, OverfillsChannelName }
     };
 
-    std::unordered_map<Channels, ChannelCaller<float>> _floatChannels;
-    std::unordered_map<Channels, ChannelCaller<void*>> _tableChannels;
+    std::unordered_map<Channels, ChannelCaller<float>*> _floatChannels;
+    ArrayTableReader* _scoreTableReader;
 
     constexpr static std::array<Channels, static_cast<std::size_t>(Channels::Count)> _channels = {
         Channels::StatsTable, Channels::Points, Channels::Overfills

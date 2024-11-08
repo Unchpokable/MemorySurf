@@ -79,7 +79,7 @@
       <Filter>protobuf</Filter>
     </ClInclude>
     <ClInclude Include="InitializationError.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Necromancy\Err</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
