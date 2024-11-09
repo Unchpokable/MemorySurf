@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hook.h"
+#include "taggedexception.hpp"
 
 namespace Necromancy {
 namespace Detours {
@@ -15,7 +16,7 @@ Hook<Function> AttachHook(Function target, Function detour)
         return hook;
     }
 
-    throw std::runtime_error("Critical exception in Detours lib");
+    throw TaggedException<struct DetoursOperationCriticalTag>("Critical exception in Detours lib");
 }
 
 }

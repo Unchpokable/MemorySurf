@@ -1,6 +1,5 @@
 #pragma once
 
-#include "q3ddetours.h"
 #include "typedefs.h"
 
 namespace Necromancy {
@@ -17,12 +16,17 @@ public:
     HkFunctions(const HkFunctions& other) noexcept;
     HkFunctions(HkFunctions&& other) noexcept;
 
+    HkFunctions& operator=(const HkFunctions& other) noexcept;
+    HkFunctions& operator=(HkFunctions&& other) noexcept;
+
     static HkFunctions setup();
 
     template<typename Function>
-    Function get(const std::string &function) const;
+    Function get() const;
 
 private:
+    void copyWithReferenceInc(const HkFunctions& other);
+
     static int _referenceCount;
     static HkFunctions* _instance;
 
@@ -30,8 +34,8 @@ private:
 };
 
 template<typename Function>
-Function HkFunctions::get(const std::string &function) const {
-    return std::any_cast<Function>(_functions.at(function));
+Function HkFunctions::get() const {
+    return std::any_cast<Function>(_functions.at(typeid(Function).name()));
 }
 
 }

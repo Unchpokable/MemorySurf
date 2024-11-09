@@ -8,6 +8,7 @@
 #include <any>
 #include <exception>
 #include <stdexcept>
+#include <chrono>
 
 // === include Quest3D SDK
 #include <A3d_List.h>

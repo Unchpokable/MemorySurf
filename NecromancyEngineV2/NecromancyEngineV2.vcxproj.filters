@@ -34,6 +34,9 @@
     <Filter Include="Headers\hooks">
       <UniqueIdentifier>{6e984c6a-5d97-4e6e-baa1-f1262283afcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\exceptions">
+      <UniqueIdentifier>{a4064b59-b398-49c2-9a1a-2e49e7ba82e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -57,6 +60,24 @@
     <ClInclude Include="asdata.pb.h">
       <Filter>Protobuf Files</Filter>
     </ClInclude>
+    <ClInclude Include="taggedexception.hpp">
+      <Filter>Headers\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="q3dchannelreader.h">
+      <Filter>Headers\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="q3dfloatreader.h">
+      <Filter>Headers\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="q3darraytablereader.h">
+      <Filter>Headers\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="load.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -73,6 +94,24 @@
     </ClCompile>
     <ClCompile Include="asdata.pb.cc">
       <Filter>Protobuf Files</Filter>
+    </ClCompile>
+    <ClCompile Include="taggedexception.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="q3dchannelreader.cpp">
+      <Filter>Source Files\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="q3dfloatreader.cpp">
+      <Filter>Source Files\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="q3darraytablereader.cpp">
+      <Filter>Source Files\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="load.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
