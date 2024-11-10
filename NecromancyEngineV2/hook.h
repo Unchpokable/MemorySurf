@@ -1,13 +1,17 @@
 #pragma once
 
-enum class Status {
-    AlreadyInUse, UnnecessaryOperation, DetourException, Ok, InvalidHookMode
-};
 
 namespace Necromancy {
 namespace Detours {
 
-using Unstable = void(*)(void);
+enum class Status {
+    AlreadyInUse, UnnecessaryOperation, DetourException, Ok, InvalidHookMode
+};
+
+template<typename Tag>
+struct UnstableArg;
+
+using Unstable = UnstableArg<struct Ret>(*)(UnstableArg<struct InOut>);
 
 template<typename Function>
 class Hook final
@@ -22,9 +26,10 @@ public:
     Status attach();
 
     template<typename Func1, typename Func2>
-    Status attach(Func1 target, Func2 detour);
+    Status unstableAttach(Func1 target, Func2 detour);
 
     Status detach();
+    Status unstableDetach();
 
     Function original() const noexcept;
     Function detour() const noexcept;
@@ -78,7 +83,7 @@ Status Hook<Function>::attach() {
 
 template<typename Function>
 template<typename Func1, typename Func2>
-Status Hook<Function>::attach(Func1 target, Func2 detour) {
+Status Hook<Function>::unstableAttach(Func1 target, Func2 detour) {
     if constexpr(!std::is_same_v<Function, Unstable>)
         return Status::InvalidHookMode;
 
@@ -108,6 +113,28 @@ Status Hook<Function>::detach() {
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
     if(DetourDetach(&reinterpret_cast<PVOID&>(_targetFunction), _detourFunction) != NO_ERROR)
+    {
+        DetourTransactionAbort();
+        return Status::DetourException;
+    }
+
+    DetourTransactionCommit();
+    _hookAttached = false;
+    return Status::Ok;
+}
+
+template<typename Function>
+Status Hook<Function>::unstableDetach() {
+    if constexpr (!std::is_same_v<Function, Unstable>)
+    {
+        return Status::UnnecessaryOperation;
+    }
+
+    DetourTransactionBegin();
+    DetourUpdateThread(GetCurrentThread());
+    void* target = std::any_cast<PVOID>(_unstableTarget);
+
+    if(DetourDetach(&reinterpret_cast<PVOID&>(target), std::any_cast<PVOID>(_unstableDetour)) != NO_ERROR)
     {
         DetourTransactionAbort();
         return Status::DetourException;

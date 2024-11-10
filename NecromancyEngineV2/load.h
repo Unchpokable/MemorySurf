@@ -12,6 +12,6 @@ HRESULT InitDirect3D();
 
 void __fastcall HkTrueCallChannel(A3d_Channel* self, DWORD edx);
 
-void Setup();
+void Setup(HMODULE thisDll);
 
 }

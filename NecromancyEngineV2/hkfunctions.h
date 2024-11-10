@@ -27,6 +27,8 @@ public:
 private:
     void copyWithReferenceInc(const HkFunctions& other);
 
+    HkFunctions& add(const std::string& key, const std::any& value);
+
     static int _referenceCount;
     static HkFunctions* _instance;
 

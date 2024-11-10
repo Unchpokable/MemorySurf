@@ -3,6 +3,8 @@
 
 NecromancyEngine::NecromancyEngine() {
     _q3dFunctions = Necromancy::Detours::HkFunctions::setup();
+
+    setupChannelReaders();
 }
 
 void NecromancyEngine::dump() {
@@ -19,7 +21,7 @@ void NecromancyEngine::setQ3DEngineInterface(EngineInterface* q3dInterface) {
     _q3dEngineInterface = q3dInterface;
 }
 
-const Necromancy::Detours::HkFunctions & NecromancyEngine::functions() const noexcept {
+const Necromancy::Detours::HkFunctions& NecromancyEngine::functions() const noexcept {
     return _q3dFunctions;
 }
 
