@@ -1,10 +1,10 @@
 #pragma once
 
-#include "hook.h"
 #include "hkfunctions.h"
+#include "ipcchannel.h"
 #include "q3dfloatreader.h"
 #include "q3darraytablereader.h"
-#include "q3ddetours.h"
+#include "asdata.pb.h"
 
 class NecromancyEngine final
 {
@@ -23,8 +23,9 @@ private:
     void setupChannelReaders();
 
     std::unordered_map<std::string, Necromancy::Memory::Q3DChannelReader> _channels;
-    // TODO: IPC handles
-
+    Necromancy::Ipc::IpcChannel _ipcChannel;
     Necromancy::Detours::HkFunctions _q3dFunctions;
+
+    ASScanData _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;
 };

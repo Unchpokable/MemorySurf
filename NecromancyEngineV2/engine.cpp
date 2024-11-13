@@ -8,9 +8,11 @@ NecromancyEngine::NecromancyEngine() {
 }
 
 void NecromancyEngine::dump() {
+    // todo: read data from channels and load it into _dumped
 }
 
 void NecromancyEngine::send() {
+    _ipcChannel.writeBuffer(_dumped);
 }
 
 const EngineInterface* NecromancyEngine::engineInterface() const noexcept {

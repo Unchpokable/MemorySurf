@@ -121,13 +121,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;NECROMANCYENGINEV2_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\q3dsdk\include;$(LIBRARIES_DIR)\detours\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\q3dsdk\lib;$(LIBRARIES_DIR)\detours\lib;$(DXSDK_DIR)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>detours.lib;d3dx9.lib;d3dx9d.lib;HighPoly.lib;Aco_Float.lib;Aco_Matrix.lib;Aco_String.lib;Aco_Vector.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +158,7 @@
     <ClInclude Include="engine.h" />
     <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
+    <ClInclude Include="ipcchannel.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="q3darraytablereader.h" />
@@ -170,6 +175,7 @@
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="hkfunctions.cpp" />
     <ClCompile Include="hook.cpp" />
+    <ClCompile Include="ipcchannel.cpp" />
     <ClCompile Include="load.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
