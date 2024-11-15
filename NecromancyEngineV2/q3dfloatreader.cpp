@@ -3,7 +3,7 @@
 
 using namespace Necromancy::Memory;
 
-Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target) {
+Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target), Q3DPrimitiveReader<float>() {
     // empty
 }
 
