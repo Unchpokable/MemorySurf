@@ -9,7 +9,7 @@ namespace Memory {
 static constexpr ptrdiff_t ArrayTable_GetElementsVftableOffset = 8;
 static constexpr ptrdiff_t ArrayTable_GetElementAtVftableOffset = 4;
 
-template<typename InternalReader = Q3DFloatReader>
+template<ValidPrimitiveReader InternalReader = Q3DFloatReader>
 class Q3DArrayTableReader final : Q3DChannelReader
 {
     using InternalReaderData = typename InternalReader::DataType;

@@ -3,10 +3,22 @@
 #include "hkfunctions.h"
 #include <type_traits>
 
+#include "q3dprimitivereader.h"
+
 namespace Necromancy {
 namespace Memory {
+class Q3DChannelReader;
 
 using namespace Necromancy::Detours;
+
+template <typename T>
+concept ValidPrimitiveReader =
+std::is_base_of_v<Q3DChannelReader, T> &&
+    requires {
+    typename T::DataType;
+    requires Primitive<typename T::DataType>;
+    requires std::is_base_of_v<Q3DPrimitiveReader<typename T::DataType>, T>;
+};
 
 class Q3DChannelReader {
 public:

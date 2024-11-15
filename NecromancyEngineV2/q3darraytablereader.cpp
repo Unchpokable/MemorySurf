@@ -5,19 +5,19 @@
 
 using namespace Necromancy::Memory;
 
-template<typename InternalReader>
+template<ValidPrimitiveReader InternalReader>
 Q3DArrayTableReader<InternalReader>::Q3DArrayTableReader(A3d_Channel* target) : Q3DChannelReader(target) {
     // empty
 }
 
-template<typename InternalReader>
+template<ValidPrimitiveReader InternalReader>
 int Q3DArrayTableReader<InternalReader>::getElementsCount() const {
     auto table = getArrayTable();
 
     return CallVTable<int, ArrayTable_GetElementCount>(table, ArrayTable_GetElementsVftableOffset, table);
 }
 
-template<typename InternalReader>
+template<ValidPrimitiveReader InternalReader>
 std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
     std::vector<void*> data {};
 
@@ -33,11 +33,11 @@ std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
     return data;
 }
 
-template<typename InternalReader>
+template<ValidPrimitiveReader InternalReader>
 typename Q3DArrayTableReader<InternalReader>::TypedVector Q3DArrayTableReader<InternalReader>::getElementsTyped() const {
     std::vector<InternalReaderData> result;
 
-    for(const std::pair<int, InternalReader*> channelReader : _readers) {
+    for(const std::pair<int, InternalReader*>& channelReader : _readers) {
         auto reader = dynamic_cast<Q3DPrimitiveReader<InternalReaderData>*>(channelReader.second);
         result.push_back(reader->get());
     }
@@ -45,12 +45,12 @@ typename Q3DArrayTableReader<InternalReader>::TypedVector Q3DArrayTableReader<In
     return result;
 }
 
-template<typename InternalReader>
+template<ValidPrimitiveReader InternalReader>
 void* Q3DArrayTableReader<InternalReader>::getArrayTable() const {
     return _functions.get<Aco_ArrayTable_GetTable>()(_target);
 }
 
-template<typename InternalReader>
+template<ValidPrimitiveReader InternalReader>
 void Q3DArrayTableReader<InternalReader>::setupReaders() {
     auto arrayTable = getArrayTable();
 

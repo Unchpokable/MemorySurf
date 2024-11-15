@@ -4,6 +4,9 @@ namespace Necromancy {
 namespace Memory {
 
 template<typename T>
+concept Primitive = std::is_fundamental_v<T>;
+
+template<Primitive T>
 class Q3DPrimitiveReader {
 public:
     using DataType = T;
