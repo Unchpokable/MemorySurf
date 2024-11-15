@@ -23,10 +23,11 @@ public:
 private:
     void setupChannelReaders();
 
-    constexpr const char _scoreChannelName[] { "score" };
-    constexpr const char _statsChannelName[] { "stats" };
+    const char _scoreChannelName[6] { "score" };
+    const char _statsChannelName[6] { "stats" };
 
-    std::unordered_map<std::string, Memory::Q3DChannelReader*> _channels;
+    std::unordered_map<std::string, Memory::Q3DChannelReader*> _floatChannels;
+    Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>* _statsTable;
     Ipc::IpcChannel _ipcChannel;
     Detours::HkFunctions _q3dFunctions;
 

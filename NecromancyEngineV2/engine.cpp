@@ -10,14 +10,11 @@ NecromancyEngine::NecromancyEngine() {
 }
 
 void NecromancyEngine::dump() {
-    auto score = dynamic_cast<Memory::Q3DFloatReader*>(_channels.at(_scoreChannelName));
+    auto score = dynamic_cast<Memory::Q3DFloatReader*>(_floatChannels.at(_scoreChannelName));
 
     _dumped.set_score(score->get());
 
-    auto stats = _channels.at(_statsChannelName);
-
-    auto tableReader = dynamic_cast<Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>*>(stats);
-    std::vector<float> statsItems = tableReader->getElementsTyped();
+    std::vector<float> statsItems = _statsTable->getElementsTyped();
 
     for(auto i { 0 }; i < statsItems.size(); i++) {
         _dumped.set_array_data(i, statsItems[i]);
@@ -44,8 +41,8 @@ void NecromancyEngine::setupChannelReaders() {
     auto statsGroup = _q3dEngineInterface->GetChannelGroup("PlayerStats");
 
     auto stats = statsGroup->GetChannel(_statsChannelName);
-    _channels.insert_or_assign(_statsChannelName, new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats));
+    _statsTable = new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats);
 
     auto points = statsGroup->GetChannel(_scoreChannelName);
-    _channels.insert_or_assign(_scoreChannelName, new Memory::Q3DFloatReader(points));
+    _floatChannels.insert_or_assign(_scoreChannelName, new Memory::Q3DFloatReader(points));
 }

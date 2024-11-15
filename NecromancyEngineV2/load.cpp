@@ -2,6 +2,9 @@
 #include "engine.h"
 #include "load.h"
 
+#include "hook.h"
+#include "taggedexception.hpp"
+
 namespace {
 
 // constants
@@ -11,7 +14,7 @@ constexpr ptrdiff_t DirectX_EndSceneOffset = 42;
 // runtime global variables
 constexpr std::chrono::duration<long long, std::milli> g_deltaTime { 100 };
 
-NecromancyEngine* g_necromancyEngine = nullptr;
+Necromancy::NecromancyEngine* g_necromancyEngine = nullptr;
 Necromancy::Detours::Hook<Necromancy::DirectXEndScene>* g_endSceneHook = nullptr;
 Necromancy::Detours::Hook<Necromancy::Detours::Unstable>* g_trueCallChannelHook = nullptr;
 std::chrono::time_point<std::chrono::steady_clock> g_timePoint;

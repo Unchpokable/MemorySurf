@@ -17,7 +17,7 @@ IpcChannel::~IpcChannel() {
     CloseHandle(_sharedMemoryMapping);
 }
 
-void IpcChannel::writeBuffer(const ASScanData& data, bool flush) {
+void IpcChannel::writeBuffer(const ASScanData& data, bool flush) const {
     WaitForSingleObject(_mutex, INFINITE);
 
     if(flush) {
@@ -32,7 +32,7 @@ void IpcChannel::writeBuffer(const ASScanData& data, bool flush) {
 
     data.SerializeToArray(array, data.ByteSizeLong());
 
-    std::memcpy(_mapView + sizeof(uint32_t), array, data.ByteSizeLong());
+    std::memcpy(static_cast<byte*>(_mapView) + sizeof(uint32_t), array, data.ByteSizeLong());
 
     delete[] array;
 

@@ -10,7 +10,7 @@ public:
     IpcChannel();
     ~IpcChannel();
 
-    void writeBuffer(const ASScanData &data, bool flush = true);
+    void writeBuffer(const ASScanData &data, bool flush = true) const;
 
 private:
     void initializeSharedMemory();
