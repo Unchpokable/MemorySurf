@@ -89,7 +89,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudiosurfMemoryScanner.cpp" />
     <ClCompile Include="WebSocketBroadcastService.cpp" />
     <QtRcc Include="ASMemoryReaderUI.qrc" />
     <QtUic Include="ASMemoryReaderUI.ui" />
@@ -99,9 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="WebSocketBroadcastService.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="AudiosurfMemoryScanner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TaggedException.hpp" />
