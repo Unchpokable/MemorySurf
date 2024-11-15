@@ -7,8 +7,7 @@ Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target) {
     // empty
 }
 
-float Q3DFloatReader::get() const
-{
+float Q3DFloatReader::get() const {
     return _functions.get<Aco_FloatChannel_GetFloat>()(_target);
 }
 

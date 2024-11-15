@@ -6,8 +6,9 @@
 #include "q3darraytablereader.h"
 #include "asdata.pb.h"
 
-class NecromancyEngine final
-{
+namespace Necromancy {
+
+class NecromancyEngine final {
 public:
     NecromancyEngine();
 
@@ -17,15 +18,20 @@ public:
     const EngineInterface* engineInterface() const noexcept;
     void setQ3DEngineInterface(EngineInterface* q3dInterface);
 
-    const Necromancy::Detours::HkFunctions& functions() const noexcept;
+    const Detours::HkFunctions& functions() const noexcept;
 
 private:
     void setupChannelReaders();
 
-    std::unordered_map<std::string, Necromancy::Memory::Q3DChannelReader> _channels;
-    Necromancy::Ipc::IpcChannel _ipcChannel;
-    Necromancy::Detours::HkFunctions _q3dFunctions;
+    constexpr const char _scoreChannelName[] { "score" };
+    constexpr const char _statsChannelName[] { "stats" };
+
+    std::unordered_map<std::string, Memory::Q3DChannelReader*> _channels;
+    Ipc::IpcChannel _ipcChannel;
+    Detours::HkFunctions _q3dFunctions;
 
     ASScanData _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;
+};
+
 };

@@ -78,6 +78,12 @@
     <ClInclude Include="load.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ipcchannel.h">
+      <Filter>Headers\ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="q3dprimitivereader.h">
+      <Filter>Headers\memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -113,10 +119,14 @@
     <ClCompile Include="load.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ipcchannel.cpp">
+      <Filter>Source Files\ipc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="asdata.proto">
       <Filter>Protobuf Files</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
