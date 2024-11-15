@@ -34,11 +34,11 @@ std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
 }
 
 template<typename InternalReader>
-std::vector<typename InternalReader::DataType> Q3DArrayTableReader<InternalReader>::getElementsTyped() const {
-    std::vector<typename InternalReader::DataType> result;
+typename Q3DArrayTableReader<InternalReader>::TypedVector Q3DArrayTableReader<InternalReader>::getElementsTyped() const {
+    std::vector<InternalReaderData> result;
 
     for(const std::pair<int, InternalReader*> channelReader : _readers) {
-        auto reader = dynamic_cast<Q3DPrimitiveReader<typename InternalReader::DataType>*>(channelReader.second);
+        auto reader = dynamic_cast<Q3DPrimitiveReader<InternalReaderData>*>(channelReader.second);
         result.push_back(reader->get());
     }
 

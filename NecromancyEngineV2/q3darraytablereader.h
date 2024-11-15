@@ -12,6 +12,9 @@ static constexpr ptrdiff_t ArrayTable_GetElementAtVftableOffset = 4;
 template<typename InternalReader = Q3DFloatReader>
 class Q3DArrayTableReader final : Q3DChannelReader
 {
+    using InternalReaderData = typename InternalReader::DataType;
+    using TypedVector = std::vector<InternalReaderData>;
+
 public:
     Q3DArrayTableReader(A3d_Channel* target);
     virtual ~Q3DArrayTableReader() override = default;
@@ -19,7 +22,7 @@ public:
     int getElementsCount() const;
     std::vector<void*> getElements() const;
 
-    std::vector<typename InternalReader::DataType> getElementsTyped() const;
+    TypedVector getElementsTyped() const;
 
 private:
     void* getArrayTable() const;
