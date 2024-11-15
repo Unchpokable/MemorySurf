@@ -9,8 +9,6 @@ namespace Memory {
 class Q3DFloatReader final : public Q3DChannelReader, public Q3DPrimitiveReader<float>
 {
 public:
-    DECLARE_BASE_TYPE(float)
-
     Q3DFloatReader(A3d_Channel* target);
     virtual ~Q3DFloatReader() override = default;
 

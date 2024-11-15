@@ -8,13 +8,6 @@ namespace Memory {
 
 using namespace Necromancy::Detours;
 
-#define DECLARE_BASE_TYPE(T) \
-    typedef T BaseType; \
-    using BaseType##_t = typename std::conditional_t< \
-        std::is_class<T>::value || std::is_union<T>::value, \
-        T, \
-        std::type_identity<T>>::type;
-
 class Q3DChannelReader {
 public:
     Q3DChannelReader(A3d_Channel* target);
