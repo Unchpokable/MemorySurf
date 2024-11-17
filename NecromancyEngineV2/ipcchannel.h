@@ -1,7 +1,7 @@
 #pragma once
 
-namespace Necromancy::Messages {
-struct ASDump;
+namespace Necromancy::Messages::ASDump {
+struct ASDumpStruct;
 }
 
 namespace Necromancy::Ipc {
@@ -11,7 +11,7 @@ public:
     IpcChannel();
     ~IpcChannel();
 
-    void writeBuffer(const Messages::ASDump &data, bool flush = true) const;
+    void writeBuffer(const Messages::ASDump::ASDumpStruct &data, bool flush = true) const;
 
 private:
     void initializeSharedMemory();
@@ -19,7 +19,7 @@ private:
     const wchar_t* _mutexName = L"Global\\NecromancySharedMemMutex";
     const wchar_t* _sharedMemoryName = L"Global\\NecromancySharedMem";
 
-    const std::size_t _messageMaxSize = 1024; // 1 KiB for message. Actually ScanData should weight a MUCH LESS
+    const std::size_t _messageMaxSize = 128; // 128 bytes for message. Actually ASDumpStruct should weight a MUCH LESS
 
     HANDLE _mutex { INVALID_HANDLE_VALUE };
     HANDLE _sharedMemoryMapping { INVALID_HANDLE_VALUE };

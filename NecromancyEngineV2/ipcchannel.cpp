@@ -11,18 +11,27 @@ IpcChannel::IpcChannel() {
 
 IpcChannel::~IpcChannel() {
     WaitForSingleObject(_mutex, INFINITE);
-    ReleaseMutex(_mutex);
-    CloseHandle(_mutex);
     UnmapViewOfFile(_mapView);
     CloseHandle(_sharedMemoryMapping);
+    ReleaseMutex(_mutex);
+    CloseHandle(_mutex);
 }
 
-void IpcChannel::writeBuffer(const Messages::ASDump& data, bool flush) const {
+void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool flush) const {
     WaitForSingleObject(_mutex, INFINITE);
 
     if(flush) {
         std::memset(_mapView, 0, _messageMaxSize);
     }
+
+    byte* buffer = new byte[_messageMaxSize];
+    auto code = Serialize(data, &buffer);
+    if(code != Messages::StatusCode::Ok)
+    {
+        throw RuntimeException("Exception during serializing scanned data into buffer");
+    }
+
+    std::memcpy(_mapView, buffer, Messages::ASDump::ASDumpMessageSize);
 
     ReleaseMutex(_mutex);
 }

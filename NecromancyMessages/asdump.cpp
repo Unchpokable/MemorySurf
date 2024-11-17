@@ -4,7 +4,7 @@
 
 using namespace Necromancy::Messages;
 
-StatusCode Necromancy::Messages::Serialize(const ASDump& dump, byte** buffer) {
+StatusCode ASDump::Serialize(const ASDumpStruct& dump, byte** buffer) {
     if(!buffer) return StatusCode::ErrorCausedWrongData;
     auto structPtr = reinterpret_cast<const byte*>(&dump);
 
@@ -17,7 +17,6 @@ StatusCode Necromancy::Messages::Serialize(const ASDump& dump, byte** buffer) {
 
     std::memcpy(serializationPtr, &messageId, sizeof(uint16_t));
     serializationPtr += sizeof(uint16_t);
-
 
     std::memcpy(serializationPtr, structPtr + ASDump_ScoreFieldOffset, sizeof(float));
     serializationPtr += sizeof(float);
@@ -32,13 +31,13 @@ StatusCode Necromancy::Messages::Serialize(const ASDump& dump, byte** buffer) {
     serializationPtr += sizeof(float);
 
     std::memcpy(serializationPtr, structPtr + ASDump_TrafficChainMaxFieldOffset, sizeof(float));
-    serializationPtr += sizeof(float);
 
+    *buffer = localBuffer;
     return StatusCode::Ok;
 }
 
-StatusCode Necromancy::Messages::Deserialize(byte* buffer, ASDump* result) {
-    ASDump data;
+StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
+    ASDumpStruct data;
 
     uint16_t messageId;
 
