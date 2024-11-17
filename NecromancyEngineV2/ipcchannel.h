@@ -1,9 +1,12 @@
 #pragma once
 
-#include "asdata.pb.h"
-
 namespace Necromancy {
 namespace Ipc {
+
+struct ASScanData
+{
+    
+};
 
 class IpcChannel final {
 public:

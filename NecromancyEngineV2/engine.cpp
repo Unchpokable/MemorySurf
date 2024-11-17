@@ -10,15 +10,6 @@ NecromancyEngine::NecromancyEngine() {
 }
 
 void NecromancyEngine::dump() {
-    auto score = dynamic_cast<Memory::Q3DFloatReader*>(_floatChannels.at(_scoreChannelName));
-
-    _dumped.set_score(score->get());
-
-    std::vector<float> statsItems = _statsTable->getElementsTyped();
-
-    for(auto i { 0 }; i < statsItems.size(); i++) {
-        _dumped.set_array_data(i, statsItems[i]);
-    }
 }
 
 void NecromancyEngine::send() {

@@ -24,18 +24,6 @@ void IpcChannel::writeBuffer(const ASScanData& data, bool flush) const {
         std::memset(_mapView, 0, _messageMaxSize);
     }
 
-    uint32_t size = data.ByteSizeLong();
-
-    std::memcpy(_mapView, &size, sizeof(uint32_t));
-
-    byte* array = new byte[data.ByteSizeLong()];
-
-    data.SerializeToArray(array, data.ByteSizeLong());
-
-    std::memcpy(static_cast<byte*>(_mapView) + sizeof(uint32_t), array, data.ByteSizeLong());
-
-    delete[] array;
-
     ReleaseMutex(_mutex);
 }
 

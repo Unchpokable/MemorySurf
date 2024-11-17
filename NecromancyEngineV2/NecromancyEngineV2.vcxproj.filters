@@ -5,9 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Protobuf Files">
-      <UniqueIdentifier>{1d380b7c-7883-49b6-a71d-66b8c78d8ac8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -57,9 +54,6 @@
     <ClInclude Include="hook.h">
       <Filter>Headers\hooks</Filter>
     </ClInclude>
-    <ClInclude Include="asdata.pb.h">
-      <Filter>Protobuf Files</Filter>
-    </ClInclude>
     <ClInclude Include="taggedexception.hpp">
       <Filter>Headers\exceptions</Filter>
     </ClInclude>
@@ -98,9 +92,6 @@
     <ClCompile Include="hook.cpp">
       <Filter>Source Files\hooks</Filter>
     </ClCompile>
-    <ClCompile Include="asdata.pb.cc">
-      <Filter>Protobuf Files</Filter>
-    </ClCompile>
     <ClCompile Include="taggedexception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,9 +115,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="asdata.proto">
-      <Filter>Protobuf Files</Filter>
-    </None>
     <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
