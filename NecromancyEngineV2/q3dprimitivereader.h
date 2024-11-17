@@ -1,7 +1,6 @@
 #pragma once
 
-namespace Necromancy {
-namespace Memory {
+namespace Necromancy::Memory {
 
 template<typename T>
 concept Primitive = std::is_fundamental_v<T>;
@@ -20,5 +19,4 @@ public:
     virtual void set(T value) const = 0;
 };
 
-}
 }

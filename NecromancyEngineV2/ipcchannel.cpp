@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ipcchannel.h"
-
 #include "taggedexception.hpp"
+#include "../NecromancyMessages/messages.h"
 
 using namespace Necromancy::Ipc;
 
@@ -17,7 +17,7 @@ IpcChannel::~IpcChannel() {
     CloseHandle(_sharedMemoryMapping);
 }
 
-void IpcChannel::writeBuffer(const ASScanData& data, bool flush) const {
+void IpcChannel::writeBuffer(const Messages::ASDump& data, bool flush) const {
     WaitForSingleObject(_mutex, INFINITE);
 
     if(flush) {

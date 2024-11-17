@@ -1,8 +1,7 @@
 #pragma once
 
 
-namespace Necromancy {
-namespace Detours {
+namespace Necromancy::Detours {
 
 enum class Status {
     AlreadyInUse, UnnecessaryOperation, DetourException, Ok, InvalidHookMode
@@ -175,5 +174,4 @@ std::any Hook<Function>::unstableDetour() const noexcept {
     return _unstableTarget;
 }
 
-}
 }

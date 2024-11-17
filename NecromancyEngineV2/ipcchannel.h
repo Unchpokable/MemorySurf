@@ -1,19 +1,17 @@
 #pragma once
 
-namespace Necromancy {
-namespace Ipc {
+namespace Necromancy::Messages {
+struct ASDump;
+}
 
-struct ASScanData
-{
-    
-};
+namespace Necromancy::Ipc {
 
 class IpcChannel final {
 public:
     IpcChannel();
     ~IpcChannel();
 
-    void writeBuffer(const ASScanData &data, bool flush = true) const;
+    void writeBuffer(const Messages::ASDump &data, bool flush = true) const;
 
 private:
     void initializeSharedMemory();
@@ -28,5 +26,4 @@ private:
     LPVOID _mapView { nullptr };
 };
 
-}
 }

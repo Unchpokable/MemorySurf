@@ -13,7 +13,6 @@ void NecromancyEngine::dump() {
 }
 
 void NecromancyEngine::send() {
-    _ipcChannel.writeBuffer(_dumped);
 }
 
 const EngineInterface* NecromancyEngine::engineInterface() const noexcept {
@@ -29,7 +28,7 @@ const Detours::HkFunctions& NecromancyEngine::functions() const noexcept {
 }
 
 void NecromancyEngine::setupChannelReaders() {
-    auto statsGroup = _q3dEngineInterface->GetChannelGroup("PlayerStats");
+    auto statsGroup = _q3dEngineInterface->GetChannelGroup("StatsCollector");
 
     auto stats = statsGroup->GetChannel(_statsChannelName);
     _statsTable = new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats);

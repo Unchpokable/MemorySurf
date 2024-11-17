@@ -4,8 +4,7 @@
 #include "q3dfloatreader.h"
 #include "vftableutils.hpp"
 
-namespace Necromancy {
-namespace Memory {
+namespace Necromancy::Memory {
 
 static constexpr ptrdiff_t ArrayTable_GetElementsVftableOffset = 8;
 static constexpr ptrdiff_t ArrayTable_GetElementAtVftableOffset = 4;
@@ -89,6 +88,5 @@ void Q3DArrayTableReader<InternalReader>::setupReaders() {
     }
 }
 
-}
 }
 

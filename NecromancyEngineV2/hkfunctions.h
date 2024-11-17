@@ -2,8 +2,7 @@
 
 #include "typedefs.h"
 
-namespace Necromancy {
-namespace Detours {
+namespace Necromancy::Detours {
 
 using namespace Necromancy::Typedefs;
 
@@ -40,5 +39,4 @@ Function HkFunctions::get() const {
     return std::any_cast<Function>(_functions.at(typeid(Function).name()));
 }
 
-}
 }

@@ -21,12 +21,21 @@
     <ClInclude Include="messages.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="messageids.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="asdump.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="statuscode.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="messages.cpp">
+    <ClCompile Include="asdump.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

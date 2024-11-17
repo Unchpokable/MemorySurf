@@ -102,9 +102,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;NECROMANCYENGINEV2_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\q3dsdk\include;$(LIBRARIES_DIR)\detours\include;$(DXSDK_DIR)Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);C:\q3dsdk\include;$(LIBRARIES_DIR)\detours\include;$(DXSDK_DIR)Include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -114,7 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\X86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;d3dx9.lib;d3dx9d.lib;detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;d3dx9.lib;d3dx9d.lib;detours.lib;syelog.lib;NecromancyMessages.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

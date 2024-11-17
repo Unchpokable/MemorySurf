@@ -1,8 +1,7 @@
 #pragma once
 #include <A3d_Channels.h>
 
-namespace Necromancy {
-namespace Typedefs {
+namespace Necromancy::Typedefs {
 
 //    void __fastcall HkTrueCallChannel(A3d_Channel* self, DWORD edx);
 
@@ -17,5 +16,4 @@ using A3d_Channel_TrueCallChannel = void(__thiscall*)(A3d_Channel* self);
 using ArrayTable_GetElementCount = int(__thiscall*)(void*);
 using ArrayTable_GetElementAtIndex = void*(__thiscall*)(void*, int);
 
-}
 }

@@ -3,8 +3,7 @@
 #include "q3dprimitivereader.h"
 #include "q3dchannelreader.h"
 
-namespace Necromancy {
-namespace Memory {
+namespace Necromancy::Memory {
 
 class Q3DFloatReader final : public Q3DChannelReader, public Q3DPrimitiveReader<float>
 {
@@ -18,5 +17,4 @@ public:
     virtual void set(float value) const override;
 };
 
-}
 }
