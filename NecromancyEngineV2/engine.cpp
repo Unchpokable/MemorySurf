@@ -19,6 +19,7 @@ void NecromancyEngine::dump() {
 
     _dumped.score = _floatChannels.at(_scoreChannelName)->get();
     _dumped.largestMatch = _floatChannels.at(_largestMatchChannelName)->get();
+    _dumped.timestamp = _floatChannels.at(_timerChannelName)->get();
 }
 
 void NecromancyEngine::send() const {
@@ -48,4 +49,7 @@ void NecromancyEngine::setupChannelReaders() {
 
     auto largestMatch = statsGroup->GetChannel(_largestMatchChannelName);
     _floatChannels.insert_or_assign(_largestMatchChannelName, new Memory::Q3DFloatReader(largestMatch));
+
+    auto timer = statsGroup->GetChannel(_timerChannelName);
+    _floatChannels.insert_or_assign(_timerChannelName, new Memory::Q3DFloatReader(timer));
 }
