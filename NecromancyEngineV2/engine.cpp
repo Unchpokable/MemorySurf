@@ -5,8 +5,12 @@ using namespace Necromancy;
 
 NecromancyEngine::NecromancyEngine() {
     _q3dFunctions = Detours::HkFunctions::setup();
-
+    Initialize(&_dumped, 24); // todo: place here actual dumped array size
     setupChannelReaders();
+}
+
+NecromancyEngine::~NecromancyEngine() {
+    Free(&_dumped);
 }
 
 void NecromancyEngine::dump() {

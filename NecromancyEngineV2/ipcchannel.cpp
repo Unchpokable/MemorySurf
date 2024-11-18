@@ -24,14 +24,10 @@ void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool fl
         std::memset(_mapView, 0, _messageMaxSize);
     }
 
-    byte* buffer = new byte[_messageMaxSize];
-    auto code = Serialize(data, &buffer);
-    if(code != Messages::StatusCode::Ok)
-    {
+    auto code = SerializeDirect(data, static_cast<byte*>(_mapView), _messageMaxSize);
+    if(code != Messages::StatusCode::Ok) {
         throw RuntimeException("Exception during serializing scanned data into buffer");
     }
-
-    std::memcpy(_mapView, buffer, Messages::ASDump::ASDumpMessageSize);
 
     ReleaseMutex(_mutex);
 }

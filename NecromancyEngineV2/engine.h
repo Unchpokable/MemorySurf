@@ -4,12 +4,14 @@
 #include "ipcchannel.h"
 #include "q3dfloatreader.h"
 #include "q3darraytablereader.h"
+#include "../NecromancyMessages/messages.h"
 
 namespace Necromancy {
 
 class NecromancyEngine final {
 public:
     NecromancyEngine();
+    ~NecromancyEngine();
 
     void dump();
     void send();
@@ -30,6 +32,7 @@ private:
     Ipc::IpcChannel _ipcChannel;
     Detours::HkFunctions _q3dFunctions;
 
+    Messages::ASDump::ASDumpStruct _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;
 };
 
