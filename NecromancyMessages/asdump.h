@@ -11,6 +11,8 @@ struct ASDumpStruct
     float* statsArray;
     float goldThreshold;
     float trafficChainMax;
+    float largestMatch;
+    float timestamp; // msec
 };
 
 constexpr size_t ASDumpMessageSize = 128; // bytes
@@ -19,12 +21,16 @@ constexpr ptrdiff_t ASDump_StatsArraySizeFieldOffset = offsetof(ASDumpStruct, st
 constexpr ptrdiff_t ASDump_StatsArrayFieldOffset = offsetof(ASDumpStruct, statsArray);
 constexpr ptrdiff_t ASDump_GoldThresholdFieldOffset = offsetof(ASDumpStruct, goldThreshold);
 constexpr ptrdiff_t ASDump_TrafficChainMaxFieldOffset = offsetof(ASDumpStruct, trafficChainMax);
+constexpr ptrdiff_t ASDump_LargestMatchFieldOffset = offsetof(ASDumpStruct, largestMatch);
+constexpr ptrdiff_t ASDump_TimestampFieldOffset = offsetof(ASDumpStruct, timestamp);
 
 constexpr ptrdiff_t ASDump_ScoreFieldSize = sizeof(ASDumpStruct::score);
 constexpr ptrdiff_t ASDump_StatsArraySizeFieldSize = sizeof(ASDumpStruct::statsArraySize);
 constexpr ptrdiff_t ASDump_StatsArrayFieldSize = sizeof(ASDumpStruct::statsArray);
 constexpr ptrdiff_t ASDump_GoldThresholdFieldSize = sizeof(ASDumpStruct::goldThreshold);
 constexpr ptrdiff_t ASDump_TrafficChainMaxFieldSize = sizeof(ASDumpStruct::trafficChainMax);
+constexpr ptrdiff_t ASDump_LargestMatchFieldSize = sizeof(ASDumpStruct::largestMatch);
+constexpr ptrdiff_t ASDump_TimestampFieldSize = sizeof(ASDumpStruct::timestamp);
 
 /**
  * \brief Serializes an \c ASDump object to given memory buffer using linear and byte-to-byte field bytes layout.
@@ -53,7 +59,17 @@ StatusCode SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t buffer
  */
 StatusCode Deserialize(const byte* buffer, ASDumpStruct* result);
 
+/**
+ * \brief Initializes a new \c ASDumpStruct struct object by setting all fields to 0 and initialize array of \c ASDumpStruct::statsArray by given size
+ * \param dumpStruct pointer to newly created \c ASDumpStruct
+ * \param statsArraySize size of \c ASDumpStruct::statsArray array
+ */
 void Initialize(ASDumpStruct* dumpStruct, int statsArraySize);
+
+/**
+ * \brief Frees a memory used by \c ASDumpStruct struct object
+ * \param dumpStruct pointer to \c ASDumpStruct object
+ */
 void Free(ASDumpStruct* dumpStruct);
 
 }

@@ -8,7 +8,7 @@ namespace Necromancy::Memory {
 class Q3DFloatReader final : public Q3DChannelReader, public Q3DPrimitiveReader<float>
 {
 public:
-    Q3DFloatReader(A3d_Channel* target);
+    explicit Q3DFloatReader(A3d_Channel* target);
     virtual ~Q3DFloatReader() override = default;
 
     virtual float get() const override;

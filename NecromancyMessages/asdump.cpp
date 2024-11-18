@@ -46,6 +46,12 @@ StatusCode ASDump::SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_
     serializationPtr += ASDump_GoldThresholdFieldSize;
 
     std::memcpy(serializationPtr, structPtr + ASDump_TrafficChainMaxFieldOffset, ASDump_TrafficChainMaxFieldSize);
+    serializationPtr += ASDump_TrafficChainMaxFieldSize;
+
+    std::memcpy(serializationPtr, structPtr + ASDump_LargestMatchFieldOffset, ASDump_LargestMatchFieldSize);
+    serializationPtr += ASDump_LargestMatchFieldSize;
+
+    std::memcpy(serializationPtr, structPtr + ASDump_TimestampFieldOffset, ASDump_TimestampFieldSize);
 
     return StatusCode::Ok;
 }
@@ -83,6 +89,12 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
 
     std::memcpy(structPtr + ASDump_TrafficChainMaxFieldOffset, serializationPtr, ASDump_TrafficChainMaxFieldSize);
 
+    serializationPtr += ASDump_TrafficChainMaxFieldSize;
+    std::memcpy(structPtr + ASDump_LargestMatchFieldOffset, serializationPtr, ASDump_LargestMatchFieldSize);
+
+    serializationPtr += ASDump_LargestMatchFieldSize;
+    std::memcpy(structPtr + ASDump_TimestampFieldOffset, serializationPtr, ASDump_TimestampFieldSize);
+
     *result = data;
     return StatusCode::Ok;
 }
@@ -93,6 +105,7 @@ void ASDump::Initialize(ASDumpStruct* dumpStruct, int statsArraySize) {
     dumpStruct->statsArray = new float[statsArraySize];
     dumpStruct->goldThreshold = 0.0;
     dumpStruct->trafficChainMax = 0.0;
+    dumpStruct->largestMatch = 0.0;
 }
 
 void ASDump::Free(ASDumpStruct* dumpStruct) {
