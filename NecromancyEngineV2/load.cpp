@@ -145,5 +145,6 @@ void Necromancy::Setup(HMODULE thisDll) {
         FreeLibrary(g_this);
         throw RuntimeException("Unable to attach hook to DirectX EndScene");
     }
+
 }
 

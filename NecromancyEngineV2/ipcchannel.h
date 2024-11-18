@@ -16,8 +16,8 @@ public:
 private:
     void initializeSharedMemory();
 
-    const wchar_t* _mutexName = L"Global\\NecromancySharedMemMutex";
-    const wchar_t* _sharedMemoryName = L"Global\\NecromancySharedMem";
+    const wchar_t* _mutexName = L"Local\\NecromancySharedMemMutex";
+    const wchar_t* _sharedMemoryName = L"Local\\NecromancySharedMem";
 
     const std::size_t _messageMaxSize = 128; // 128 bytes for message. Actually ASDumpStruct should weight a MUCH LESS
 

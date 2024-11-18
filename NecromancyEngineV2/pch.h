@@ -10,6 +10,8 @@
 #include <stdexcept>
 #include <chrono>
 
+#include <sddl.h>
+
 // === include Quest3D SDK
 #include <A3d_List.h>
 #include <d3dx9math.h>

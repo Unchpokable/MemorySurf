@@ -37,11 +37,25 @@ void IpcChannel::initializeSharedMemory() {
     if(_mutex == NULL)
         throw RuntimeException("Can not create mutex");
 
-    _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0,
-        _messageMaxSize, _sharedMemoryName);
+    const wchar_t* sddl = L"D:(A;OICI;GA;;;WD)";
 
-    if(_sharedMemoryMapping == NULL)
-        throw RuntimeException("Unable to initialize shared memory!");
+    SECURITY_ATTRIBUTES sa;
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+
+    if(!ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl, SDDL_REVISION_1, &sa.lpSecurityDescriptor, NULL)) {
+        throw RuntimeException("Failed to create security descriptor");
+    }
+
+    // Создаем файл маппинга с заданными атрибутами безопасности
+    _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, _messageMaxSize, _sharedMemoryName);
+
+    // Освобождаем память для Security Descriptor
+    LocalFree(sa.lpSecurityDescriptor);
+    if(_sharedMemoryMapping == NULL) {
+        auto error = GetLastError();
+        throw RuntimeException("Unable to initialize shared memory! " + std::to_string(error));
+    }
 
     _mapView = MapViewOfFile(_sharedMemoryMapping, FILE_MAP_ALL_ACCESS, 0, 0, _messageMaxSize);
 
