@@ -13,7 +13,7 @@ struct ASDumpStruct
     float trafficChainMax;
 };
 
-constexpr size_t ASDumpMessageSize = 64; // bytes
+constexpr size_t ASDumpMessageSize = 128; // bytes
 constexpr ptrdiff_t ASDump_ScoreFieldOffset = offsetof(ASDumpStruct, score);
 constexpr ptrdiff_t ASDump_StatsArraySizeFieldOffset = offsetof(ASDumpStruct, statsArraySize);
 constexpr ptrdiff_t ASDump_StatsArrayFieldOffset = offsetof(ASDumpStruct, statsArray);

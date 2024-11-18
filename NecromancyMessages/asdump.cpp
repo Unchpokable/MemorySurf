@@ -74,7 +74,9 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
     // copy array
     float* arrayBuffer = new float[data.statsArraySize]; // should be filled already
     std::memcpy(arrayBuffer, serializationPtr, sizeof(float) * data.statsArraySize);
-    serializationPtr += ASDump_StatsArrayFieldSize * data.statsArraySize;
+    data.statsArray = arrayBuffer;
+
+    serializationPtr += sizeof(float) * data.statsArraySize;
 
     std::memcpy(structPtr + ASDump_GoldThresholdFieldOffset, serializationPtr, ASDump_GoldThresholdFieldSize);
     serializationPtr += ASDump_GoldThresholdFieldSize;
