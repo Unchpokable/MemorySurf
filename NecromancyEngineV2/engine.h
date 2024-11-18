@@ -24,6 +24,8 @@ public:
 private:
     void setupChannelReaders();
 
+    const GUID Aco_ArrayValueGuid { 0xDF5BF7F7, 0xC204, 0x4F6E, { 0xBD, 0xB8, 0x66, 0x6A, 0x53, 0xDF, 0xCC, 0x58 } };
+
     const char* _scoreChannelName { "Points" };
     const char* _statsChannelName { "Stats Table" };
 

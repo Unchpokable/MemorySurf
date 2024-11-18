@@ -84,14 +84,14 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\q3dsdk\include;$(LIBRARIES_DIR)\detours\include;$(DXSDK_DIR)Include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\X86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;d3dx9.lib;d3dx9d.lib;detours.lib;syelog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;d3dx9.lib;d3dx9d.lib;detours.lib;NecromancyMessages.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
