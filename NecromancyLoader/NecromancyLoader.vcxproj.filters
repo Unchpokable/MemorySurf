@@ -70,6 +70,9 @@
     <ClCompile Include="injector.cpp">
       <Filter>Source Files\dllinjection</Filter>
     </ClCompile>
+    <ClCompile Include="privileges.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windefprettify.h">
@@ -78,5 +81,16 @@
     <ClInclude Include="injector.h">
       <Filter>Header Files\dllinjection</Filter>
     </ClInclude>
+    <ClInclude Include="privileges.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mainwindow.qss">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="messagebox.qss">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

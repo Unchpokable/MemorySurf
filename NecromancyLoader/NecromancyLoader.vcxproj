@@ -113,6 +113,8 @@
     <QtMoc Include="necromancyloaderwindow.h" />
     <ClCompile Include="necromancyloaderwindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <None Include="mainwindow.qss" />
+    <None Include="messagebox.qss" />
     <None Include="NecromancyLoader.ico" />
     <ResourceCompile Include="NecromancyLoader.rc" />
     <ClInclude Include="pch.h" />
