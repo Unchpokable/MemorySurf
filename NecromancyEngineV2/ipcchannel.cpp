@@ -47,10 +47,8 @@ void IpcChannel::initializeSharedMemory() {
         throw RuntimeException("Failed to create security descriptor");
     }
 
-    // Создаем файл маппинга с заданными атрибутами безопасности
     _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, _messageMaxSize, _sharedMemoryName);
 
-    // Освобождаем память для Security Descriptor
     LocalFree(sa.lpSecurityDescriptor);
     if(_sharedMemoryMapping == NULL) {
         auto error = GetLastError();

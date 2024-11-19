@@ -20,16 +20,15 @@ public:
     void setQ3DEngineInterface(EngineInterface* q3dInterface);
 
     const Detours::HkFunctions& functions() const noexcept;
-
-private:
     void setupChannelReaders();
 
+private:
     const char* _largestMatchChannelName { "LargestMatch" };
     const char* _timerChannelName { "Timer" };
-    const char* _maxChainLengthChannelName { "MaxChainLength" };
-    const char* _currentChainStrength { "CurrentChainStrength" };
-    const char* _redsPassedChannelName { "RedsPassed" };
-    const char* _yellowsPassedChannelName { "YellowsPassed" };
+    const char* _maxChainLengthChannelName { "MaxChainLength" }; // inactive channel
+    const char* _currentChainStrength { "CurrentChainStrength" }; // inactive channel 
+    const char* _redsPassedChannelName { "RedsPassed" }; // inactive channel
+    const char* _yellowsPassedChannelName { "YellowsPassed" }; // inactive channel
     const char* _scoreChannelName { "Points" };
     const char* _statsChannelName { "Stats Table" };
 

@@ -26,8 +26,7 @@ HMODULE g_this;
 
 HRESULT __stdcall Necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
     auto now = std::chrono::high_resolution_clock::now();
-    if(std::chrono::duration_cast<std::chrono::milliseconds>(now - g_timePoint) < g_deltaTime)
-    {
+    if(std::chrono::duration_cast<std::chrono::milliseconds>(now - g_timePoint) < g_deltaTime) {
         g_timePoint = now;
         return g_endSceneHook->original()(device);
     }
@@ -82,8 +81,7 @@ HRESULT Necromancy::InitDirect3D() {
 
     auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_NULLREF, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_DISABLE_DRIVER_MANAGEMENT, &params, &pDevice);
 
-    if(FAILED(result) || !pDevice)
-    {
+    if(FAILED(result) || !pDevice) {
         ::DestroyWindow(window);
         ::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
         return E_FAIL;
@@ -94,15 +92,13 @@ HRESULT Necromancy::InitDirect3D() {
     ::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
 
     auto endScene = reinterpret_cast<DirectXEndScene>(vTable[DirectX_EndSceneOffset]);
-    if(g_endSceneHook != nullptr)
-    {
+    if(g_endSceneHook != nullptr) {
         g_endSceneHook->detach();
         delete g_endSceneHook;
     }
 
     g_endSceneHook = new Detours::Hook(endScene, &HkEndScene_DumpMemory);
-    if(auto status = g_endSceneHook->attach(); status == Detours::Status::DetourException)
-    {
+    if(auto status = g_endSceneHook->attach(); status == Detours::Status::DetourException) {
         throw RuntimeException("Critical exception during attaching endScene hook");
     }
 
@@ -110,10 +106,9 @@ HRESULT Necromancy::InitDirect3D() {
 }
 
 void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
-    if(g_necromancyEngine->engineInterface() == nullptr)
-    {
+    if(g_necromancyEngine->engineInterface() == nullptr) {
         g_necromancyEngine->setQ3DEngineInterface(self->engine);
-
+        g_necromancyEngine->setupChannelReaders();
         g_trueCallChannelHook->unstableDetach();
         return std::any_cast<Typedefs::TrueCallChannelFn>(g_trueCallChannelHook->unstableOriginal())(self);
     }
@@ -129,18 +124,15 @@ void Necromancy::Setup(HMODULE thisDll) {
     g_trueCallChannelHook = new Detours::Hook<Detours::Unstable>();
     auto callChannelStatus = g_trueCallChannelHook->unstableAttach(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>(), &HkTrueCallChannel);
 
-    if(callChannelStatus == Detours::Status::DetourException)
-    {
+    if(callChannelStatus == Detours::Status::DetourException) {
         throw RuntimeException("Critical exception during attaching TrueCallChannel hook");
     }
 
-    if(callChannelStatus == Detours::Status::InvalidHookMode)
-    {
+    if(callChannelStatus == Detours::Status::InvalidHookMode) {
         throw LogicException("Trying to hook with unstable attach using non-unstable hook mode");
     }
 
-    if(FAILED(InitDirect3D()))
-    {
+    if(FAILED(InitDirect3D())) {
         g_trueCallChannelHook->unstableDetach();
         FreeLibrary(g_this);
         throw RuntimeException("Unable to attach hook to DirectX EndScene");

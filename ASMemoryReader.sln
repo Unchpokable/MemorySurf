@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASMemoryReaderUI", "ASMemoryReaderUI\ASMemoryReaderUI.vcxproj", "{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyEngineV2", "NecromancyEngineV2\NecromancyEngineV2.vcxproj", "{7271C3E9-E771-4FB9-9DBA-E7E82CF0927B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyMessages", "NecromancyMessages\NecromancyMessages.vcxproj", "{E82E41CD-415C-4CE7-AE0C-C061460C0619}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyLoader", "NecromancyLoader\NecromancyLoader.vcxproj", "{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Debug|x64.ActiveCfg = Debug|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Debug|x64.Build.0 = Debug|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Debug|x86.ActiveCfg = Debug|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Debug|x86.Build.0 = Debug|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x64.ActiveCfg = Release|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x64.Build.0 = Release|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x86.ActiveCfg = Release|x64
-		{DB6EE61D-7A7C-4FB4-9277-A8E44C0CC044}.Release|x86.Build.0 = Release|x64
 		{7271C3E9-E771-4FB9-9DBA-E7E82CF0927B}.Debug|x64.ActiveCfg = Debug|x64
 		{7271C3E9-E771-4FB9-9DBA-E7E82CF0927B}.Debug|x64.Build.0 = Debug|x64
 		{7271C3E9-E771-4FB9-9DBA-E7E82CF0927B}.Debug|x86.ActiveCfg = Debug|Win32
@@ -41,6 +33,14 @@ Global
 		{E82E41CD-415C-4CE7-AE0C-C061460C0619}.Release|x64.Build.0 = Release|x64
 		{E82E41CD-415C-4CE7-AE0C-C061460C0619}.Release|x86.ActiveCfg = Release|Win32
 		{E82E41CD-415C-4CE7-AE0C-C061460C0619}.Release|x86.Build.0 = Release|Win32
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Debug|x64.ActiveCfg = Debug|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Debug|x64.Build.0 = Debug|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Debug|x86.ActiveCfg = Debug|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Debug|x86.Build.0 = Debug|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Release|x64.ActiveCfg = Release|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Release|x64.Build.0 = Release|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Release|x86.ActiveCfg = Release|x64
+		{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

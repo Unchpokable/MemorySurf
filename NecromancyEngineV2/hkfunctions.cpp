@@ -13,8 +13,7 @@ HkFunctions::HkFunctions() noexcept {
 HkFunctions::~HkFunctions() noexcept {
     --_referenceCount;
 
-    if(_referenceCount == 0)
-    {
+    if(_referenceCount == 0) {
         delete _instance;
         _instance = nullptr;
     }
@@ -41,8 +40,7 @@ HkFunctions& HkFunctions::operator=(HkFunctions&& other) noexcept {
 }
 
 HkFunctions HkFunctions::setup() {
-    if(_instance)
-    {
+    if(_instance) {
         _referenceCount++;
         return *_instance;
     }

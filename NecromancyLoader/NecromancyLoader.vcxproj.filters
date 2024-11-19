@@ -21,27 +21,42 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
-    <Filter Include="Header Files\Broadcast">
-      <UniqueIdentifier>{9f989682-c54a-42f4-8ae4-6debf7a8d69d}</UniqueIdentifier>
+    <Filter Include="Header Files\socketbroadcast">
+      <UniqueIdentifier>{8f3de8ce-fb4a-4d20-87ac-20adde89324c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Broadcast">
-      <UniqueIdentifier>{5a99b774-6005-4e6a-9bc1-d8a5d9e7c986}</UniqueIdentifier>
+    <Filter Include="Source Files\socketbroadcast">
+      <UniqueIdentifier>{10bb2e05-3584-4dff-b5cf-6930a46a01dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Exceptions">
-      <UniqueIdentifier>{0e5468d2-7fa6-42c3-a282-a9ebc906ea3e}</UniqueIdentifier>
+    <Filter Include="Header Files\dllinjection">
+      <UniqueIdentifier>{cf6773f2-68fa-432f-a4d7-a5f56fba17cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dllinjection">
+      <UniqueIdentifier>{7306be47-aeaf-4452-9074-a713c6f88aee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="ASMemoryReaderUI.qrc">
+    <QtRcc Include="necromancyloaderwindow.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="ASMemoryReaderUI.ui">
+    <QtUic Include="necromancyloaderwindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="ASMemoryReaderUI.h">
+    <QtMoc Include="necromancyloaderwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="ASMemoryReaderUI.cpp">
+    <ClCompile Include="necromancyloaderwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <None Include="NecromancyLoader.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <ResourceCompile Include="NecromancyLoader.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,24 +64,19 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WebSocketBroadcastService.cpp">
-      <Filter>Source Files\Broadcast</Filter>
+    <ClCompile Include="windefprettify.cpp">
+      <Filter>Source Files\dllinjection</Filter>
     </ClCompile>
-    <ClCompile Include="AudiosurfMemoryScanner.cpp">
-      <Filter>Source Files\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="WebSocketBroadcastService.cpp">
-      <Filter>Source Files\Broadcast</Filter>
+    <ClCompile Include="injector.cpp">
+      <Filter>Source Files\dllinjection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="WebSocketBroadcastService.h">
-      <Filter>Header Files\Broadcast</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="TaggedException.hpp">
-      <Filter>Header Files\Exceptions</Filter>
+    <ClInclude Include="windefprettify.h">
+      <Filter>Header Files\dllinjection</Filter>
+    </ClInclude>
+    <ClInclude Include="injector.h">
+      <Filter>Header Files\dllinjection</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
