@@ -2,24 +2,30 @@
 
 #include "windefprettify.h"
 
+#pragma comment(lib, "ntdll.lib")
+
 class WinDllInjector final {
 public:
     WinDllInjector() = default;
     ~WinDllInjector() = default;
 
-    bool setTargetLibrary(WinConstStr libraryName);
-    bool setTargetProc(WinConstStr procName);
-    bool setTargetProcPid(WinDword procId);
+    void setTargetLibrary(const std::wstring& libraryName);
+    bool setTargetProc(const std::wstring& procName);
+    void setTargetProcPid(WinDword procId);
 
-    WinResult inject();
-    WinResult free();
+    WinResult inject() const;
+    WinResult free() const;
 
 private:
-    bool hasTargetLoadedLibrary();
-    WinResult targetFreeLibrary();
+    static WinDword getProcessId(const std::wstring& procName);
+
+    bool hasTargetLoadedLibrary() const;
     bool isTargetLibraryX86();
     bool isTargetProcX86();
+    WinModuleHandle findTargetDll() const;
 
-    WinConstStr _targetLibraryName;
+    WinResult targetFreeLibrary() const;
+
+    std::wstring _targetLibraryName;
     WinDword _targetProcId;
 };

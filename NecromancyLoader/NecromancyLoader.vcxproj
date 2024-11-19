@@ -103,8 +103,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="injector.cpp" />
+    <ClCompile Include="privileges.cpp" />
     <ClCompile Include="windefprettify.cpp" />
     <ClInclude Include="injector.h" />
+    <ClInclude Include="privileges.h" />
     <ClInclude Include="windefprettify.h" />
     <QtRcc Include="necromancyloaderwindow.qrc" />
     <QtUic Include="necromancyloaderwindow.ui" />
