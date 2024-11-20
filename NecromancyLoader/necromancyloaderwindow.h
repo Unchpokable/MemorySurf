@@ -4,6 +4,7 @@
 #include "ui_necromancyloaderwindow.h"
 #include "processinfo.h"
 
+class WinDllInjector;
 QT_BEGIN_NAMESPACE
 namespace Ui { class NecromancyLoaderWindowClass; };
 QT_END_NAMESPACE
@@ -19,8 +20,10 @@ public:
 private:
     void scanProcessesAndPopulateSelectionCombo();
     void checkAndAdjustAppPrivileges();
+    QString locateReaderDll(const QString& targetFile = "NecromancyEngineV2.dll"); // todo: replace hardcode to LoaderProperties
 
     QList<ProcessInfo*> listActiveProcesses();
 
+    WinDllInjector* _injector;
     Ui::NecromancyLoaderWindowClass *ui;
 };

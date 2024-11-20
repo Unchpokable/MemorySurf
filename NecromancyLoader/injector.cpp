@@ -18,7 +18,7 @@ void WinDllInjector::setTargetProcPid(WinDword procId) {
 }
 
 WinResult WinDllInjector::inject() const {
-    WinHandle procHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, _targetProcId);
+    WinHandle procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, _targetProcId);
     auto dllPath = _targetLibraryName.c_str();
     size_t dllPathSize = (wcslen(dllPath) + 1) * sizeof(wchar_t);
 
@@ -28,14 +28,16 @@ WinResult WinDllInjector::inject() const {
             MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
         if(targetProcAllocMem == nullptr)
+        {
+            auto lastError = GetLastError();
             return E_FAIL;
+        }
 
         if(!WriteProcessMemory(procHandle, targetProcAllocMem, dllPath, dllPathSize, NULL)) {
             VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
             CloseHandle(procHandle);
             return E_FAIL;
         }
-
         HANDLE hRemoteThread = CreateRemoteThread(procHandle, NULL, NULL,
             (LPTHREAD_START_ROUTINE)loadLibAddr, targetProcAllocMem, 0, NULL);
 

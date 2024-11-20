@@ -3,10 +3,11 @@
 #include "privileges.h"
 #include "processinfo.h"
 #include "windefprettify.h"
+#include "injector.h"
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         : QMainWindow(parent)
-        , ui(new Ui::NecromancyLoaderWindowClass()) {
+        , ui(new Ui::NecromancyLoaderWindowClass()), _injector(new WinDllInjector()) {
     ui->setupUi(this);
 
     qRegisterMetaType<ProcessInfo>();
@@ -18,6 +19,24 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     scanProcessesAndPopulateSelectionCombo();
 
     ui->statusBar->showMessage("Server stopped; Game offline; Game service not loaded");
+
+    connect(ui->procRefreshButton, &QPushButton::clicked, this, [this]() {
+        scanProcessesAndPopulateSelectionCombo();
+    });
+
+    connect(ui->loadButton, &QPushButton::clicked, this, [this]() {
+        auto fullDllPath = locateReaderDll();
+        auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
+
+        _injector->setTargetProcPid(procInfo->processId());
+        _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
+        auto retCode = _injector->inject();
+        if(retCode == 0) {
+            QMessageBox::information(this, "Success", "Dll was injected to target process");
+        } else {
+            QMessageBox::warning(this, "Injector Error", QString("Injector has returned an error code of %1").arg(retCode));
+        }
+    });
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
@@ -25,16 +44,26 @@ NecromancyLoaderWindow::~NecromancyLoaderWindow() {
 }
 
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
+    ui->gameProcCombo->clear();
+
     auto scannedProcesses = listActiveProcesses();
 
+    int audiosurfProcId = 0;
+    int counter = 0;
     for(auto proc : scannedProcesses) {
         // todo: default icons for unregistered application types
         auto iconPixmap = QPixmap::fromImage(proc->icon());
         QIcon icon(iconPixmap);
 
         ui->gameProcCombo->addItem(icon, proc->processName(), QVariant::fromValue(proc));
+        if(proc->processName().toLower() == "questviewer.exe") {
+            audiosurfProcId = counter;
+        }
+
+        counter++;
     }
-    //todo auto select item with game process if exists
+
+    ui->gameProcCombo->setCurrentIndex(audiosurfProcId);
 }
 
 void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
@@ -65,6 +94,17 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
     if(result == QMessageBox::Yes) {
         RaisePrivilegesToDebug();
     }
+}
+
+QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
+    QDir currentDir(QCoreApplication::applicationDirPath());
+
+    QString filePath = currentDir.filePath(targetFile);
+    if(QFileInfo::exists(filePath)) {
+        return QFileInfo(filePath).absoluteFilePath();
+    }
+
+    return {};
 }
 
 QList<ProcessInfo *> NecromancyLoaderWindow::listActiveProcesses(){

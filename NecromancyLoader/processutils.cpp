@@ -12,7 +12,7 @@ WinDword ProcessUtils::getProcessId(const std::wstring& procName)
     }
 
     Process32First(processesSnapshot, &processInfo);
-    if(procName != processInfo.szExeFile) {
+    if(procName == processInfo.szExeFile) {
         CloseHandle(processesSnapshot);
         return processInfo.th32ProcessID;
     }
