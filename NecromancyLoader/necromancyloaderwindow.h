@@ -16,5 +16,8 @@ public:
     ~NecromancyLoaderWindow();
 
 private:
+    void scanProcessesAndPopulateSelectionCombo();
+    void checkAndAdjustAppPrivileges();
+
     Ui::NecromancyLoaderWindowClass *ui;
 };

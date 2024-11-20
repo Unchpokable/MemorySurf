@@ -104,9 +104,12 @@
   <ItemGroup>
     <ClCompile Include="injector.cpp" />
     <ClCompile Include="privileges.cpp" />
+    <ClCompile Include="processinfo.cpp" />
     <ClCompile Include="windefprettify.cpp" />
     <ClInclude Include="injector.h" />
     <ClInclude Include="privileges.h" />
+    <QtMoc Include="processinfo.h" />
+    <ClInclude Include="propertymacro.h" />
     <ClInclude Include="windefprettify.h" />
     <QtRcc Include="necromancyloaderwindow.qrc" />
     <QtUic Include="necromancyloaderwindow.ui" />

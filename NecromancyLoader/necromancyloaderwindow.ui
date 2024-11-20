@@ -161,14 +161,32 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Game status</string>
+         <string>Game status:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="gameStatusLabel">
         <property name="text">
-         <string>TextLabel</string>
+         <string>Offline</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Start server</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Stop server</string>
         </property>
        </widget>
       </item>

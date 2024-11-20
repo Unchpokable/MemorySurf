@@ -33,6 +33,15 @@
     <Filter Include="Source Files\dllinjection">
       <UniqueIdentifier>{7306be47-aeaf-4452-9074-a713c6f88aee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\qol">
+      <UniqueIdentifier>{0c03a2ce-a9fd-4401-957b-9dc02f900a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\process">
+      <UniqueIdentifier>{f2cd31af-1035-4401-819f-ef2b76ae196a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\process">
+      <UniqueIdentifier>{a0d0f4fc-61d6-45d6-b8c8-f0bec4fe6236}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="necromancyloaderwindow.qrc">
@@ -73,6 +82,9 @@
     <ClCompile Include="privileges.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="processinfo.cpp">
+      <Filter>Source Files\process</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windefprettify.h">
@@ -84,6 +96,9 @@
     <ClInclude Include="privileges.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="propertymacro.h">
+      <Filter>Header Files\qol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="mainwindow.qss">
@@ -92,5 +107,10 @@
     <None Include="messagebox.qss">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="processinfo.h">
+      <Filter>Header Files\process</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>
