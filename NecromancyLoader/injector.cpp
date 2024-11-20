@@ -7,7 +7,7 @@ void WinDllInjector::setTargetLibrary(const std::wstring& libraryName) {
 }
 
 bool WinDllInjector::setTargetProc(const std::wstring& procName) {
-    auto procId = getProcessId(procName);
+    auto procId = ProcessUtils::getProcessId(procName);
 
     _targetProcId = procId;
     return true;
@@ -126,31 +126,4 @@ WinModuleHandle WinDllInjector::findTargetDll() const
     }
     CloseHandle(procHandle);
     return NULL;
-}
-
-WinDword WinDllInjector::getProcessId(const std::wstring& procName) {
-
-    PROCESSENTRY32 processInfo;
-    processInfo.dwSize = sizeof(processInfo);
-
-    HANDLE processesSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-    if(processesSnapshot == INVALID_HANDLE_VALUE) {
-        return 0;
-    }
-
-    Process32First(processesSnapshot, &processInfo);
-    if(procName != processInfo.szExeFile) {
-        CloseHandle(processesSnapshot);
-        return processInfo.th32ProcessID;
-    }
-
-    while(Process32Next(processesSnapshot, &processInfo)) {
-        if(procName == processInfo.szExeFile) {
-            CloseHandle(processesSnapshot);
-            return processInfo.th32ProcessID;
-        }
-    }
-
-    CloseHandle(processesSnapshot);
-    return 0;
 }

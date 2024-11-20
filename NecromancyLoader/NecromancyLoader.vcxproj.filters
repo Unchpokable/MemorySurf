@@ -85,6 +85,9 @@
     <ClCompile Include="processinfo.cpp">
       <Filter>Source Files\process</Filter>
     </ClCompile>
+    <ClCompile Include="processutils.cpp">
+      <Filter>Source Files\process</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windefprettify.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="propertymacro.h">
       <Filter>Header Files\qol</Filter>
+    </ClInclude>
+    <ClInclude Include="processutils.h">
+      <Filter>Header Files\dllinjection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

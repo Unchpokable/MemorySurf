@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_necromancyloaderwindow.h"
+#include "processinfo.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class NecromancyLoaderWindowClass; };
@@ -18,6 +19,8 @@ public:
 private:
     void scanProcessesAndPopulateSelectionCombo();
     void checkAndAdjustAppPrivileges();
+
+    QList<ProcessInfo*> listActiveProcesses();
 
     Ui::NecromancyLoaderWindowClass *ui;
 };

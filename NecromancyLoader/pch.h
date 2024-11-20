@@ -7,6 +7,7 @@
 #include <QList>
 #include <QString>
 #include <QMap>
+#include <QImage>
 
 // stdlib
 #include <windows.h>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "windefprettify.h"
+#include "processutils.h"
 
 #pragma comment(lib, "ntdll.lib")
 
@@ -17,8 +18,6 @@ public:
     WinResult free() const;
 
 private:
-    static WinDword getProcessId(const std::wstring& procName);
-
     bool hasTargetLoadedLibrary() const;
     bool isTargetLibraryX86();
     bool isTargetProcX86();
