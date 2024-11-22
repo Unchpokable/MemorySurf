@@ -39,9 +39,6 @@ StatusCode ASDump::SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_
     std::memcpy(serializationPtr, structPtr + ASDump_StatsArraySizeFieldOffset, ASDump_StatsArraySizeFieldSize);
     serializationPtr += ASDump_StatsArraySizeFieldSize;
 
-    std::memcpy(serializationPtr, dump.statsArray, sizeof(float) * dump.statsArraySize);
-    serializationPtr += ASDump_StatsArrayFieldSize * dump.statsArraySize;
-
     std::memcpy(serializationPtr, structPtr + ASDump_GoldThresholdFieldOffset, ASDump_GoldThresholdFieldSize);
     serializationPtr += ASDump_GoldThresholdFieldSize;
 
@@ -52,6 +49,9 @@ StatusCode ASDump::SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_
     serializationPtr += ASDump_LargestMatchFieldSize;
 
     std::memcpy(serializationPtr, structPtr + ASDump_TimestampFieldOffset, ASDump_TimestampFieldSize);
+    serializationPtr += ASDump_TimestampFieldSize;
+
+    std::memcpy(serializationPtr, dump.statsArray, sizeof(float) * dump.statsArraySize);
 
     return StatusCode::Ok;
 }
@@ -77,12 +77,6 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
     std::memcpy(structPtr + ASDump_StatsArraySizeFieldOffset, serializationPtr, ASDump_StatsArraySizeFieldSize);
     serializationPtr += ASDump_StatsArraySizeFieldSize;
 
-    // copy array
-    float* arrayBuffer = new float[data.statsArraySize]; // should be filled already
-    std::memcpy(arrayBuffer, serializationPtr, sizeof(float) * data.statsArraySize);
-    data.statsArray = arrayBuffer;
-
-    serializationPtr += sizeof(float) * data.statsArraySize;
 
     std::memcpy(structPtr + ASDump_GoldThresholdFieldOffset, serializationPtr, ASDump_GoldThresholdFieldSize);
     serializationPtr += ASDump_GoldThresholdFieldSize;
@@ -94,6 +88,13 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
 
     serializationPtr += ASDump_LargestMatchFieldSize;
     std::memcpy(structPtr + ASDump_TimestampFieldOffset, serializationPtr, ASDump_TimestampFieldSize);
+
+    serializationPtr += ASDump_TimestampFieldSize;
+    // copy array
+    float* arrayBuffer = new float[data.statsArraySize]; // should be filled already
+    std::memcpy(arrayBuffer, serializationPtr, sizeof(float) * data.statsArraySize);
+    data.statsArray = arrayBuffer;
+
 
     *result = data;
     return StatusCode::Ok;

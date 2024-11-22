@@ -4,16 +4,18 @@
 
 namespace Necromancy::Messages::ASDump {
 
+#pragma pack(push, 1)
 struct ASDumpStruct
 {
     float score;
     int statsArraySize;
-    float* statsArray;
     float goldThreshold;
     float trafficChainMax;
     float largestMatch;
     float timestamp; // msec
+    float* statsArray;
 };
+#pragma pack(pop)
 
 constexpr size_t ASDumpMessageSize = 128; // bytes
 constexpr ptrdiff_t ASDump_ScoreFieldOffset = offsetof(ASDumpStruct, score);
