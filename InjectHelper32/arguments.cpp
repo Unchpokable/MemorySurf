@@ -13,7 +13,7 @@ InjectorArguments ParseArguments(int argc, char** argv) {
 
     InjectorArguments args;
 
-    args.mode = static_cast<InjectorMode>(*argv[1]);
+    args.mode = static_cast<InjectorMode>(*reinterpret_cast<uint16_t*>(argv[1]));
 
     try {
         args.procId = std::stoul(argv[2]);

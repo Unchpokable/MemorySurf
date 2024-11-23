@@ -10,7 +10,7 @@ HRESULT InjectProcess(const InjectorArguments& args) {
     HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, args.procId);
 
     auto existingDll = FindDll(procHandle, LibName(args.dllPath));
-    if(existingDll != INVALID_HANDLE_VALUE || existingDll != NULL) {
+    if(existingDll != INVALID_HANDLE_VALUE && existingDll != NULL) {
         return E_FAIL;
     }
 
