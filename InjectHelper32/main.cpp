@@ -1,4 +1,5 @@
 #include <exception>
+#include <iostream>
 
 #include "procutils.h"
 #include "arguments.h"
@@ -16,6 +17,6 @@ int main(int argc, char** argv) {
             return UnloadProcess(args);
         }
     } catch (std::exception &ex) {
-        MessageBoxA(NULL, ex.what(), "Error!", MB_OK);
+        std::cerr << ex.what();
     }
 }
