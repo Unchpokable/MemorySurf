@@ -1,15 +1,19 @@
 #include "arguments.h"
 #include <string>
 #include <stdexcept>
+#include <sstream>
 
 InjectorArguments ParseArguments(int argc, char** argv) {
     if(argc != 4) {
-        throw std::invalid_argument("Should be given 3 cl args. Usage: -i/-u <procId> <dllPath>");
+        std::stringstream err;
+        err << "Should be given 3 cl args but " << argc << " given. ";
+        err << "Usage: -i/-u <procId> <dllPath>";
+        throw std::invalid_argument(err.str());
     }
 
     InjectorArguments args;
 
-    args.mode = static_cast<InjectorMode>(*reinterpret_cast<uint16_t*>(argv[1]));
+    args.mode = static_cast<InjectorMode>(*argv[1]);
 
     try {
         args.procId = std::stoul(argv[2]);

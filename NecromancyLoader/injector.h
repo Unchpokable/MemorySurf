@@ -17,6 +17,7 @@ public:
 
     void inject() const;
     void free() const;
+    bool hasTargetLoadedLibrary() const;
 
 signals:
     void injectorExited(int exitCode, const QString& stdOut);
@@ -25,7 +26,6 @@ private slots:
     void onInjectorExited(int exitCode, const QString& stdOut);
 
 private:
-    bool hasTargetLoadedLibrary() const;
     WinModuleHandle findTargetDll() const;
 
     std::wstring _targetLibraryPath;

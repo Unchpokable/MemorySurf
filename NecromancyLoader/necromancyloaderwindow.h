@@ -20,6 +20,7 @@ public:
 private slots:
     void onInjectButtonPressed();
     void onUnloadButtonPressed();
+    void onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const;
 
 private:
     void scanProcessesAndPopulateSelectionCombo();

@@ -1,10 +1,11 @@
 // ReSharper disable CppCStyleCast
+// ReSharper disable CppZeroConstantCanBeReplacedWithNullptr
 #include "pch.h"
 #include "injector.h"
 #include "processhelper.h"
 #include "processutils.h"
 
-WinDllInjector::WinDllInjector(QObject* parent) : QObject(parent), _targetProcId(0) {
+WinDllInjector::WinDllInjector(QObject* parent) : QObject(parent), _targetProcId(0), _injectorHelper(new ProcessHelper(this)) {
     connect(_injectorHelper, &ProcessHelper::processFinished, this, &WinDllInjector::onInjectorExited);
 }
 
@@ -23,20 +24,22 @@ void WinDllInjector::inject() const {
     }
 
     _injectorHelper->setClArgs({ "-i", QString::number(_targetProcId), QString::fromStdWString(_targetLibraryPath) });
+    _injectorHelper->setTargetProc("InjectHelper32.exe");
     _injectorHelper->run();
 }
 
 void WinDllInjector::free() const {
     _injectorHelper->setClArgs({ "-u", QString::number(_targetProcId), QString::fromStdWString(_targetLibraryPath) });
+    _injectorHelper->setTargetProc("InjectHelper32.exe");
     _injectorHelper->run();
-}
-
-void WinDllInjector::onInjectorExited(int exitCode, const QString& stdOut) {
-    emit injectorExited(exitCode, stdOut);
 }
 
 bool WinDllInjector::hasTargetLoadedLibrary() const {
     return findTargetDll() != NULL;
+}
+
+void WinDllInjector::onInjectorExited(int exitCode, const QString& stdOut) {
+    emit injectorExited(exitCode, stdOut);
 }
 
 WinModuleHandle WinDllInjector::findTargetDll() const {
@@ -50,6 +53,7 @@ WinModuleHandle WinDllInjector::findTargetDll() const {
     WinDword bytesRequired;
 
     if(!EnumProcessModulesEx(procHandle, moduleArray, sizeof(moduleArray), &bytesRequired, LIST_MODULES_32BIT)) {
+        qDebug() << GetLastError();
         throw std::runtime_error("Unable to enumerate process modules");
     }
 

@@ -8,6 +8,7 @@ public:
     ProcessHelper(const QStringList& clArgs, const QString& procExe);
 
     void setClArgs(const QStringList& args);
+    void setTargetProc(const QString& exe);
 
     void run() const;
     void terminate() const;

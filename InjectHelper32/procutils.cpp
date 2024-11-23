@@ -4,6 +4,7 @@
 
 #include <Psapi.h>
 #include <stdexcept>
+#include <iostream>
 
 HRESULT InjectProcess(const InjectorArguments& args) {
     HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, args.procId);
@@ -22,12 +23,14 @@ HRESULT InjectProcess(const InjectorArguments& args) {
             MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
         if(targetProcAllocMem == nullptr) {
+            std::cerr << "Error " << LAST_ERROR;
             return LAST_ERROR;
         }
 
         if(!WriteProcessMemory(procHandle, targetProcAllocMem, dllPath, dllPathSize, NULL)) {
             VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
             CloseHandle(procHandle);
+            std::cerr << "Error " << LAST_ERROR;
             return LAST_ERROR;
         }
         HANDLE hRemoteThread = CreateRemoteThread(procHandle, NULL, NULL,
@@ -36,6 +39,7 @@ HRESULT InjectProcess(const InjectorArguments& args) {
         if(hRemoteThread == nullptr) {
             VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
             CloseHandle(procHandle);
+            std::cerr << "Error " << LAST_ERROR;
             return LAST_ERROR;
         }
 
@@ -43,9 +47,11 @@ HRESULT InjectProcess(const InjectorArguments& args) {
         VirtualFreeEx(procHandle, targetProcAllocMem, dllPathSize, MEM_RELEASE);
         CloseHandle(hRemoteThread);
         CloseHandle(procHandle);
+        std::cout << "Successfully injected";
         return S_OK;
     }
 
+    std::cerr << "Error " << LAST_ERROR;
     return LAST_ERROR;
 }
 
@@ -54,22 +60,26 @@ HRESULT UnloadProcess(const InjectorArguments& args) {
 
     auto dll = FindDll(procHandle, LibName(args.dllPath));
     if(!dll) {
-        return E_FAIL;
+        std::cerr << "Error " << LAST_ERROR;
+        return LAST_ERROR;
     }
 
     auto freeLibraryAddress = GetProcAddress(GetModuleHandle(L"kernel32.dll"), "FreeLibrary");
     if(!freeLibraryAddress) {
-        return E_FAIL;
+        std::cerr << "Error " << LAST_ERROR;
+        return LAST_ERROR;
     }
 
     HANDLE thread = CreateRemoteThread(procHandle, nullptr, 0, (LPTHREAD_START_ROUTINE)freeLibraryAddress, dll, 0, nullptr);
     if(!thread) {
-        return E_FAIL;
+        std::cerr << "Error " << LAST_ERROR;
+        return LAST_ERROR;
     }
 
     WaitForSingleObject(thread, INFINITE);
     CloseHandle(thread);
     CloseHandle(procHandle);
+    std::cout << "Successfully unloaded";
     return 0;
 }
 

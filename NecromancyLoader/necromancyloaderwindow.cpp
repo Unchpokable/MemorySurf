@@ -6,8 +6,7 @@
 #include "injector.h"
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
-        : QMainWindow(parent)
-        , ui(new Ui::NecromancyLoaderWindowClass()), _injector(new WinDllInjector(this)) {
+        : QMainWindow(parent), _injector(new WinDllInjector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
     ui->setupUi(this);
 
     qRegisterMetaType<ProcessInfo>();
@@ -26,6 +25,8 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
 
     connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onInjectButtonPressed);
     connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onUnloadButtonPressed);
+
+    connect(_injector, &WinDllInjector::injectorExited, this, &NecromancyLoaderWindow::onInternalInjectorProcessFinished);
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
@@ -33,21 +34,35 @@ NecromancyLoaderWindow::~NecromancyLoaderWindow() {
 }
 
 void NecromancyLoaderWindow::onInjectButtonPressed() {
-    auto fullDllPath = locateReaderDll();
     auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
-
     _injector->setTargetProcPid(procInfo->processId());
+
+    if(_injector->hasTargetLoadedLibrary()) {
+        return;
+    }
+
+    auto fullDllPath = locateReaderDll();
+
     _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
     _injector->inject();
 }
 
 void NecromancyLoaderWindow::onUnloadButtonPressed() {
-    auto fullDllPath = locateReaderDll();
     auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
-
     _injector->setTargetProcPid(procInfo->processId());
+
+    if(!_injector->hasTargetLoadedLibrary()) {
+        return;
+    }
+
+    auto fullDllPath = locateReaderDll();
+
     _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
     _injector->free();
+}
+
+void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
+    ui->statusBar->showMessage(QString("Injector finished") + QString::number(exitCode) + "out: " + stdOut);
 }
 
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {

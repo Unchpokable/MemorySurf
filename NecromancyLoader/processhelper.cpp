@@ -17,10 +17,14 @@ void ProcessHelper::setClArgs(const QStringList& args) {
     _clArgs = args;
 }
 
+void ProcessHelper::setTargetProc(const QString& exe) {
+    _procExe = exe;
+}
+
 void ProcessHelper::run() const {
     _handle->setWorkingDirectory(QCoreApplication::applicationDirPath());
     _handle->setArguments(_clArgs);
-    _handle->start(_procExe);
+    _handle->start(_procExe, _clArgs);
 }
 
 void ProcessHelper::terminate() const {
