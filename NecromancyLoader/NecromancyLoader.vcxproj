@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugDeploy|x64">
+      <Configuration>DebugDeploy</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -31,6 +35,9 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DebugDeploy|x64'">
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
@@ -39,7 +46,7 @@
     <QtInstall>6.5.1</QtInstall>
     <QtModules>core;gui;websockets;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
-    <QtDeploy>true</QtDeploy>
+    <QtDeploy>false</QtDeploy>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.5.1</QtInstall>
@@ -64,6 +71,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='DebugDeploy|x64'">
+    <QtDeploy>true</QtDeploy>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -106,12 +116,14 @@
   <ItemGroup>
     <ClCompile Include="injector.cpp" />
     <ClCompile Include="privileges.cpp" />
+    <ClCompile Include="processhelper.cpp" />
     <ClCompile Include="processinfo.cpp" />
     <ClCompile Include="processutils.cpp" />
     <ClCompile Include="windefprettify.cpp" />
-    <ClInclude Include="injector.h" />
+    <QtMoc Include="injector.h" />
     <ClInclude Include="privileges.h" />
     <QtMoc Include="processinfo.h" />
+    <QtMoc Include="processhelper.h" />
     <ClInclude Include="processutils.h" />
     <ClInclude Include="propertymacro.h" />
     <ClInclude Include="windefprettify.h" />

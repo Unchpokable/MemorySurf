@@ -4,12 +4,12 @@
 #include <Windows.h>
 
 enum InjectorMode : uint16_t {
-    Inject = 0x6900, // -i
-    Unload = 0x7500  // -u
+    Inject = 0x692D, // -i
+    Unload = 0x752D  // -u
 };
 
 struct InjectorArguments {
-    InjectorArguments();
+    InjectorArguments() = default;
 
     InjectorMode mode;
     DWORD procId;

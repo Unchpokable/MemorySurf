@@ -88,12 +88,12 @@
     <ClCompile Include="processutils.cpp">
       <Filter>Source Files\process</Filter>
     </ClCompile>
+    <ClCompile Include="processhelper.cpp">
+      <Filter>Source Files\dllinjection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windefprettify.h">
-      <Filter>Header Files\dllinjection</Filter>
-    </ClInclude>
-    <ClInclude Include="injector.h">
       <Filter>Header Files\dllinjection</Filter>
     </ClInclude>
     <ClInclude Include="privileges.h">
@@ -117,6 +117,12 @@
   <ItemGroup>
     <QtMoc Include="processinfo.h">
       <Filter>Header Files\process</Filter>
+    </QtMoc>
+    <QtMoc Include="processhelper.h">
+      <Filter>Header Files\dllinjection</Filter>
+    </QtMoc>
+    <QtMoc Include="injector.h">
+      <Filter>Header Files\dllinjection</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

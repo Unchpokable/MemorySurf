@@ -7,7 +7,7 @@
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         : QMainWindow(parent)
-        , ui(new Ui::NecromancyLoaderWindowClass()), _injector(new WinDllInjector()) {
+        , ui(new Ui::NecromancyLoaderWindowClass()), _injector(new WinDllInjector(this)) {
     ui->setupUi(this);
 
     qRegisterMetaType<ProcessInfo>();
@@ -24,23 +24,30 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         scanProcessesAndPopulateSelectionCombo();
     });
 
-    connect(ui->loadButton, &QPushButton::clicked, this, [this]() {
-        auto fullDllPath = locateReaderDll();
-        auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
-
-        _injector->setTargetProcPid(procInfo->processId());
-        _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
-        auto retCode = _injector->inject();
-        if(retCode == 0) {
-            QMessageBox::information(this, "Success", "Dll was injected to target process");
-        } else {
-            QMessageBox::warning(this, "Injector Error", QString("Injector has returned an error code of %1").arg(retCode));
-        }
-    });
+    connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onInjectButtonPressed);
+    connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onUnloadButtonPressed);
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
     delete ui;
+}
+
+void NecromancyLoaderWindow::onInjectButtonPressed() {
+    auto fullDllPath = locateReaderDll();
+    auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
+
+    _injector->setTargetProcPid(procInfo->processId());
+    _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
+    _injector->inject();
+}
+
+void NecromancyLoaderWindow::onUnloadButtonPressed() {
+    auto fullDllPath = locateReaderDll();
+    auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
+
+    _injector->setTargetProcPid(procInfo->processId());
+    _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
+    _injector->free();
 }
 
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {

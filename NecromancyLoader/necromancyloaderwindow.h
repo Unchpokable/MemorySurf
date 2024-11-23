@@ -17,6 +17,10 @@ public:
     NecromancyLoaderWindow(QWidget *parent = nullptr);
     ~NecromancyLoaderWindow();
 
+private slots:
+    void onInjectButtonPressed();
+    void onUnloadButtonPressed();
+
 private:
     void scanProcessesAndPopulateSelectionCombo();
     void checkAndAdjustAppPrivileges();

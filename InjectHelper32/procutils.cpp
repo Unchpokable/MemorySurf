@@ -1,3 +1,5 @@
+// ReSharper disable CppCStyleCast
+// ReSharper disable CppZeroConstantCanBeReplacedWithNullptr
 #include "procutils.h"
 
 #include <Psapi.h>
@@ -5,6 +7,12 @@
 
 HRESULT InjectProcess(const InjectorArguments& args) {
     HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, args.procId);
+
+    auto existingDll = FindDll(procHandle, LibName(args.dllPath));
+    if(existingDll != INVALID_HANDLE_VALUE || existingDll != NULL) {
+        return E_FAIL;
+    }
+
     auto dllPath = args.dllPath;
     size_t dllPathSize = (wcslen(dllPath) + 1) * sizeof(wchar_t);
 
@@ -14,14 +22,13 @@ HRESULT InjectProcess(const InjectorArguments& args) {
             MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
         if(targetProcAllocMem == nullptr) {
-            auto lastError = GetLastError();
-            return E_FAIL;
+            return LAST_ERROR;
         }
 
         if(!WriteProcessMemory(procHandle, targetProcAllocMem, dllPath, dllPathSize, NULL)) {
             VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
             CloseHandle(procHandle);
-            return E_FAIL;
+            return LAST_ERROR;
         }
         HANDLE hRemoteThread = CreateRemoteThread(procHandle, NULL, NULL,
             (LPTHREAD_START_ROUTINE)loadLibAddr, targetProcAllocMem, 0, NULL);
@@ -29,29 +36,29 @@ HRESULT InjectProcess(const InjectorArguments& args) {
         if(hRemoteThread == nullptr) {
             VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
             CloseHandle(procHandle);
-            return E_FAIL;
+            return LAST_ERROR;
         }
 
         WaitForSingleObject(hRemoteThread, INFINITE);
         VirtualFreeEx(procHandle, targetProcAllocMem, dllPathSize, MEM_RELEASE);
         CloseHandle(hRemoteThread);
         CloseHandle(procHandle);
-        return 0;
+        return S_OK;
     }
 
-    return E_FAIL;
+    return LAST_ERROR;
 }
 
 HRESULT UnloadProcess(const InjectorArguments& args) {
     HANDLE procHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, args.procId);
 
-    auto freeLibraryAddress = GetProcAddress(GetModuleHandle(L"kernel32.dll"), "FreeLibrary");
-    if(!freeLibraryAddress) {
+    auto dll = FindDll(procHandle, LibName(args.dllPath));
+    if(!dll) {
         return E_FAIL;
     }
 
-    auto dll = FindDll(procHandle, args.dllPath);
-    if(!dll) {
+    auto freeLibraryAddress = GetProcAddress(GetModuleHandle(L"kernel32.dll"), "FreeLibrary");
+    if(!freeLibraryAddress) {
         return E_FAIL;
     }
 
@@ -66,8 +73,8 @@ HRESULT UnloadProcess(const InjectorArguments& args) {
     return 0;
 }
 
-HMODULE FindDll(HANDLE Proc, const wchar_t* dllName) {
-    if(!Proc) {
+HMODULE FindDll(HANDLE proc, const wchar_t* dllName) {
+    if(!proc) {
         // todo replace exceptions to status codes
         throw std::runtime_error("Denied access to process:");
     }
@@ -75,7 +82,7 @@ HMODULE FindDll(HANDLE Proc, const wchar_t* dllName) {
     HMODULE moduleArray[1024];
     DWORD bytesRequired;
 
-    if(!EnumProcessModulesEx(Proc, moduleArray, sizeof(moduleArray), &bytesRequired, LIST_MODULES_32BIT)) {
+    if(!EnumProcessModulesEx(proc, moduleArray, sizeof(moduleArray), &bytesRequired, LIST_MODULES_32BIT)) {
         throw std::runtime_error("Unable to enumerate process modules");
     }
 
@@ -84,7 +91,7 @@ HMODULE FindDll(HANDLE Proc, const wchar_t* dllName) {
     for(size_t i { 0 }; i < modulesCount; i++) {
         wchar_t moduleName[MAX_PATH] = { 0 };
 
-        if(GetModuleBaseNameW(Proc, moduleArray[i], moduleName, MAX_PATH)) {
+        if(GetModuleBaseNameW(proc, moduleArray[i], moduleName, MAX_PATH)) {
             if(_wcsicmp(dllName, moduleName) == 0) {
                 return moduleArray[i];
             }
@@ -93,9 +100,7 @@ HMODULE FindDll(HANDLE Proc, const wchar_t* dllName) {
     return NULL;
 }
 
-const wchar_t * LibName(const wchar_t* libPath) {
-    if(!libPath) return nullptr;
-
+const wchar_t* LibName(const wchar_t* libPath) {
     const wchar_t* lastBackslash = wcsrchr(libPath, L'\\');
     return lastBackslash ? lastBackslash + 1 : libPath;
 }

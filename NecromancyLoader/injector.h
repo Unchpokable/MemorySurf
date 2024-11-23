@@ -1,30 +1,35 @@
 #pragma once
 
 #include "windefprettify.h"
-#include "processutils.h"
+#include "processhelper.h"
 
 #pragma comment(lib, "ntdll.lib")
 
-class WinDllInjector final {
+class WinDllInjector final : public QObject {
+    Q_OBJECT
+
 public:
-    WinDllInjector() = default;
-    ~WinDllInjector() = default;
+    WinDllInjector(QObject* parent);
+    virtual ~WinDllInjector() override = default;
 
     void setTargetLibrary(const std::wstring& libraryName);
-    bool setTargetProc(const std::wstring& procName);
     void setTargetProcPid(WinDword procId);
 
-    WinResult inject() const;
-    WinResult free() const;
+    void inject() const;
+    void free() const;
+
+signals:
+    void injectorExited(int exitCode, const QString& stdOut);
+
+private slots:
+    void onInjectorExited(int exitCode, const QString& stdOut);
 
 private:
     bool hasTargetLoadedLibrary() const;
-    bool isTargetLibraryX86();
-    bool isTargetProcX86();
     WinModuleHandle findTargetDll() const;
 
-    WinResult targetFreeLibrary() const;
-
-    std::wstring _targetLibraryName;
+    std::wstring _targetLibraryPath;
     WinDword _targetProcId;
+
+    ProcessHelper* _injectorHelper;
 };

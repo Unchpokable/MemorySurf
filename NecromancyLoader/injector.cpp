@@ -1,106 +1,45 @@
 // ReSharper disable CppCStyleCast
 #include "pch.h"
 #include "injector.h"
+#include "processhelper.h"
+#include "processutils.h"
 
-void WinDllInjector::setTargetLibrary(const std::wstring& libraryName) {
-    _targetLibraryName = libraryName;
+WinDllInjector::WinDllInjector(QObject* parent) : QObject(parent), _targetProcId(0) {
+    connect(_injectorHelper, &ProcessHelper::processFinished, this, &WinDllInjector::onInjectorExited);
 }
 
-bool WinDllInjector::setTargetProc(const std::wstring& procName) {
-    auto procId = ProcessUtils::getProcessId(procName);
-
-    _targetProcId = procId;
-    return true;
+void WinDllInjector::setTargetLibrary(const std::wstring& libraryName) {
+    _targetLibraryPath = libraryName;
 }
 
 void WinDllInjector::setTargetProcPid(WinDword procId) {
     _targetProcId = procId;
 }
 
-WinResult WinDllInjector::inject() const {
-    WinHandle procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, _targetProcId);
-    auto dllPath = _targetLibraryName.c_str();
-    size_t dllPathSize = (wcslen(dllPath) + 1) * sizeof(wchar_t);
-
-    if(procHandle) {
-        auto loadLibAddr = (LPVOID)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "LoadLibraryW");
-        LPVOID targetProcAllocMem = VirtualAllocEx(procHandle, NULL, dllPathSize,
-            MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-
-        if(targetProcAllocMem == nullptr)
-        {
-            auto lastError = GetLastError();
-            return E_FAIL;
-        }
-
-        if(!WriteProcessMemory(procHandle, targetProcAllocMem, dllPath, dllPathSize, NULL)) {
-            VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
-            CloseHandle(procHandle);
-            return E_FAIL;
-        }
-        HANDLE hRemoteThread = CreateRemoteThread(procHandle, NULL, NULL,
-            (LPTHREAD_START_ROUTINE)loadLibAddr, targetProcAllocMem, 0, NULL);
-
-        if(hRemoteThread == nullptr) {
-            VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
-            CloseHandle(procHandle);
-            return E_FAIL;
-        }
-
-        WaitForSingleObject(hRemoteThread, INFINITE);
-        VirtualFreeEx(procHandle, targetProcAllocMem, dllPathSize, MEM_RELEASE);
-        CloseHandle(hRemoteThread);
-        CloseHandle(procHandle);
-        return 0;
+void WinDllInjector::inject() const {
+    auto existingDll = findTargetDll();
+    if(existingDll != NULL){
+        return;
     }
 
-    return E_FAIL;
+    _injectorHelper->setClArgs({ "-i", QString::number(_targetProcId), QString::fromStdWString(_targetLibraryPath) });
+    _injectorHelper->run();
 }
 
-WinResult WinDllInjector::free() const
-{
-    return targetFreeLibrary();
+void WinDllInjector::free() const {
+    _injectorHelper->setClArgs({ "-u", QString::number(_targetProcId), QString::fromStdWString(_targetLibraryPath) });
+    _injectorHelper->run();
+}
+
+void WinDllInjector::onInjectorExited(int exitCode, const QString& stdOut) {
+    emit injectorExited(exitCode, stdOut);
 }
 
 bool WinDllInjector::hasTargetLoadedLibrary() const {
     return findTargetDll() != NULL;
 }
 
-WinResult WinDllInjector::targetFreeLibrary() const
-{
-    WinHandle procHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, _targetProcId);
-
-    auto freeLibraryAddress = GetProcAddress(GetModuleHandle(L"kernel32.dll"), "FreeLibrary");
-    if(!freeLibraryAddress) {
-        return E_FAIL;
-    }
-
-    auto dll = findTargetDll();
-    if(!dll) {
-        return E_FAIL;
-    }
-
-    WinHandle thread = CreateRemoteThread(procHandle, nullptr, 0, (LPTHREAD_START_ROUTINE)freeLibraryAddress, dll, 0, nullptr);
-    if(!thread) {
-        return E_FAIL;
-    }
-
-    WaitForSingleObject(thread, INFINITE);
-    CloseHandle(thread);
-    CloseHandle(procHandle);
-    return 0;
-}
-
-bool WinDllInjector::isTargetLibraryX86() {
-    return true; // todo
-}
-
-bool WinDllInjector::isTargetProcX86() {
-    return true; // todo
-}
-
-WinModuleHandle WinDllInjector::findTargetDll() const
-{
+WinModuleHandle WinDllInjector::findTargetDll() const {
     WinHandle procHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, _targetProcId);
     if(!procHandle) {
         // todo replace exceptions to status codes
@@ -120,7 +59,7 @@ WinModuleHandle WinDllInjector::findTargetDll() const
         wchar_t moduleName[MAX_PATH] = { 0 };
 
         if(GetModuleBaseNameW(procHandle, moduleArray[i], moduleName, MAX_PATH)) {
-            if(_wcsicmp(_targetLibraryName.c_str(), moduleName) == 0) {
+            if(_wcsicmp(_targetLibraryPath.c_str(), moduleName) == 0) {
                 CloseHandle(procHandle);
                 return moduleArray[i];
             }
