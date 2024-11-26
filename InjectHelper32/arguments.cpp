@@ -13,7 +13,7 @@ InjectorArguments ParseArguments(int argc, char** argv) {
 
     InjectorArguments args;
 
-    args.mode = static_cast<InjectorMode>(*reinterpret_cast<uint8_t*>(argv[1] + 1));
+    args.mode = static_cast<InjectorMode>(*reinterpret_cast<uint8_t*>(argv[1] + 1)); // +1 cause we need to skip `-` character
 
     try {
         args.procId = std::stoul(argv[2]);
