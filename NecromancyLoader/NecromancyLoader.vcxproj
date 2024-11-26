@@ -72,6 +72,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NecromancyMessages.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='DebugDeploy|x64'">
     <QtDeploy>true</QtDeploy>
   </PropertyGroup>
@@ -119,6 +128,7 @@
     <ClCompile Include="processhelper.cpp" />
     <ClCompile Include="processinfo.cpp" />
     <ClCompile Include="processutils.cpp" />
+    <ClCompile Include="sharedmemoryreader.cpp" />
     <ClCompile Include="windefprettify.cpp" />
     <QtMoc Include="injector.h" />
     <ClInclude Include="privileges.h" />
@@ -126,6 +136,7 @@
     <QtMoc Include="processhelper.h" />
     <ClInclude Include="processutils.h" />
     <ClInclude Include="propertymacro.h" />
+    <QtMoc Include="sharedmemoryreader.h" />
     <ClInclude Include="windefprettify.h" />
     <QtRcc Include="necromancyloaderwindow.qrc" />
     <QtUic Include="necromancyloaderwindow.ui" />

@@ -42,6 +42,18 @@
     <Filter Include="Source Files\process">
       <UniqueIdentifier>{a0d0f4fc-61d6-45d6-b8c8-f0bec4fe6236}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ipc">
+      <UniqueIdentifier>{128dd635-62c9-493a-b81e-8703cf8a1000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ipc">
+      <UniqueIdentifier>{9b4f2198-838a-4483-b490-6e075290346f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\websocket">
+      <UniqueIdentifier>{ed078067-05c4-4e4c-b7fe-4a702eb05ace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\websocket">
+      <UniqueIdentifier>{9aa5b3c8-3c35-4893-86f7-58bb4c547445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="necromancyloaderwindow.qrc">
@@ -91,6 +103,9 @@
     <ClCompile Include="processhelper.cpp">
       <Filter>Source Files\dllinjection</Filter>
     </ClCompile>
+    <ClCompile Include="sharedmemoryreader.cpp">
+      <Filter>Source Files\ipc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windefprettify.h">
@@ -123,6 +138,9 @@
     </QtMoc>
     <QtMoc Include="injector.h">
       <Filter>Header Files\dllinjection</Filter>
+    </QtMoc>
+    <QtMoc Include="sharedmemoryreader.h">
+      <Filter>Header Files\ipc</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>
