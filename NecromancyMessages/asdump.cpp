@@ -100,6 +100,33 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
     return StatusCode::Ok;
 }
 
+StatusCode ASDump::FastSerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
+    if(bufferSize < ASDumpMessageSize) {
+        return StatusCode::ErrorCausedWrongData;
+    }
+    if(!buffer) {
+        return StatusCode::ErrorCausedWrongData;
+    }
+
+    auto structPtr = reinterpret_cast<const byte*>(&dump);
+    auto serializationPtr = buffer;
+
+    auto messageId(MessageIds::FullDump);
+
+    std::memcpy(serializationPtr, &messageId, sizeof(uint16_t));
+    serializationPtr += sizeof(uint16_t);
+
+    // fast copy chunk of stable structure data
+    std::memcpy(serializationPtr, structPtr, ASDump_TimestampFieldOffset + ASDump_TimestampFieldSize);
+
+    serializationPtr += ASDump_TimestampFieldOffset + ASDump_TimestampFieldSize;
+
+    std::memcpy(serializationPtr, dump.statsArray, sizeof(float) * dump.statsArraySize);
+
+    return StatusCode::Ok;
+
+}
+
 void ASDump::Initialize(ASDumpStruct* dumpStruct, int statsArraySize) {
     dumpStruct->score = 0.0;
     dumpStruct->statsArraySize = statsArraySize;
@@ -113,3 +140,5 @@ void ASDump::Free(ASDumpStruct* dumpStruct) {
     delete[] dumpStruct->statsArray;
     dumpStruct->statsArray = nullptr;
 }
+
+

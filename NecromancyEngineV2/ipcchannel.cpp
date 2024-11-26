@@ -21,10 +21,10 @@ void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool fl
     WaitForSingleObject(_mutex, INFINITE);
 
     if(flush) {
-        std::memset(_mapView, 0, _messageMaxSize);
+        std::memset(_mapView, 0, Constants::MessageMaxSize);
     }
 
-    auto code = SerializeDirect(data, static_cast<byte*>(_mapView), _messageMaxSize);
+    auto code = FastSerializeDirect(data, static_cast<byte*>(_mapView), Constants::MessageMaxSize);
     if(code != Messages::StatusCode::Ok) {
         throw RuntimeException("Exception during serializing scanned data into buffer");
     }
@@ -33,7 +33,16 @@ void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool fl
 }
 
 void IpcChannel::initializeSharedMemory() {
-    _mutex = CreateMutex(NULL, false, _mutexName);
+    SECURITY_DESCRIPTOR mutexSd;
+    InitializeSecurityDescriptor(&mutexSd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&mutexSd, TRUE, NULL, FALSE);
+
+    SECURITY_ATTRIBUTES mutexSa;
+    mutexSa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    mutexSa.lpSecurityDescriptor = &mutexSd;
+    mutexSa.bInheritHandle = FALSE;
+
+    _mutex = CreateMutex(&mutexSa, false, Constants::MutexName);
     if(_mutex == NULL)
         throw RuntimeException("Can not create mutex");
 
@@ -47,7 +56,7 @@ void IpcChannel::initializeSharedMemory() {
         throw RuntimeException("Failed to create security descriptor");
     }
 
-    _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, _messageMaxSize, _sharedMemoryName);
+    _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, Constants::MessageMaxSize, Constants::SharedMemoryName);
 
     LocalFree(sa.lpSecurityDescriptor);
     if(_sharedMemoryMapping == NULL) {
@@ -55,7 +64,7 @@ void IpcChannel::initializeSharedMemory() {
         throw RuntimeException("Unable to initialize shared memory! " + std::to_string(error));
     }
 
-    _mapView = MapViewOfFile(_sharedMemoryMapping, FILE_MAP_ALL_ACCESS, 0, 0, _messageMaxSize);
+    _mapView = MapViewOfFile(_sharedMemoryMapping, FILE_MAP_ALL_ACCESS, 0, 0, Constants::MessageMaxSize);
 
     if(_mapView == NULL)
         throw RuntimeException("Unable to create shared memory map view");

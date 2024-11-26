@@ -1,6 +1,7 @@
 #pragma once
 
 #include "statuscode.h"
+#include <cstdint>
 
 namespace Necromancy::Messages::ASDump {
 
@@ -8,7 +9,7 @@ namespace Necromancy::Messages::ASDump {
 struct ASDumpStruct
 {
     float score;
-    int statsArraySize;
+    int32_t statsArraySize;
     float goldThreshold;
     float trafficChainMax;
     float largestMatch;
@@ -52,6 +53,8 @@ StatusCode Serialize(const ASDumpStruct& dump, byte** buffer);
  * \return StatusCode of operation
  */
 StatusCode SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize);
+
+StatusCode FastSerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize);
 
 /**
  * \brief Deserializes an \c ASDump object from given memory buffer to given ptr to object
