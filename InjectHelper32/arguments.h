@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <Windows.h>
 
-enum InjectorMode : uint16_t {
-    Inject = 0x692D, // -i
-    Unload = 0x752D  // -u
+enum InjectorMode : uint8_t {
+    Inject = 105, // -i
+    Unload = 117  // -u
 };
 
 struct InjectorArguments {
