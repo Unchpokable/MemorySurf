@@ -47,20 +47,20 @@ HkFunctions HkFunctions::setup() {
 
     auto result = new HkFunctions();
 
-    result->add(typeid(TrueCallChannelFn).name(),
-            DetourFindFunction("highpoly.dll", "?CallChannel@A3d_Channel@@UAEXXZ"))
-        .add(typeid(Aco_FloatChannel_GetFloat).name(),
+    result->add("TrueCallChannelFn",
+        DetourFindFunction("highpoly.dll", "?CallChannel@A3d_Channel@@UAEXXZ"))
+        .add("Aco_FloatChannel_GetFloat",
             DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll",
-                               "?GetFloat@Aco_FloatChannel@@UAEMXZ"))
-        .add(typeid(Aco_FloatChannel_GetDefaultFloat).name(),
+            "?GetFloat@Aco_FloatChannel@@UAEMXZ"))
+        .add("Aco_FloatChannel_GetDefaultFloat",
             DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll",
-                               "?GetDefaultFloat@Aco_FloatChannel@@UAEMXZ"))
-        .add(typeid(Aco_FloatChannel_SetFloat).name(),
+            "?GetDefaultFloat@Aco_FloatChannel@@UAEMXZ"))
+        .add("Aco_FloatChannel_SetFloat",
             DetourFindFunction("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll",
-                               "?SetFloat@Aco_FloatChannel@@UAEXM@Z"))
-        .add(typeid(Aco_ArrayTable_GetTable).name(),
+            "?SetFloat@Aco_FloatChannel@@UAEXM@Z"))
+        .add("Aco_ArrayTable_GetTable",
             DetourFindFunction("6918910A-F8BA-43C4-B8D4-CD6587D0F67C.dll",
-                               "?GetTable@Aco_Array_Table@@UAEPAVARRAY_TABLE_NEW@@XZ"));
+            "?GetTable@Aco_Array_Table@@UAEPAVARRAY_TABLE_NEW@@XZ"));
 
     _instance = result;
 
@@ -72,8 +72,8 @@ void HkFunctions::copyWithReferenceInc(const HkFunctions& other) {
     _functions = other._functions;
 }
 
-HkFunctions& HkFunctions::add(const std::string& key, const std::any& value) {
-    _functions.insert_or_assign(key, value);
+HkFunctions& HkFunctions::add(const std::string& key, void* func) {
+    _functions.insert_or_assign(key, func);
 
     return *this;
 }

@@ -2,7 +2,7 @@
 
 #include "windefprettify.h"
 
-class SharedMemoryReader final : QObject {
+class SharedMemoryReader final : public QObject {
     Q_OBJECT
 
 public:

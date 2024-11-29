@@ -122,7 +122,7 @@ void Necromancy::Setup(HMODULE thisDll) {
     g_necromancyEngine = new NecromancyEngine();
 
     g_trueCallChannelHook = new Detours::Hook<Detours::Unstable>();
-    auto callChannelStatus = g_trueCallChannelHook->unstableAttach(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>(), &HkTrueCallChannel);
+    auto callChannelStatus = g_trueCallChannelHook->unstableAttach(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), &HkTrueCallChannel);
 
     if(callChannelStatus == Detours::Status::DetourException) {
         throw RuntimeException("Critical exception during attaching TrueCallChannel hook");

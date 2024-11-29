@@ -21,22 +21,22 @@ public:
     static HkFunctions setup();
 
     template<typename Function>
-    Function get() const;
+    Function get(const std::string& name) const;
 
 private:
     void copyWithReferenceInc(const HkFunctions& other);
 
-    HkFunctions& add(const std::string& key, const std::any& value);
+    HkFunctions& add(const std::string& key, void* func);
 
     static int _referenceCount;
     static HkFunctions* _instance;
 
-    std::unordered_map<std::string, std::any> _functions;
+    std::unordered_map<std::string, void*> _functions;
 };
 
 template<typename Function>
-Function HkFunctions::get() const {
-    return std::any_cast<Function>(_functions.at(typeid(Function).name()));
+Function HkFunctions::get(const std::string& name) const {
+    return reinterpret_cast<Function>(_functions.at(name));
 }
 
 }
