@@ -3,7 +3,7 @@
 
 using namespace Necromancy;
 
-NecromancyEngine::NecromancyEngine() {
+NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
     _q3dFunctions = Detours::HkFunctions::setup();
     Initialize(&_dumped, 36); // todo: place here actual dumped array size
     //setupChannelReaders();
