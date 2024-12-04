@@ -24,11 +24,11 @@ private slots:
 
 private:
     void scanProcessesAndPopulateSelectionCombo();
+    void swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses);
     void checkAndAdjustAppPrivileges();
     QString locateReaderDll(const QString& targetFile = "NecromancyEngineV2.dll"); // todo: replace hardcode to LoaderProperties
 
-    QList<ProcessInfo*> listActiveProcesses();
-
     WinDllInjector* _injector;
+    QList<ProcessInfo*> _scannedProcesses;
     Ui::NecromancyLoaderWindowClass *ui;
 };

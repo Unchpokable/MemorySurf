@@ -4,6 +4,7 @@
 #include "processinfo.h"
 #include "windefprettify.h"
 #include "injector.h"
+#include "processutils.h"
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         : QMainWindow(parent), _injector(new WinDllInjector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
@@ -68,11 +69,11 @@ void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, con
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
     ui->gameProcCombo->clear();
 
-    auto scannedProcesses = listActiveProcesses();
+    swapScannedProcesses(ProcessUtils::listActiveProcesses());
 
     int audiosurfProcId = 0;
     int counter = 0;
-    for(auto proc : scannedProcesses) {
+    for(auto proc : _scannedProcesses) {
         // todo: default icons for unregistered application types
         auto iconPixmap = QPixmap::fromImage(proc->icon());
         QIcon icon(iconPixmap);
@@ -86,6 +87,20 @@ void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
     }
 
     ui->gameProcCombo->setCurrentIndex(audiosurfProcId);
+}
+
+void NecromancyLoaderWindow::swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses) {
+    if(!_scannedProcesses.isEmpty()) {
+        for(auto procInfo : _scannedProcesses) {
+            delete procInfo;
+        }
+    }
+
+    _scannedProcesses.clear();
+
+    for(auto procInfo : newScannedProcesses) {
+        _scannedProcesses.append(procInfo);
+    }
 }
 
 void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
@@ -127,65 +142,4 @@ QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
     }
 
     return {};
-}
-
-QList<ProcessInfo *> NecromancyLoaderWindow::listActiveProcesses(){
-    QList<ProcessInfo*> processes;
-    static const QStringList systemProcesses = {
-        "system", "winlogon.exe", "csrss.exe", "svchost.exe", "services.exe"
-    };
-
-    WinHandle snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if(snapshot == INVALID_HANDLE_VALUE) {
-        return processes;
-    }
-
-    ProcessEntry32 procEntry32;
-    procEntry32.dwSize = sizeof(ProcessEntry32);
-
-    if(Process32First(snapshot, &procEntry32)) {
-        do {
-            WinHandle proc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, procEntry32.th32ProcessID);
-            if(!proc)
-                continue;
-
-            WinDword sessionId = 0;
-            if(ProcessIdToSessionId(procEntry32.th32ProcessID, &sessionId) && sessionId == 0) {
-                CloseHandle(proc);
-                continue;
-            }
-
-            wchar_t procPath[MAX_PATH] = { 0 };
-            WinDword size(MAX_PATH);
-            if(QueryFullProcessImageName(proc, 0, procPath, &size)) {
-                wchar_t systemRootBuffer[MAX_PATH] = { 0 };
-                size_t size = 0;
-                _wgetenv_s(&size, systemRootBuffer, MAX_PATH, L"SystemRoot");
-
-                QString systemRoot = QString::fromWCharArray(systemRootBuffer).replace("/", "\\");
-                QString path = QString::fromWCharArray(procPath);
-
-                if(path.startsWith(systemRoot + "\\System32", Qt::CaseInsensitive) ||
-                    path.startsWith(systemRoot + "\\SysWOW64", Qt::CaseInsensitive)) {
-                    CloseHandle(proc);
-                    continue;
-                }
-            }
-
-            QString procName = QString::fromWCharArray(procEntry32.szExeFile).toLower();
-            if(systemProcesses.contains(procName)) {
-                CloseHandle(proc);
-                continue;
-            }
-
-            auto procInfo = new ProcessInfo(this);
-            procInfo->set_processId(procEntry32.th32ProcessID);
-            procInfo->setProcessName(procName);
-
-            processes.append(procInfo);
-        } while(Process32Next(snapshot, &procEntry32));
-    }
-
-    CloseHandle(snapshot);
-    return processes;
 }

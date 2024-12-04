@@ -2,10 +2,12 @@
 
 #include "windefprettify.h"
 
+class ProcessInfo;
+
 class ProcessUtils final {
     ProcessUtils() = delete;
     ~ProcessUtils() = delete;
 
 public:
-    static WinDword getProcessId(const std::wstring& procName);
+    static QList<ProcessInfo*> listActiveProcesses();
 };
