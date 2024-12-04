@@ -4,19 +4,19 @@
 
 using namespace Necromancy::Messages;
 
-StatusCode ASDump::Serialize(const ASDumpStruct& dump, byte** buffer) {
+StatusCode ASDump::SafeSerialize(const ASDumpStruct& dump, byte** buffer) {
     if(!buffer) return StatusCode::ErrorCausedWrongData;
 
     auto localBuffer = new byte[ASDumpMessageSize];
     std::memset(localBuffer, 0, ASDumpMessageSize);
 
-    SerializeDirect(dump, localBuffer, ASDumpMessageSize);
+    FieldwiseSerialize(dump, localBuffer, ASDumpMessageSize);
 
     *buffer = localBuffer;
     return StatusCode::Ok;
 }
 
-StatusCode ASDump::SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
+StatusCode ASDump::FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
     if(bufferSize < ASDumpMessageSize) {
         return StatusCode::ErrorCausedWrongData;
     }
@@ -100,7 +100,7 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
     return StatusCode::Ok;
 }
 
-StatusCode ASDump::FastSerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
+StatusCode ASDump::BlockwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
     if(bufferSize < ASDumpMessageSize) {
         return StatusCode::ErrorCausedWrongData;
     }

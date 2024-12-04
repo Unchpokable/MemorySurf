@@ -42,7 +42,7 @@ constexpr ptrdiff_t ASDump_StatsArrayFieldSize = sizeof(ASDumpStruct::statsArray
  * \param buffer pointer-to-pointer to buffer which given dump should be serialized. This buffer will be reassigned by buffer allocated \c Serialize function
  * \return StatusCode of operation
  */
-StatusCode Serialize(const ASDumpStruct& dump, byte** buffer);
+StatusCode SafeSerialize(const ASDumpStruct& dump, byte** buffer);
 
 /**
  * \brief Serializes an \c ASDump object to given memory buffer using linear and byte-to-byte field bytes layout.
@@ -52,9 +52,17 @@ StatusCode Serialize(const ASDumpStruct& dump, byte** buffer);
  * \param bufferSize size (in bytes) of given buffer. Be sure that this value is an actual size of given buffer to avoid UB
  * \return StatusCode of operation
  */
-StatusCode SerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize);
+StatusCode FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize);
 
-StatusCode FastSerializeDirect(const ASDumpStruct& dump, byte* buffer, size_t bufferSize);
+/**
+ * \brief Serialized an \c ASDumpStruct object to given memory buffer using copying-block-by-block strategy. It means that all fields which insensitive
+ * to application architecture and placed one-by-one in memory will by copied by single memory block and then array will be copied by solid block
+ * \param dump object to be serialized
+ * \param buffer buffer which given dump should be serialized. This function will write data directly to this buffer
+ * \param bufferSize size (in bytes) of given buffer. Be sure that this value is an actual size of given buffer to avoid UB
+ * \return StatusCode of operation
+ */
+StatusCode BlockwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize);
 
 /**
  * \brief Deserializes an \c ASDump object from given memory buffer to given ptr to object
