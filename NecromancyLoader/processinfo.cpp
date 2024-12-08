@@ -13,9 +13,6 @@ QString ProcessInfo::processName() {
 
 void ProcessInfo::setProcessName(const QString& processName) {
     _processName = processName;
-    if(_processId == 0) {
-        _processId = ProcessUtils::getProcessId(processName.toStdWString());
-    } 
     loadProcessIcon();
 }
 
@@ -36,7 +33,7 @@ WinIconHandle ProcessInfo::getNativeProcIcon() const {
     WinDword procId = _processId;
     WinHandle procHandle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, procId);
 
-    wchar_t path[MAX_PATH];
+    char path[MAX_PATH];
     WinDword size = MAX_PATH;
     if(QueryFullProcessImageName(procHandle, 0, path, &size)) {
         CloseHandle(procHandle);

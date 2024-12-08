@@ -56,12 +56,13 @@ HRESULT Necromancy::InitDirect3D() {
     windowClass.hCursor = NULL;
     windowClass.hbrBackground = NULL;
     windowClass.lpszMenuName = NULL;
-    windowClass.lpszClassName = L"Necromancy";
+    windowClass.lpszClassName = "NecrWnd";
     windowClass.hIconSm = NULL;
 
     ::RegisterClassEx(&windowClass);
 
-    HWND window = ::CreateWindow(windowClass.lpszClassName, L"Necromancy___", WS_OVERLAPPEDWINDOW, 0, 0, 100, 100, NULL, NULL, windowClass.hInstance, NULL);
+    HWND window = ::CreateWindow(windowClass.lpszClassName, "NecromancyDxHookDummyWindow", WS_OVERLAPPEDWINDOW, 0, 0, 100, 100, NULL, NULL, windowClass.hInstance, NULL);
+
 
     D3DPRESENT_PARAMETERS params;
     params.BackBufferWidth = 0;
@@ -79,9 +80,10 @@ HRESULT Necromancy::InitDirect3D() {
     params.FullScreen_RefreshRateInHz = 0;
     params.PresentationInterval = 0;
 
-    auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_NULLREF, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_DISABLE_DRIVER_MANAGEMENT, &params, &pDevice);
+    auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_NULLREF, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &params, &pDevice);
 
-    if(FAILED(result) || !pDevice) {
+    if(result < 0) {
+        pD3D->Release();
         ::DestroyWindow(window);
         ::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
         return E_FAIL;
@@ -97,7 +99,7 @@ HRESULT Necromancy::InitDirect3D() {
         delete g_endSceneHook;
     }
 
-    g_endSceneHook = new Detours::Hook(endScene, &HkEndScene_DumpMemory);
+    g_endSceneHook = new Detours::Hook(endScene, HkEndScene_DumpMemory);
     if(auto status = g_endSceneHook->attach(); status == Detours::Status::DetourException) {
         throw RuntimeException("Critical exception during attaching endScene hook");
     }
@@ -120,7 +122,7 @@ void Necromancy::Setup(HMODULE thisDll) {
     g_this = thisDll;
 
     g_necromancyEngine = new NecromancyEngine();
-    g_trueCallChannelHook = new Detours::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), &HkTrueCallChannel);
+    g_trueCallChannelHook = new Detours::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), HkTrueCallChannel);
     auto callChannelStatus = g_trueCallChannelHook->attach();
 
     if(callChannelStatus == Detours::Status::DetourException) {

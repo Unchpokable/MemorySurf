@@ -28,7 +28,7 @@ QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
                 continue;
             }
 
-            wchar_t procPath[MAX_PATH] = { 0 };
+            char procPath[MAX_PATH] = { 0 };
             WinDword size(MAX_PATH);
             if(QueryFullProcessImageName(proc, 0, procPath, &size)) {
                 wchar_t systemRootBuffer[MAX_PATH] = { 0 };
@@ -36,7 +36,7 @@ QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
                 _wgetenv_s(&size, systemRootBuffer, MAX_PATH, L"SystemRoot");
 
                 QString systemRoot = QString::fromWCharArray(systemRootBuffer).replace("/", "\\");
-                QString path = QString::fromWCharArray(procPath);
+                QString path = QString::fromLatin1(procPath);
 
                 if(path.startsWith(systemRoot + "\\System32", Qt::CaseInsensitive) ||
                     path.startsWith(systemRoot + "\\SysWOW64", Qt::CaseInsensitive)) {
@@ -45,7 +45,7 @@ QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
                 }
             }
 
-            QString procName = QString::fromWCharArray(procEntry32.szExeFile).toLower();
+            QString procName = QString::fromLatin1(procEntry32.szExeFile).toLower();
             if(systemProcesses.contains(procName)) {
                 CloseHandle(proc);
                 continue;

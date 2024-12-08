@@ -24,13 +24,13 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
 #ifdef _DEBUG
-        MessageBox(NULL, L"Im in!", L"Hello from Necromancy", MB_OK | MB_ICONINFORMATION);
+        MessageBox(NULL, "Im in!", "Hello from Necromancy", MB_OK | MB_ICONINFORMATION);
 #endif
         try
         {
         Necromancy::Setup(hModule);
         } catch (const RuntimeException &ex) {
-            MessageBox(NULL, ConvertToLPCWSTR(ex.what()), L"exception text", MB_OK | MB_ICONINFORMATION);
+            MessageBox(NULL, ex.what(), "exception text", MB_OK | MB_ICONINFORMATION);
         }
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
