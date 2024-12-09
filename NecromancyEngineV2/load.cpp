@@ -45,54 +45,25 @@ HRESULT Necromancy::InitDirect3D() {
 
     LPDIRECT3DDEVICE9 pDevice = nullptr;
 
-    WNDCLASSEX windowClass;
-    windowClass.cbSize = sizeof(WNDCLASSEX);
-    windowClass.style = CS_HREDRAW | CS_VREDRAW;
-    windowClass.lpfnWndProc = DefWindowProc;
-    windowClass.cbClsExtra = 0;
-    windowClass.cbWndExtra = 0;
-    windowClass.hInstance = GetModuleHandle(NULL);
-    windowClass.hIcon = NULL;
-    windowClass.hCursor = NULL;
-    windowClass.hbrBackground = NULL;
-    windowClass.lpszMenuName = NULL;
-    windowClass.lpszClassName = "NecrWnd";
-    windowClass.hIconSm = NULL;
+    auto window = GetProcWindow();
 
-    ::RegisterClassEx(&windowClass);
-
-    HWND window = ::CreateWindow(windowClass.lpszClassName, "NecromancyDxHookDummyWindow", WS_OVERLAPPEDWINDOW, 0, 0, 100, 100, NULL, NULL, windowClass.hInstance, NULL);
-
-
-    D3DPRESENT_PARAMETERS params;
-    params.BackBufferWidth = 0;
-    params.BackBufferHeight = 0;
-    params.BackBufferFormat = D3DFMT_UNKNOWN;
-    params.BackBufferCount = 0;
-    params.MultiSampleType = D3DMULTISAMPLE_NONE;
-    params.MultiSampleQuality = NULL;
+    D3DPRESENT_PARAMETERS params = {};
+    params.Windowed = false;
     params.SwapEffect = D3DSWAPEFFECT_DISCARD;
     params.hDeviceWindow = window;
-    params.Windowed = 1;
-    params.EnableAutoDepthStencil = 0;
-    params.AutoDepthStencilFormat = D3DFMT_UNKNOWN;
-    params.Flags = NULL;
-    params.FullScreen_RefreshRateInHz = 0;
-    params.PresentationInterval = 0;
 
-    auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_NULLREF, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &params, &pDevice);
+    auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &params, &pDevice);
 
-    if(result < 0) {
-        pD3D->Release();
-        ::DestroyWindow(window);
-        ::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
-        return E_FAIL;
+    if(FAILED(result) || !pDevice) {
+        params.Windowed = !params.Windowed;
+        result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &params, &pDevice);
+        if(FAILED(result) || !pDevice) {
+            pD3D->Release();
+            return E_FAIL;
+        }
     }
 
     void** vTable = *reinterpret_cast<void***>(pDevice);
-    ::DestroyWindow(window);
-    ::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
-
     auto endScene = reinterpret_cast<DirectXEndScene>(vTable[DirectX_EndSceneOffset]);
     if(g_endSceneHook != nullptr) {
         g_endSceneHook->detach();
@@ -104,7 +75,30 @@ HRESULT Necromancy::InitDirect3D() {
         throw RuntimeException("Critical exception during attaching endScene hook");
     }
 
+    pDevice->Release();
+    pD3D->Release();
+
     return 0;
+}
+
+HWND Necromancy::GetProcWindow() {
+    HWND mainWindow = nullptr;
+    EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&mainWindow));
+    return mainWindow;
+}
+
+BOOL CALLBACK Necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
+    DWORD processId = 0;
+    GetWindowThreadProcessId(hwnd, &processId);
+
+    if(processId == GetCurrentProcessId()) {
+        if(IsWindowVisible(hwnd)) {
+            HWND* targetHwnd = reinterpret_cast<HWND*>(lparam);
+            *targetHwnd = hwnd;
+            return FALSE;
+        }
+    }
+    return TRUE;
 }
 
 void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
@@ -139,5 +133,11 @@ void Necromancy::Setup(HMODULE thisDll) {
         throw RuntimeException("Unable to attach hook to DirectX EndScene");
     }
 
+}
+
+DWORD __stdcall Necromancy::Main(LPVOID lpThreadParameter) {
+    Setup((HMODULE)lpThreadParameter);
+
+    return TRUE;
 }
 

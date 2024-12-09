@@ -26,12 +26,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 #ifdef _DEBUG
         MessageBox(NULL, "Im in!", "Hello from Necromancy", MB_OK | MB_ICONINFORMATION);
 #endif
-        try
-        {
-        Necromancy::Setup(hModule);
-        } catch (const RuntimeException &ex) {
-            MessageBox(NULL, ex.what(), "exception text", MB_OK | MB_ICONINFORMATION);
-        }
+        CreateThread(nullptr, 0, Necromancy::Main, hModule, 0, nullptr);
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
