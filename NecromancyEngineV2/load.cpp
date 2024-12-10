@@ -37,6 +37,20 @@ HRESULT __stdcall Necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
     return g_endSceneHook->original<DirectXEndScene>()(device);
 }
 
+void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
+    if(g_necromancyEngine->engineInterface() == nullptr) {
+        g_necromancyEngine->setQ3DEngineInterface(self->engine);
+        g_necromancyEngine->setupChannelReaders();
+        g_trueCallChannelHook->detach();
+        if(g_endSceneHook->attach() != Detours::Status::Ok) {
+            throw std::runtime_error("Unable to attach hook to EndScene");
+        }
+        return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
+    }
+
+    return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
+}
+
 HRESULT Necromancy::InitDirect3D() {
     IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -71,9 +85,6 @@ HRESULT Necromancy::InitDirect3D() {
     }
 
     g_endSceneHook = new Detours::Hook(endScene, HkEndScene_DumpMemory);
-    if(auto status = g_endSceneHook->attach(); status == Detours::Status::DetourException) {
-        throw RuntimeException("Critical exception during attaching endScene hook");
-    }
 
     pDevice->Release();
     pD3D->Release();
@@ -99,17 +110,6 @@ BOOL CALLBACK Necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
         }
     }
     return TRUE;
-}
-
-void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
-    if(g_necromancyEngine->engineInterface() == nullptr) {
-        g_necromancyEngine->setQ3DEngineInterface(self->engine);
-        g_necromancyEngine->setupChannelReaders();
-        g_trueCallChannelHook->detach();
-        return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
-    }
-
-    return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
 }
 
 void Necromancy::Setup(HMODULE thisDll) {
