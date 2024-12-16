@@ -4,7 +4,7 @@
 #include "q3dfloatreader.h"
 #include "vftableutils.hpp"
 
-#define VTABLE_INDEX(offset) (offset / sizeof(std::uintptr_t))
+#define VTABLE_INDEX(offset) ((offset) / sizeof(std::uintptr_t))
 
 namespace Necromancy::Memory {
 
