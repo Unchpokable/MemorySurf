@@ -5,6 +5,8 @@
 #include "hook.h"
 #include "taggedexception.hpp"
 
+#define UNUSED(x) (void)x;
+
 namespace {
 
 // constants
@@ -135,7 +137,21 @@ void Necromancy::Setup(HMODULE thisDll) {
 
 }
 
-DWORD __stdcall Necromancy::Main(LPVOID lpThreadParameter) {
+DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {
+    UNUSED(lpThreadParameter);
+
+    g_endSceneHook->detach();
+    delete g_endSceneHook;
+
+    g_trueCallChannelHook->detach();
+    delete g_trueCallChannelHook;
+
+    delete g_necromancyEngine;
+
+    FreeLibraryAndExitThread(g_this, S_OK);
+}
+
+DWORD WINAPI Necromancy::Main(LPVOID lpThreadParameter) {
     Setup((HMODULE)lpThreadParameter);
 
     return TRUE;

@@ -18,6 +18,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lparam);
 
 void Setup(HMODULE thisDll);
 
+DWORD WINAPI Unload(LPVOID lpThreadParameter);
 DWORD WINAPI Main(LPVOID lpThreadParameter);
 
 }

@@ -29,8 +29,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         CreateThread(nullptr, 0, Necromancy::Main, hModule, 0, nullptr);
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        // todo: restore process resources to prevent crashes
+        case DLL_PROCESS_DETACH:
+            CreateThread(nullptr, 0, Necromancy::Unload, nullptr, 0, nullptr);
         break;
     }
     return TRUE;
