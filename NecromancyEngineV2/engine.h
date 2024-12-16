@@ -2,9 +2,9 @@
 
 #include "hkfunctions.h"
 #include "ipcchannel.h"
-#include "q3dfloatreader.h"
 #include "q3darraytablereader.h"
-#include "../NecromancyMessages/messages.h"
+#include "q3dfloatreader.h"
+#include "NecromancyMessages/messages.h"
 
 namespace Necromancy {
 

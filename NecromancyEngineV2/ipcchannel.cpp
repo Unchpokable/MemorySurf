@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ipcchannel.h"
 #include "taggedexception.hpp"
-#include "../NecromancyMessages/messages.h"
+#include "NecromancyMessages/messages.h"
 
 using namespace Necromancy::Ipc;
 

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "sharedmemoryreader.h"
-#include "../NecromancyMessages/messages.h"
+#include "NecromancyMessages/messages.h"
 
 SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent) {
     _pollTimer = new QTimer(this);
