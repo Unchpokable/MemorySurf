@@ -4,10 +4,12 @@
 #include "q3dfloatreader.h"
 #include "vftableutils.hpp"
 
+#define VTABLE_INDEX(offset) (offset / sizeof(std::uintptr_t))
+
 namespace Necromancy::Memory {
 
-static constexpr ptrdiff_t ArrayTable_GetElementsVftableOffset = 8;
-static constexpr ptrdiff_t ArrayTable_GetElementAtVftableOffset = 4;
+static constexpr ptrdiff_t ArrayTable_GetElementsVftableIdx = VTABLE_INDEX(8);
+static constexpr ptrdiff_t ArrayTable_GetElementAtVftableIdx = VTABLE_INDEX(4);
 
 template<ValidPrimitiveReader InternalReader = Q3DFloatReader>
 class Q3DArrayTableReader final : Q3DChannelReader
@@ -40,7 +42,7 @@ template<ValidPrimitiveReader InternalReader>
 int Q3DArrayTableReader<InternalReader>::getElementsCount() const {
     auto table = getArrayTable();
 
-    return CallVTable<int, ArrayTable_GetElementCount>(table, ArrayTable_GetElementsVftableOffset, table);
+    return CallVTable<int, ArrayTable_GetElementCount>(table, ArrayTable_GetElementsVftableIdx, table);
 }
 
 template<ValidPrimitiveReader InternalReader>
@@ -53,7 +55,7 @@ std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
     auto table = getArrayTable();
 
     for(int i { 0 }; i < elementsCount; i++) {
-        data.push_back(CallVTable<void*, ArrayTable_GetElementAtIndex>(table, ArrayTable_GetElementAtVftableOffset, table, i));
+        data.push_back(CallVTable<void*, ArrayTable_GetElementAtIndex>(table, ArrayTable_GetElementAtVftableIdx, table, i));
     }
 
     return data;
@@ -73,7 +75,7 @@ typename Q3DArrayTableReader<InternalReader>::TypedVector Q3DArrayTableReader<In
 
 template<ValidPrimitiveReader InternalReader>
 void* Q3DArrayTableReader<InternalReader>::getArrayTable() const {
-    return _functions.get<Aco_ArrayTable_GetTable>()(_target);
+    return _functions.get<Aco_ArrayTable_GetTable>("Aco_ArrayTable_GetTable")(_target);
 }
 
 template<ValidPrimitiveReader InternalReader>
@@ -83,7 +85,7 @@ void Q3DArrayTableReader<InternalReader>::setupReaders() {
     auto itemsCount = getElementsCount();
 
     for(auto itemIdx : itemsCount) {
-        auto channel = CallVTable<void*, ArrayTable_GetElementAtIndex>(arrayTable, ArrayTable_GetElementAtVftableOffset, arrayTable, itemIdx);
+        auto channel = CallVTable<void*, ArrayTable_GetElementAtIndex>(arrayTable, ArrayTable_GetElementAtVftableIdx, arrayTable, itemIdx);
         _readers.insert_or_assign(itemIdx, new InternalReader(reinterpret_cast<A3d_Channel*>(channel)));
     }
 }
