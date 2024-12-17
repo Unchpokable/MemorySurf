@@ -23,6 +23,8 @@ public:
     void setupChannelReaders();
 
 private:
+    int getStatsCollectorIndex() const noexcept;
+
     const char* _largestMatchChannelName { "LargestMatch" };
     const char* _timerChannelName { "Timer" };
     const char* _maxChainLengthChannelName { "MaxChainLength" }; // inactive channel

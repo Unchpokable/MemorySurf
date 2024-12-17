@@ -119,15 +119,6 @@ void Necromancy::Setup(HMODULE thisDll) {
 
     g_necromancyEngine = new NecromancyEngine();
     g_trueCallChannelHook = new Detours::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), HkTrueCallChannel);
-    auto callChannelStatus = g_trueCallChannelHook->attach();
-
-    if(callChannelStatus == Detours::Status::DetourException) {
-        throw RuntimeException("Critical exception during attaching TrueCallChannel hook");
-    }
-
-    if(callChannelStatus == Detours::Status::InvalidHookMode) {
-        throw LogicException("Trying to hook with unstable attach using non-unstable hook mode");
-    }
 
     if(FAILED(InitDirect3D())) {
         g_trueCallChannelHook->detach();
@@ -135,6 +126,14 @@ void Necromancy::Setup(HMODULE thisDll) {
         throw RuntimeException("Unable to attach hook to DirectX EndScene");
     }
 
+    auto callChannelStatus = g_trueCallChannelHook->attach();
+    if(callChannelStatus == Detours::Status::DetourException) {
+        throw RuntimeException("Critical exception during attaching TrueCallChannel hook");
+    }
+
+    if(callChannelStatus == Detours::Status::InvalidHookMode) {
+        throw LogicException("Trying to hook with unstable attach using non-unstable hook mode");
+    }
 }
 
 DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {

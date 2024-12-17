@@ -3,6 +3,8 @@
 
 using namespace Necromancy;
 
+static constexpr const char* statsCollectorChannelGroup = "StatCollector";
+
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
     _q3dFunctions = Detours::HkFunctions::setup();
     Initialize(&_dumped, 36); // todo: place here actual dumped array size
@@ -39,7 +41,8 @@ const Detours::HkFunctions& NecromancyEngine::functions() const noexcept {
 }
 
 void NecromancyEngine::setupChannelReaders() {
-    auto statsGroup = _q3dEngineInterface->GetChannelGroup("StatCollector");
+    auto statsGroupIdx = getStatsCollectorIndex();
+    auto statsGroup = _q3dEngineInterface->GetChannelGroup(statsGroupIdx);
 
     auto stats = statsGroup->GetChannel(_statsChannelName);
     _statsTable = new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats);
@@ -52,4 +55,20 @@ void NecromancyEngine::setupChannelReaders() {
 
     auto timer = statsGroup->GetChannel(_timerChannelName);
     _floatChannels.insert_or_assign(_timerChannelName, new Memory::Q3DFloatReader(timer));
+}
+
+int NecromancyEngine::getStatsCollectorIndex() const noexcept {
+    constexpr auto maxChannelGroup = 1024;
+
+    auto getPoolNameFunc = _q3dFunctions.get<Typedefs::ChannelGroup_GetPoolName>("ChannelGroup_GetPoolName");
+
+    for(auto i { 0 }; i < maxChannelGroup; i++) {
+        auto channel = _q3dEngineInterface->GetChannelGroup(i);
+        auto poolName = getPoolNameFunc(channel);
+        if(std::strcmp(poolName, statsCollectorChannelGroup) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
 }
