@@ -35,7 +35,7 @@ private:
 
 template<ValidPrimitiveReader InternalReader>
 Q3DArrayTableReader<InternalReader>::Q3DArrayTableReader(A3d_Channel* target) : Q3DChannelReader(target) {
-    // empty
+    setupReaders();
 }
 
 template<ValidPrimitiveReader InternalReader>
@@ -63,7 +63,7 @@ std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
 
 template<ValidPrimitiveReader InternalReader>
 typename Q3DArrayTableReader<InternalReader>::TypedVector Q3DArrayTableReader<InternalReader>::getElementsTyped() const {
-    std::vector<InternalReaderData> result;
+    TypedVector result;
 
     for(const std::pair<int, InternalReader*>& channelReader : _readers) {
         auto reader = dynamic_cast<Q3DPrimitiveReader<InternalReaderData>*>(channelReader.second);
