@@ -61,7 +61,8 @@ HkFunctions HkFunctions::setup() {
         .add("Aco_ArrayTable_GetTable",
             DetourFindFunction("6918910A-F8BA-43C4-B8D4-CD6587D0F67C.dll",
             "?GetTable@Aco_Array_Table@@UAEPAVARRAY_TABLE_NEW@@XZ"))
-        .add("ChannelGroup_GetPoolName", DetourFindFunction("highpoly.dll", "?GetPoolName@A3d_ChannelGroup@@UAEPBDXZ"));
+        .add("ChannelGroup_GetPoolName", 
+            DetourFindFunction("highpoly.dll", "?GetPoolName@A3d_ChannelGroup@@UAEPBDXZ"));
 
     _instance = result;
 

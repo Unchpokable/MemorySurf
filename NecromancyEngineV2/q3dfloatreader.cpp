@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "q3dfloatreader.h"
 
 using namespace Necromancy::Memory;

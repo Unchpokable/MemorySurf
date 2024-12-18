@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "q3dchannelreader.h"
 
 using namespace Necromancy::Memory;
