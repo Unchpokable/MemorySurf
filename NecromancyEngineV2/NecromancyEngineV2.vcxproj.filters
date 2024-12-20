@@ -40,6 +40,12 @@
     <Filter Include="Source Files\log">
       <UniqueIdentifier>{91341c5f-0c8e-4d18-98f9-90f0be740695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\helpers">
+      <UniqueIdentifier>{a13a74e8-d4b6-4d9e-98bd-ff29c32bc142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\helpers">
+      <UniqueIdentifier>{7838364c-2e25-49da-ae01-f6a928aeea65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -87,6 +93,12 @@
     <ClInclude Include="logger.h">
       <Filter>Headers\log</Filter>
     </ClInclude>
+    <ClInclude Include="genericutils.h">
+      <Filter>Source Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Source Files\helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -124,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="logger.cpp">
       <Filter>Source Files\log</Filter>
+    </ClCompile>
+    <ClCompile Include="genericutils.cpp">
+      <Filter>Headers\helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

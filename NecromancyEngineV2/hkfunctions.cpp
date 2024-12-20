@@ -1,5 +1,7 @@
 #include "pch.h"
+
 #include "hkfunctions.h"
+#include "logger.h"
 
 using namespace Necromancy::Detours;
 
@@ -64,9 +66,15 @@ HkFunctions HkFunctions::setup() {
         .add("ChannelGroup_GetPoolName", 
             DetourFindFunction("highpoly.dll", "?GetPoolName@A3d_ChannelGroup@@UAEPBDXZ"));
 
+    Logger::logCondition([result]() { return result->allValid(); }, "Q3D Functions search", "Checking is all needed Quest3D functions was found");
+
     _instance = result;
 
     return *_instance;
+}
+
+bool HkFunctions::allValid() const noexcept {
+    return std::ranges::all_of(_functions, [](const std::pair<const std::string, void*> &pair) { return pair.second != nullptr; });
 }
 
 void HkFunctions::copyWithReferenceInc(const HkFunctions& other) {

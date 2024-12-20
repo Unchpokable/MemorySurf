@@ -23,6 +23,8 @@ public:
     template<typename Function>
     Function get(const std::string& name) const;
 
+    bool allValid() const noexcept;
+
 private:
     void copyWithReferenceInc(const HkFunctions& other);
 

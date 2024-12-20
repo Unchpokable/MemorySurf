@@ -1,15 +1,35 @@
 #include "pch.h"
 
 #include "logger.h"
+#include "version.h"
 
 const std::string Logger::LogFolder = "journal";
+
+std::string operator*(const std::string& str, int repeat) {
+    if(repeat <= 0) {
+        return "";
+    }
+
+    std::string result;
+    result.reserve(str.size() * repeat);
+    for(int i = 0; i < repeat; ++i) {
+        result += str;
+    }
+
+    return result;
+}
 
 // static functions
 
 void Logger::panic(const std::string& what, const std::string& details) {
     critical(what, details);
     forceWrite();
-    MessageBox(nullptr, details.c_str(), what.c_str(), MB_OK | MB_ICONERROR);
+
+    std::stringstream panicMessage;
+
+    panicMessage << "what happened: " << what << "\n Details: " << details;
+
+    MessageBox(nullptr, panicMessage.str().c_str(), "MemorySurf has stopped working due to critical error!", MB_OK | MB_ICONERROR);
 }
 
 void Logger::critical(const std::string &what, const std::string &details) {
@@ -49,6 +69,18 @@ Logger::Logger(): _bufferSize(10) {
     if(!std::filesystem::exists(LogFolder)) {
         std::filesystem::create_directory(LogFolder);
     }
+
+    std::stringstream initMessage;
+    initMessage << std::string("=") * 15 << "\n";
+    initMessage << "MemorySurf logs session\n";
+    initMessage << "'MemorySurf' Memory Reader runs on NecromancyEngine v2. Author : unchpokable\n";
+    initMessage << "contact author: https://github.com/Unchpokable\n";
+    initMessage << "build: " << completeVersion;
+    initMessage << std::string("=") * 15 << "\n";
+
+    std::ofstream log(currentLogFile(), std::ios::app);
+    log << initMessage.str();
+    log.close();
 }
 
 Logger::~Logger() {

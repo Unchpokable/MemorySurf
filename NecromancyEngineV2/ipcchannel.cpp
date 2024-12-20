@@ -1,5 +1,8 @@
 #include "pch.h"
+
 #include "ipcchannel.h"
+#include "load.h"
+#include "logger.h"
 #include "taggedexception.hpp"
 #include "NecromancyMessages/messages.h"
 
@@ -43,8 +46,10 @@ void IpcChannel::initializeSharedMemory() {
     mutexSa.bInheritHandle = FALSE;
 
     _mutex = CreateMutex(&mutexSa, false, Constants::MutexName);
-    if(_mutex == NULL)
-        throw RuntimeException("Can not create mutex");
+    if(_mutex == NULL) {
+        Logger::panic("Memory", "Unable to create mutex");
+        Unload(nullptr);
+    }
 
     const wchar_t* sddl = L"D:(A;OICI;GA;;;WD)";
 
@@ -53,7 +58,8 @@ void IpcChannel::initializeSharedMemory() {
     sa.bInheritHandle = TRUE;
 
     if(!ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl, SDDL_REVISION_1, &sa.lpSecurityDescriptor, NULL)) {
-        throw RuntimeException("Failed to create security descriptor");
+        Logger::panic("Memory", "Error during converting SDDL");
+        Unload(nullptr);
     }
 
     _sharedMemoryMapping = CreateFileMapping(INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0, Constants::MessageMaxSize, Constants::SharedMemoryName);
@@ -61,11 +67,14 @@ void IpcChannel::initializeSharedMemory() {
     LocalFree(sa.lpSecurityDescriptor);
     if(_sharedMemoryMapping == NULL) {
         auto error = GetLastError();
-        throw RuntimeException("Unable to initialize shared memory! " + std::to_string(error));
+        Logger::panic("Memory", "Unable to initialize shared memory! GetLastError code: " + std::to_string(error));
+        Unload(nullptr);
     }
 
     _mapView = MapViewOfFile(_sharedMemoryMapping, FILE_MAP_ALL_ACCESS, 0, 0, Constants::MessageMaxSize);
 
-    if(_mapView == NULL)
-        throw RuntimeException("Unable to create shared memory map view");
+    if(_mapView == NULL) {
+        Logger::panic("Memory", "Unable to create shared memory map view");
+        Unload(nullptr);
+    }
 }

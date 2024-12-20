@@ -1,6 +1,8 @@
 #include "pch.h"
 
 #include "engine.h"
+#include "logger.h"
+#include "genericutils.h"
 
 using namespace Necromancy;
 
@@ -44,16 +46,23 @@ void NecromancyEngine::setupChannelReaders() {
     auto statsGroupIdx = getStatsCollectorIndex();
     auto statsGroup = _q3dEngineInterface->GetChannelGroup(statsGroupIdx);
 
+    Logger::logCondition(notNull(statsGroup), "Stats ChannelGroup not null");
+
     auto stats = statsGroup->GetChannel(_statsChannelName);
+    Logger::logCondition(notNull(statsGroup), "Stats table available");
     _statsTable = new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats);
 
+
     auto points = statsGroup->GetChannel(_scoreChannelName);
+    Logger::logCondition(notNull(points), "points table available");
     _floatChannels.insert_or_assign(_scoreChannelName, new Memory::Q3DFloatReader(points));
 
     auto largestMatch = statsGroup->GetChannel(_largestMatchChannelName);
+    Logger::logCondition(notNull(largestMatch), "largest match available");
     _floatChannels.insert_or_assign(_largestMatchChannelName, new Memory::Q3DFloatReader(largestMatch));
 
     auto timer = statsGroup->GetChannel(_timerChannelName);
+    Logger::logCondition(notNull(timer), "timer available");
     _floatChannels.insert_or_assign(_timerChannelName, new Memory::Q3DFloatReader(timer));
 }
 
