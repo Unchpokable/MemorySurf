@@ -34,6 +34,12 @@
     <Filter Include="Headers\exceptions">
       <UniqueIdentifier>{a4064b59-b398-49c2-9a1a-2e49e7ba82e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\log">
+      <UniqueIdentifier>{16612526-d69e-4dbf-b3c2-23a56fa40056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\log">
+      <UniqueIdentifier>{91341c5f-0c8e-4d18-98f9-90f0be740695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -78,6 +84,9 @@
     <ClInclude Include="q3dprimitivereader.h">
       <Filter>Headers\memory</Filter>
     </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Headers\log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -112,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="ipcchannel.cpp">
       <Filter>Source Files\ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>Source Files\log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -178,6 +178,7 @@
     <ClInclude Include="hook.h" />
     <ClInclude Include="ipcchannel.h" />
     <ClInclude Include="load.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="q3dprimitivereader.h" />
     <ClInclude Include="q3darraytablereader.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="hook.cpp" />
     <ClCompile Include="ipcchannel.cpp" />
     <ClCompile Include="load.cpp" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

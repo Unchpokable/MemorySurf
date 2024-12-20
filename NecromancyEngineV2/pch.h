@@ -9,6 +9,10 @@
 #include <exception>
 #include <stdexcept>
 #include <chrono>
+#include <mutex>
+#include <sstream>
+#include <fstream>
+#include <filesystem>
 
 #include <sddl.h>
 

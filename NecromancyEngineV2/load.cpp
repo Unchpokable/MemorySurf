@@ -4,6 +4,7 @@
 
 #include "hook.h"
 #include "taggedexception.hpp"
+#include "logger.h"
 
 #define UNUSED(x) (void)x;
 
@@ -45,8 +46,11 @@ void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
         g_necromancyEngine->setupChannelReaders();
         g_trueCallChannelHook->detach();
         if(g_endSceneHook->attach() != Detours::Status::Ok) {
-            throw std::runtime_error("Unable to attach hook to EndScene");
+            Logger::panic("Hooks", "Attaching hook to DirectX EndScene failed - load.cpp:HkTrueCallChannel");
+            Unload(nullptr);
         }
+
+        Logger::info("Setup step 2 of 2 - hook EndScene succeeded");
         return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
     }
 
@@ -56,8 +60,10 @@ void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
 HRESULT Necromancy::InitDirect3D() {
     IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
-    if(!pD3D)
+    if(!pD3D) {
+        Logger::critical("Environment", "Unable to initialize Direct3D 9 context");
         return E_FAIL;
+    }
 
     LPDIRECT3DDEVICE9 pDevice = nullptr;
 
@@ -71,10 +77,13 @@ HRESULT Necromancy::InitDirect3D() {
     auto result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &params, &pDevice);
 
     if(FAILED(result) || !pDevice) {
+        Logger::critical("Environment", "Unable to create DirectX device - load.cpp:InitDirect3D. Trying alternative parameters...");
+
         params.Windowed = !params.Windowed;
         result = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &params, &pDevice);
         if(FAILED(result) || !pDevice) {
             pD3D->Release();
+            Logger::critical("Environment", "Unable to create DirectX device - load.cpp:InitDirect3D");
             return E_FAIL;
         }
     }
@@ -90,6 +99,8 @@ HRESULT Necromancy::InitDirect3D() {
 
     pDevice->Release();
     pD3D->Release();
+
+    Logger::info("DirectX environment initialized");
 
     return 0;
 }
@@ -121,19 +132,17 @@ void Necromancy::Setup(HMODULE thisDll) {
     g_trueCallChannelHook = new Detours::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), HkTrueCallChannel);
 
     if(FAILED(InitDirect3D())) {
-        g_trueCallChannelHook->detach();
-        FreeLibrary(g_this);
-        throw RuntimeException("Unable to attach hook to DirectX EndScene");
+        Logger::panic("DirectX", "Failed to initialize DirectX environment. Hook setup failed");
+        Unload(nullptr);
     }
 
     auto callChannelStatus = g_trueCallChannelHook->attach();
     if(callChannelStatus == Detours::Status::DetourException) {
-        throw RuntimeException("Critical exception during attaching TrueCallChannel hook");
+        Logger::panic("Hooks", "Critical exception during attaching TrueCallChannel hook");
+        Unload(nullptr);
     }
 
-    if(callChannelStatus == Detours::Status::InvalidHookMode) {
-        throw LogicException("Trying to hook with unstable attach using non-unstable hook mode");
-    }
+    Logger::info("Setup step 1 of 2 succeeded");
 }
 
 DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {
@@ -147,11 +156,15 @@ DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {
 
     delete g_necromancyEngine;
 
+    Logger::info("Shutting down");
     FreeLibraryAndExitThread(g_this, S_OK);
 }
 
 DWORD WINAPI Necromancy::Main(LPVOID lpThreadParameter) {
     Setup((HMODULE)lpThreadParameter);
+
+    Logger::enableBuffering();
+    Logger::setBufferSize(3);
 
     return TRUE;
 }
