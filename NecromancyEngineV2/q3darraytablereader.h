@@ -84,7 +84,7 @@ void Q3DArrayTableReader<InternalReader>::setupReaders() {
 
     auto itemsCount = getElementsCount();
 
-    for(auto itemIdx : itemsCount) {
+    for(auto itemIdx { 0 }; itemIdx < itemsCount; itemIdx++) {
         auto channel = CallVTable<void*, ArrayTable_GetElementAtIndex>(arrayTable, ArrayTable_GetElementAtVftableIdx, arrayTable, itemIdx);
         _readers.insert_or_assign(itemIdx, new InternalReader(reinterpret_cast<A3d_Channel*>(channel)));
     }

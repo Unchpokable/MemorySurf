@@ -70,10 +70,10 @@
 #define BUILD_MIN   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_MIN)
 #define BUILD_SEC   ((BUILD_TIME_IS_BAD) ? 99 :  COMPUTE_BUILD_SEC)
 
-constexpr const char VERSION_MAJOR_INIT = '1';
-constexpr const char VERSION_MINOR_INIT = '4';
+constexpr const char VERSION_MAJOR_INIT = '0';
+constexpr const char VERSION_MINOR_INIT = '1';
 
-constexpr const std::string completeVersion = std::string() +
+const std::string completeVersion = std::string() +
 VERSION_MAJOR_INIT + '.' +
 VERSION_MINOR_INIT + "-V-" +
 TOSTRING(BUILD_YEAR) + '-' +
