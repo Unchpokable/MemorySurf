@@ -3,6 +3,8 @@
 #include "statuscode.h"
 #include <cstdint>
 
+#include "constants.h"
+
 namespace Necromancy::Messages::ASDump {
 
 #pragma pack(push, 1)
@@ -18,7 +20,7 @@ struct ASDumpStruct
 };
 #pragma pack(pop)
 
-constexpr size_t ASDumpMessageSize = 128; // bytes
+constexpr size_t ASDumpMessageSize = Constants::MessageMaxSize; // bytes
 constexpr ptrdiff_t ASDump_ScoreFieldOffset = offsetof(ASDumpStruct, score);
 constexpr ptrdiff_t ASDump_StatsArraySizeFieldOffset = offsetof(ASDumpStruct, statsArraySize);
 constexpr ptrdiff_t ASDump_GoldThresholdFieldOffset = offsetof(ASDumpStruct, goldThreshold);

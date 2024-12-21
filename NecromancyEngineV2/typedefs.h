@@ -18,7 +18,9 @@ using Aco_FloatChannel_GetDefaultFloat = float(__thiscall*)(void* self);
 using Aco_FloatChannel_SetFloat = void(__thiscall*)(void* self, float value);
 using Aco_ArrayTable_GetTable = void*(__thiscall*)(void* self);
 
-using ArrayTable_GetElementCount = int(__thiscall*)(void*);
-using ArrayTable_GetElementAtIndex = void*(__thiscall*)(void*, int);
+using ArrayTable_GetElementCount = int(__thiscall*)(void*); // int Aco_ArrayTable::GetRowsCount() or smth
+using ArrayTable_GetElementAtIndex = void*(__thiscall*)(void*, int); // void* Aco_ArrayTable::GetRow(int idx) or smth
+
+using A3d_List_GetItem = void*(__thiscall*)(void*, int); // void* A3d_List::GetItem(int idx);
 
 }
