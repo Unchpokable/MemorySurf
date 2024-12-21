@@ -77,4 +77,6 @@ void IpcChannel::initializeSharedMemory() {
         Logger::panic("Memory", "Unable to create shared memory map view");
         Unload(nullptr);
     }
+
+    Logger::info("IPC Channel initialized");
 }
