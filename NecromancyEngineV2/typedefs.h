@@ -6,6 +6,9 @@ namespace Necromancy::Typedefs {
 //    void __fastcall HkTrueCallChannel(A3d_Channel* self, DWORD edx);
 
 using ChannelGroup_GetPoolName = const char*(__thiscall*)(A3d_ChannelGroup*);
+using ChannelGroup_GetChannel = A3d_Channel*(__thiscall*)(A3d_ChannelGroup*, int);
+
+using Channel_GetChannelName = const char*(__thiscall*)(A3d_Channel*);
 
 using TrueCallChannelFn = void(__thiscall*)(A3d_Channel* self);
 using A3d_Channel_TrueCallChannel = void(__thiscall*)(A3d_Channel* self);

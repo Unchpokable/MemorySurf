@@ -29,7 +29,7 @@ void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool fl
 
     auto code = BlockwiseSerialize(data, static_cast<byte*>(_mapView), Constants::MessageMaxSize);
     if(code != Messages::StatusCode::Ok) {
-        throw RuntimeException("Exception during serializing scanned data into buffer");
+        Logger::panic("IPC Buffer", "Exception during serializing scanned data into buffer");
     }
 
     ReleaseMutex(_mutex);

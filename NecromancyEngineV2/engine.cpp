@@ -48,22 +48,24 @@ void NecromancyEngine::setupChannelReaders() {
 
     Logger::logCondition(notNull(statsGroup), "Stats ChannelGroup not null");
 
-    auto stats = statsGroup->GetChannel(_statsChannelName);
-    Logger::logCondition(notNull(statsGroup), "Stats table available");
+    auto stats = findChannelNamed(_statsChannelName, statsGroup);
+    Logger::logCondition(notNull(stats), "Stats table available");
     _statsTable = new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats);
 
 
-    auto points = statsGroup->GetChannel(_scoreChannelName);
+    auto points = findChannelNamed(_scoreChannelName, statsGroup);
     Logger::logCondition(notNull(points), "points table available");
     _floatChannels.insert_or_assign(_scoreChannelName, new Memory::Q3DFloatReader(points));
 
-    auto largestMatch = statsGroup->GetChannel(_largestMatchChannelName);
+    auto largestMatch = findChannelNamed(_largestMatchChannelName, statsGroup);
     Logger::logCondition(notNull(largestMatch), "largest match available");
     _floatChannels.insert_or_assign(_largestMatchChannelName, new Memory::Q3DFloatReader(largestMatch));
 
-    auto timer = statsGroup->GetChannel(_timerChannelName);
+    auto timer = findChannelNamed(_timerChannelName, statsGroup);
     Logger::logCondition(notNull(timer), "timer available");
     _floatChannels.insert_or_assign(_timerChannelName, new Memory::Q3DFloatReader(timer));
+
+    Logger::forceWrite();
 }
 
 int NecromancyEngine::getStatsCollectorIndex() const noexcept {
@@ -80,4 +82,21 @@ int NecromancyEngine::getStatsCollectorIndex() const noexcept {
     }
 
     return -1;
+}
+
+A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const {
+    constexpr auto maxChannel = 10'000;
+
+    auto getChannelByIndex = _q3dFunctions.get<Typedefs::ChannelGroup_GetChannel>("ChannelGroup_GetChannel");
+    auto getChannelName = _q3dFunctions.get<Typedefs::Channel_GetChannelName>("Channel_GetChannelName");
+
+    for(auto i { 0 }; i < maxChannel; i++) {
+        auto channel = getChannelByIndex(group, i);
+        auto channelName = getChannelName(channel);
+        if(std::strcmp(channelName, name.c_str()) == 0) {
+            return channel;
+        }
+    }
+
+    return nullptr;
 }

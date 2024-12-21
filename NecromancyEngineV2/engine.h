@@ -24,6 +24,7 @@ public:
 
 private:
     int getStatsCollectorIndex() const noexcept;
+    A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const;
 
     const char* _largestMatchChannelName { "LargestMatch" };
     const char* _timerChannelName { "Timer" };

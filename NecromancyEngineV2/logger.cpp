@@ -75,7 +75,7 @@ Logger::Logger(): _bufferSize(10) {
     initMessage << "MemorySurf logs session\n";
     initMessage << "'MemorySurf' Memory Reader runs on NecromancyEngine v2. Author : unchpokable\n";
     initMessage << "contact author: https://github.com/Unchpokable\n";
-    initMessage << "build: " << completeVersion;
+    initMessage << "build: " << completeVersion << "\n";
     initMessage << std::string("=") * 15 << "\n";
 
     std::ofstream log(currentLogFile(), std::ios::app);

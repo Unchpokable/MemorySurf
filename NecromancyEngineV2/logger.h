@@ -64,7 +64,7 @@ void Logger::logCondition(Cond condition, const std::string& shortDescription, c
 
     std::string fullMessage;
     if(result) {
-        fullMessage = std::string("COND CHECK") + "Condition OK: " + shortDescription + ", " + fullDescription;
+        fullMessage = "Condition OK: " + shortDescription + ", " + fullDescription;
         info(fullMessage);
     } else {
         fullMessage = "Condition FAIL: " + shortDescription + ", " + fullDescription;

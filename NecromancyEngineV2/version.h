@@ -73,12 +73,21 @@
 constexpr const char VERSION_MAJOR_INIT = '0';
 constexpr const char VERSION_MINOR_INIT = '1';
 
-const std::string completeVersion = std::string() +
-VERSION_MAJOR_INIT + '.' +
-VERSION_MINOR_INIT + "-V-" +
-TOSTRING(BUILD_YEAR) + '-' +
-(BUILD_MONTH < 10 ? "0" : "") + TOSTRING(BUILD_MONTH) + '-' +
-    (BUILD_DAY < 10 ? "0" : "") + TOSTRING(BUILD_DAY) + 'T' +
-    (BUILD_HOUR < 10 ? "0" : "") + TOSTRING(BUILD_HOUR) + ':' +
-    (BUILD_MIN < 10 ? "0" : "") + TOSTRING(BUILD_MIN) + ':' +
-    (BUILD_SEC < 10 ? "0" : "") + TOSTRING(BUILD_SEC);
+constexpr const char completeVersion[] = {
+    VERSION_MAJOR_INIT,
+    '.',
+    VERSION_MINOR_INIT,
+    '-', 'V', '-',
+    '0' + (BUILD_YEAR / 1000) % 10, '0' + (BUILD_YEAR / 100) % 10, '0' + (BUILD_YEAR / 10) % 10, '0' + (BUILD_YEAR % 10),
+    '-',
+    '0' + (BUILD_MONTH / 10) % 10, '0' + (BUILD_MONTH % 10),
+    '-',
+    '0' + (BUILD_DAY / 10) % 10, '0' + (BUILD_DAY % 10),
+    'T',
+    '0' + (BUILD_HOUR / 10) % 10, '0' + (BUILD_HOUR % 10),
+    ':',
+    '0' + (BUILD_MIN / 10) % 10, '0' + (BUILD_MIN % 10),
+    ':',
+    '0' + (BUILD_SEC / 10) % 10, '0' + (BUILD_SEC % 10),
+    '\0'
+};;
