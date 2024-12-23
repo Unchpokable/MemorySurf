@@ -70,7 +70,7 @@ HkFunctions HkFunctions::setup() {
         .add("ArrayConnectItem_GetRow",
             DetourFindFunction("2346A6DF-5942-4CB5-9908-E59CEC72841F.dll", "?GetRow@ArrayConnectItem@@UAEPAVRowItem@@H@Z"))
         .add("ArrayConnectItem_GetRowCount", 
-            DetourFindFunction("2346A6DF-5942-4CB5-9908-E59CEC72841F.dll", "?GetRowCount@ArrayConnectItem@@UAEHXZ"));
+            DetourFindFunction("2346A6DF-5942-4CB5-9908-E59CEC72841F.dll", "?GetRowCount@ArrayConnectItem@@UAEHXZ"))
         .add("ChannelGroup_GetChannel", 
             DetourFindFunction("highpoly.dll", "?GetChannel@A3d_ChannelGroup@@UAEPAVA3d_Channel@@H@Z"))
         .add("Channel_GetChannelName", 
