@@ -5,3 +5,7 @@ template<typename T>
 constexpr bool notNull(T* ptr) {
     return ptr != nullptr;
 }
+
+constexpr bool notNull(void* ptr) {
+    return ptr != nullptr;
+}

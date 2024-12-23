@@ -173,8 +173,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="arrayconnectiemreader.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
+    <ClInclude Include="globaldef.h" />
     <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
     <ClInclude Include="ipcchannel.h" />
@@ -192,6 +194,8 @@
     <ClInclude Include="vftableutils.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="arrayconnectiemreader.cpp" />
+    <ClCompile Include="arrayconnectitemreader.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="genericutils.cpp" />

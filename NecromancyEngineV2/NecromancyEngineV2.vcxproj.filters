@@ -22,9 +22,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Headers\memory">
-      <UniqueIdentifier>{8a9cd464-2db7-4018-a038-f6221e45b395}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headers\ipc">
       <UniqueIdentifier>{682eca3c-04a0-4cba-9e6e-d1b1ee78ad1f}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,9 @@
     </Filter>
     <Filter Include="Headers\helpers">
       <UniqueIdentifier>{7838364c-2e25-49da-ae01-f6a928aeea65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\memory">
+      <UniqueIdentifier>{8a9cd464-2db7-4018-a038-f6221e45b395}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,10 +94,16 @@
       <Filter>Headers\log</Filter>
     </ClInclude>
     <ClInclude Include="genericutils.h">
-      <Filter>Source Files\helpers</Filter>
+      <Filter>Headers\helpers</Filter>
     </ClInclude>
     <ClInclude Include="version.h">
-      <Filter>Source Files\helpers</Filter>
+      <Filter>Headers\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="globaldef.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="arrayconnectiemreader.h">
+      <Filter>Headers\memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +144,13 @@
       <Filter>Source Files\log</Filter>
     </ClCompile>
     <ClCompile Include="genericutils.cpp">
-      <Filter>Headers\helpers</Filter>
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="arrayconnectitemreader.cpp">
+      <Filter>Source Files\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="arrayconnectiemreader.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

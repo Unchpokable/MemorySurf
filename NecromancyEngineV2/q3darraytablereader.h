@@ -4,12 +4,12 @@
 #include "q3dfloatreader.h"
 #include "vftableutils.hpp"
 
-#define VTABLE_INDEX(offset) ((offset) / sizeof(std::uintptr_t))
+#include "globaldef.h"
 
 namespace Necromancy::Memory {
 
-static constexpr ptrdiff_t ArrayTable_GetElementsVftableIdx = VTABLE_INDEX(8);
-static constexpr ptrdiff_t ArrayTable_GetElementAtVftableIdx = VTABLE_INDEX(4);
+static constexpr ptrdiff_t ArrayTable_GetElementsVTableIdx = VTABLE_INDEX(8);
+static constexpr ptrdiff_t ArrayTable_GetElementAtVTableIdx = VTABLE_INDEX(4);
 
 template<ValidPrimitiveReader InternalReader = Q3DFloatReader>
 class Q3DArrayTableReader final : Q3DChannelReader
@@ -42,7 +42,7 @@ template<ValidPrimitiveReader InternalReader>
 int Q3DArrayTableReader<InternalReader>::getElementsCount() const {
     auto table = getArrayTable();
 
-    return CallVTable<int, ArrayTable_GetElementCount>(table, ArrayTable_GetElementsVftableIdx, table);
+    return CallVTable<int, ArrayTable_GetElementCount>(table, ArrayTable_GetElementsVTableIdx, table);
 }
 
 template<ValidPrimitiveReader InternalReader>
@@ -55,7 +55,7 @@ std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
     auto table = getArrayTable();
 
     for(int i { 0 }; i < elementsCount; i++) {
-        data.push_back(CallVTable<void*, ArrayTable_GetElementAtIndex>(table, ArrayTable_GetElementAtVftableIdx, table, i));
+        data.push_back(CallVTable<void*, ArrayTable_GetElementAtIndex>(table, ArrayTable_GetElementAtVTableIdx, table, i));
     }
 
     return data;
@@ -85,7 +85,7 @@ void Q3DArrayTableReader<InternalReader>::setupReaders() {
     auto itemsCount = getElementsCount();
 
     for(auto itemIdx { 0 }; itemIdx < itemsCount; itemIdx++) {
-        auto channel = CallVTable<void*, ArrayTable_GetElementAtIndex>(arrayTable, ArrayTable_GetElementAtVftableIdx, arrayTable, itemIdx);
+        auto channel = CallVTable<void*, ArrayTable_GetElementAtIndex>(arrayTable, ArrayTable_GetElementAtVTableIdx, arrayTable, itemIdx);
         _readers.insert_or_assign(itemIdx, new InternalReader(reinterpret_cast<A3d_Channel*>(channel)));
     }
 }

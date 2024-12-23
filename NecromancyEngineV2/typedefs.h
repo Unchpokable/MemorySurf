@@ -23,4 +23,12 @@ using ArrayTable_GetElementAtIndex = void*(__thiscall*)(void*, int); // void* Ac
 
 using A3d_List_GetItem = void*(__thiscall*)(void*, int); // void* A3d_List::GetItem(int idx);
 
+// array table internals
+
+// for now lets suppose that ArrayTable class working with something, called "ArrayConnectItem" so
+
+using ArrayConnectItem_GetRow = void*(__thiscall*)(void*, int); // todo: extract functions from quest3d
+using ArrayConnectItem_GetColumn = void*(__thiscall*)(void*); // lol GetColumn do not need an index pog wtf WHY
+using ArrayConnectItem_GetRowCount = int(__thiscall*)(void*);
+
 }
