@@ -176,7 +176,7 @@
     <ClInclude Include="arrayconnectiemreader.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
-    <ClInclude Include="globaldef.h" />
+    <ClInclude Include="vtabledef.h" />
     <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
     <ClInclude Include="ipcchannel.h" />

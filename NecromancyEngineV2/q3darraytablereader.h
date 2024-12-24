@@ -4,7 +4,7 @@
 #include "q3dfloatreader.h"
 #include "vftableutils.hpp"
 
-#include "globaldef.h"
+#include "vtabledef.h"
 
 namespace Necromancy::Memory {
 

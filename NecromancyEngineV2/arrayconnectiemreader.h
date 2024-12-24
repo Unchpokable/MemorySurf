@@ -1,6 +1,6 @@
 #pragma once
 
-#include "globaldef.h"
+#include "vtabledef.h"
 #include "hkfunctions.h"
 
 namespace Necromancy::Memory {

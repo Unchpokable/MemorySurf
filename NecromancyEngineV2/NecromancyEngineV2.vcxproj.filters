@@ -99,10 +99,10 @@
     <ClInclude Include="version.h">
       <Filter>Headers\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="globaldef.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="arrayconnectiemreader.h">
+      <Filter>Headers\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="vtabledef.h">
       <Filter>Headers\memory</Filter>
     </ClInclude>
   </ItemGroup>
