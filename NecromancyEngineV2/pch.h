@@ -13,6 +13,8 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <numeric>
+#include <ranges>
 
 #include <sddl.h>
 

@@ -176,6 +176,7 @@
     <ClInclude Include="arrayconnectiemreader.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
+    <ClInclude Include="tablelayoutpresenter.h" />
     <ClInclude Include="vtabledef.h" />
     <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="q3darraytablereader.cpp" />
     <ClCompile Include="q3dchannelreader.cpp" />
     <ClCompile Include="q3dfloatreader.cpp" />
+    <ClCompile Include="tablelayoutpresenter.cpp" />
     <ClCompile Include="taggedexception.cpp" />
   </ItemGroup>
   <ItemGroup>

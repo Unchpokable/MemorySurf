@@ -46,6 +46,12 @@
     <Filter Include="Headers\memory">
       <UniqueIdentifier>{8a9cd464-2db7-4018-a038-f6221e45b395}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\memory\internals">
+      <UniqueIdentifier>{d9e315bb-9793-4aab-bfb8-92741b4c5f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\memory\internals">
+      <UniqueIdentifier>{59c020da-dce3-452b-8862-9221ce3a5367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -105,6 +111,9 @@
     <ClInclude Include="vtabledef.h">
       <Filter>Headers\memory</Filter>
     </ClInclude>
+    <ClInclude Include="tablelayoutpresenter.h">
+      <Filter>Headers\memory\internals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -151,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="arrayconnectiemreader.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tablelayoutpresenter.cpp">
+      <Filter>Source Files\memory\internals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
