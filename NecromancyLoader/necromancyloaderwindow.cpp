@@ -13,6 +13,8 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     qRegisterMetaType<ProcessInfo>();
     qRegisterMetaType<ProcessInfo*>();
 
+    loadProperties();
+
     setWindowTitle("Necromancy Loader");
     checkAndAdjustAppPrivileges();
 
@@ -34,7 +36,7 @@ NecromancyLoaderWindow::~NecromancyLoaderWindow() {
     delete ui;
 }
 
-void NecromancyLoaderWindow::onInjectButtonPressed() {
+void NecromancyLoaderWindow::onInjectButtonPressed() const {
     auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
     _injector->setTargetProcPid(procInfo->processId());
 
@@ -42,13 +44,13 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
         return;
     }
 
-    auto fullDllPath = locateReaderDll();
+    auto fullDllPath = locateReaderDll(_properties->value("general/pluginDll").toString());
 
     _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
     _injector->inject();
 }
 
-void NecromancyLoaderWindow::onUnloadButtonPressed() {
+void NecromancyLoaderWindow::onUnloadButtonPressed() const {
     auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
     _injector->setTargetProcPid(procInfo->processId());
 
@@ -64,6 +66,10 @@ void NecromancyLoaderWindow::onUnloadButtonPressed() {
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
     ui->statusBar->showMessage(QString("Injector finished") + QString::number(exitCode) + "out: " + stdOut);
+}
+
+void NecromancyLoaderWindow::loadProperties() {
+    _properties = new QSettings("props.ini", QSettings::IniFormat);
 }
 
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
@@ -131,6 +137,9 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
     if(result == QMessageBox::Yes) {
         RaisePrivilegesToDebug();
     }
+}
+
+void NecromancyLoaderWindow::startWebSocketServer() const {
 }
 
 QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {

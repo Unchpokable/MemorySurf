@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include <QObject>
 #include <QWebSocket>
+#include <QWebSocketServer>
 #include <QList>
 #include <QString>
 #include <QMap>

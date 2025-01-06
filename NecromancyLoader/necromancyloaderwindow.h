@@ -15,20 +15,23 @@ class NecromancyLoaderWindow : public QMainWindow
 
 public:
     NecromancyLoaderWindow(QWidget *parent = nullptr);
-    ~NecromancyLoaderWindow();
+    virtual ~NecromancyLoaderWindow() override;
 
 private slots:
-    void onInjectButtonPressed();
-    void onUnloadButtonPressed();
+    void onInjectButtonPressed() const;
+    void onUnloadButtonPressed() const;
     void onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const;
 
 private:
+    void loadProperties();
     void scanProcessesAndPopulateSelectionCombo();
     void swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses);
     void checkAndAdjustAppPrivileges();
-    QString locateReaderDll(const QString& targetFile = "NecromancyEngineV2.dll"); // todo: replace hardcode to LoaderProperties
+    void startWebSocketServer() const;
+    static QString locateReaderDll(const QString& targetFile);
 
     WinDllInjector* _injector;
     QList<ProcessInfo*> _scannedProcesses;
     Ui::NecromancyLoaderWindowClass *ui;
+    QSettings* _properties;
 };

@@ -6,6 +6,7 @@ class SharedMemoryReader final : public QObject {
     Q_OBJECT
 
 public:
+    ///@brief Service message structure contains data buffer read from memory buffer from game
     struct Buffer {
         byte* data;
         std::size_t size;
@@ -17,6 +18,11 @@ public:
 
     SharedMemoryReader(QObject* parent = nullptr);
     virtual ~SharedMemoryReader() override = default;
+
+    SharedMemoryReader(const SharedMemoryReader&) = delete;
+    SharedMemoryReader(SharedMemoryReader&&) = delete;
+    SharedMemoryReader& operator=(const SharedMemoryReader&) = delete;
+    SharedMemoryReader& operator=(SharedMemoryReader&&) = delete;
 
     void enable() const;
     void disable() const;

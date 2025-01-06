@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='DebugDeploy|x64'">
     <QtDeploy>true</QtDeploy>
+    <QtModules>core</QtModules>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -134,6 +135,7 @@
     <ClCompile Include="processinfo.cpp" />
     <ClCompile Include="processutils.cpp" />
     <ClCompile Include="sharedmemoryreader.cpp" />
+    <ClCompile Include="websocketbroadcastserver.cpp" />
     <ClCompile Include="windefprettify.cpp" />
     <QtMoc Include="injector.h" />
     <ClInclude Include="privileges.h" />
@@ -142,6 +144,7 @@
     <ClInclude Include="processutils.h" />
     <ClInclude Include="propertymacro.h" />
     <QtMoc Include="sharedmemoryreader.h" />
+    <QtMoc Include="websocketbroadcastserver.h" />
     <ClInclude Include="windefprettify.h" />
     <QtRcc Include="necromancyloaderwindow.qrc" />
     <QtUic Include="necromancyloaderwindow.ui" />
