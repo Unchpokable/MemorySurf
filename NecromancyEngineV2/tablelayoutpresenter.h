@@ -68,10 +68,11 @@ std::vector<std::int32_t> TableLayout<Channel>::getBounding() const {
 
     auto columnCount = Memory::CallVTable<std::int32_t, Typedefs::ArrayTable_GetElementCount>(_arrayTable, ArrayTable_GetElementsVTableIdx, _arrayTable);
 
+    sizes.reserve(columnCount);
     for(auto i { 0 }; i < columnCount; i++) {
         auto column = Memory::CallVTable<void*, Typedefs::ArrayTable_GetElementAtIndex>(_arrayTable, ArrayTable_GetElementAtVTableIdx, _arrayTable, i);
         auto rowCount = getRowCountFunc(column);
-        sizes[i] = rowCount;
+        sizes.push_back(rowCount);
     }
 
     return sizes;
