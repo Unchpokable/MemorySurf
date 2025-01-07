@@ -18,9 +18,9 @@ public:
     virtual ~NecromancyLoaderWindow() override;
 
 private slots:
-    void onInjectButtonPressed() const;
-    void onUnloadButtonPressed() const;
+    void onInjectButtonPressed();
     void onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const;
+    void onSendingRateChanged(int value);
 
 private:
     void loadProperties();
@@ -34,4 +34,11 @@ private:
     QList<ProcessInfo*> _scannedProcesses;
     Ui::NecromancyLoaderWindowClass *ui;
     QSettings* _properties;
+
+    // toggle states
+    bool _pluginLoaded;
+    bool _serverRunning;
+
+    // sending rate configurations
+    bool _immediateSendingRateWasReached;
 };

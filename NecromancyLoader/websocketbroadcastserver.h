@@ -3,6 +3,7 @@
 #include <QObject>
 
 #include "sharedmemoryreader.h"
+#include "propertymacro.h"
 
 class WebSocketBroadcastServer final : public QObject {
     Q_OBJECT
@@ -15,15 +16,23 @@ public:
 
     void updatePort(qint16 port);
 
+    AUTO_PROPERTY(int, packetSkip)
+
 private slots:
     void messageAcquired(const SharedMemoryReader::Buffer& byteData);
     void onPendingConnection();
 
 private:
+    static const QString _defaultServerName;
     static QString makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData);
     bool start() const;
+
+    // server
 
     QWebSocketServer* _server;
     QSet<QWebSocket*> _clients;
     qint16 _port;
+
+    //
+    int _currentPacketSkipCount;
 };

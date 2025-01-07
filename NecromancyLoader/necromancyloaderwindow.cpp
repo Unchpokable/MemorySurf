@@ -27,16 +27,20 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     });
 
     connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onInjectButtonPressed);
-    connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onUnloadButtonPressed);
 
     connect(_injector, &WinDllInjector::injectorExited, this, &NecromancyLoaderWindow::onInternalInjectorProcessFinished);
+
+    connect(ui->sendingRateSlider, &QSlider::valueChanged, this, &NecromancyLoaderWindow::onSendingRateChanged);
+
+    ui->sendingRateSlider->setValue(ui->sendingRateSlider->minimum());
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
     delete ui;
 }
 
-void NecromancyLoaderWindow::onInjectButtonPressed() const {
+void NecromancyLoaderWindow::onInjectButtonPressed()
+{
     auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
     _injector->setTargetProcPid(procInfo->processId());
 
@@ -47,25 +51,35 @@ void NecromancyLoaderWindow::onInjectButtonPressed() const {
     auto fullDllPath = locateReaderDll(_properties->value("general/pluginDll").toString());
 
     _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
-    _injector->inject();
-}
 
-void NecromancyLoaderWindow::onUnloadButtonPressed() const {
-    auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
-    _injector->setTargetProcPid(procInfo->processId());
-
-    if(!_injector->hasTargetLoadedLibrary()) {
-        return;
+    if(!_pluginLoaded) {
+        _injector->inject();
+        _pluginLoaded = true;
+        ui->loadButton->setText("Unload");
+    } else {
+        _injector->free();
+        _pluginLoaded = false;
+        ui->loadButton->setText("Load");
     }
-
-    auto fullDllPath = locateReaderDll();
-
-    _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
-    _injector->free();
 }
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
     ui->statusBar->showMessage(QString("Injector finished") + QString::number(exitCode) + "out: " + stdOut);
+}
+
+void NecromancyLoaderWindow::onSendingRateChanged(int value) {
+    if(value == ui->sendingRateSlider->minimum()) {
+        ui->leftSendingRateSpeedLabel->setText("Immediate");
+        _immediateSendingRateWasReached = true;
+        // todo: configure WebSocketServer delays
+        return;
+    }
+
+    // todo: configure WebSocketServer
+
+    if(_immediateSendingRateWasReached) { // if this flag is set and we get there it only means that new value is not maximum
+        ui->leftSendingRateSpeedLabel->setText("Faster");
+    }
 }
 
 void NecromancyLoaderWindow::loadProperties() {
@@ -76,7 +90,6 @@ void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
     ui->gameProcCombo->clear();
 
     swapScannedProcesses(ProcessUtils::listActiveProcesses());
-
     int audiosurfProcId = 0;
     int counter = 0;
     for(auto proc : _scannedProcesses) {

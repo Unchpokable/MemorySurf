@@ -1,18 +1,19 @@
 #include "pch.h"
 
 #include "websocketbroadcastserver.h"
-
-#include "NecromancyMessages/asdump.h"
 #include "NecromancyMessages/messages.h"
 
+const QString WebSocketBroadcastServer::_defaultServerName = "MemorySurf broadcast server";
+
 WebSocketBroadcastServer::WebSocketBroadcastServer(QObject *parent, qint16 port)
-    : QObject(parent), _server(new QWebSocketServer("MemorySurf broadcast server", QWebSocketServer::NonSecureMode, this)), _port(port) {
+    : QObject(parent), _server(new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode, this)), _port(port) {
     (void)start(); // todo: process if server not started
     connect(_server, &QWebSocketServer::newConnection, this, &WebSocketBroadcastServer::onPendingConnection);
 }
 
 WebSocketBroadcastServer::~WebSocketBroadcastServer() {
     _server->close();
+    delete _server;
 }
 
 void WebSocketBroadcastServer::updatePort(qint16 port) {
@@ -21,7 +22,7 @@ void WebSocketBroadcastServer::updatePort(qint16 port) {
     }
     delete _server;
 
-    _server = new QWebSocketServer("MemorySurf broadcast server", QWebSocketServer::NonSecureMode);
+    _server = new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode);
     if(!_server->listen(QHostAddress::Any, port)) {
         throw std::runtime_error("Unable to run the server");
     }
@@ -29,6 +30,12 @@ void WebSocketBroadcastServer::updatePort(qint16 port) {
 }
 
 void WebSocketBroadcastServer::messageAcquired(const SharedMemoryReader::Buffer& byteData) {
+    _currentPacketSkipCount++;
+    if(_currentPacketSkipCount <= _packetSkip) {
+        return;
+    }
+
+    _currentPacketSkipCount = 0;
     auto json = makeJsonFromRawData(byteData);
 
     for(auto client : _clients) {
@@ -47,7 +54,7 @@ void WebSocketBroadcastServer::onPendingConnection() {
     _clients.insert(client);
     connect(client, &QWebSocket::disconnected, this, [this, client]() {
         _clients.remove(client);
-        client->deleteLater;
+        client->deleteLater();
     });
 }
 

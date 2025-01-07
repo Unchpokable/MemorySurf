@@ -3,12 +3,12 @@
 #include "windefprettify.h"
 #include "processhelper.h"
 
-#pragma comment(lib, "ntdll.lib")
-
 class WinDllInjector final : public QObject {
     Q_OBJECT
 
 public:
+    Q_DISABLE_COPY_MOVE(WinDllInjector)
+
     WinDllInjector(QObject* parent);
     virtual ~WinDllInjector() override = default;
 
