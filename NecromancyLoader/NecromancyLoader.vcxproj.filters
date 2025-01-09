@@ -48,6 +48,12 @@
     <Filter Include="Source Files\ipc">
       <UniqueIdentifier>{9b4f2198-838a-4483-b490-6e075290346f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ui">
+      <UniqueIdentifier>{3bb5c3e0-c12c-4dfc-bc5d-cef29fd7cfde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui">
+      <UniqueIdentifier>{8091a27e-abfe-4392-aec1-b72b166532d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="necromancyloaderwindow.qrc">
@@ -106,6 +112,12 @@
     <ClCompile Include="websocketbroadcastserver.cpp">
       <Filter>Source Files\socketbroadcast</Filter>
     </ClCompile>
+    <ClCompile Include="draghandler.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="draghandler.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windefprettify.h">
@@ -144,6 +156,9 @@
     </QtMoc>
     <QtMoc Include="websocketbroadcastserver.h">
       <Filter>Header Files\socketbroadcast</Filter>
+    </QtMoc>
+    <QtMoc Include="draghandler.h">
+      <Filter>Header Files\ui</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

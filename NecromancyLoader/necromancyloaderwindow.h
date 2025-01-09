@@ -4,7 +4,12 @@
 #include "ui_necromancyloaderwindow.h"
 #include "processinfo.h"
 
+#include <set>
+
 class WinDllInjector;
+class WebSocketBroadcastServer;
+class DragHandler;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class NecromancyLoaderWindowClass; };
 QT_END_NAMESPACE
@@ -22,23 +27,49 @@ private slots:
     void onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const;
     void onSendingRateChanged(int value);
 
+    // ui validation
+    void onPortEntered() const;
+    void onPortValidationTimer() const;
+
 private:
+    // generic statics
+    static QString locateReaderDll(const QString& targetFile);
+
+    // ui validation implementation
+    static bool isPortAllowed(qint16 port);
+    inline static constexpr qint16 _defaultPort = 20080;
+    inline static constexpr qint16 _forbiddenSystemPorts = 1024;
+    static std::set<qint16> _forbiddenExternalPorts;
+
+    void freezeServerStartUiComponents() const;
+    void unfreezeServerStartUiComponent() const;
+
+    // generic functions
     void loadProperties();
     void scanProcessesAndPopulateSelectionCombo();
     void swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses);
     void checkAndAdjustAppPrivileges();
-    void startWebSocketServer() const;
-    static QString locateReaderDll(const QString& targetFile);
+    void startWebSocketServer();
 
+    // ui validation fields
+    QTimer* _portEntryValidationTimer;
+
+    // ui dragging
+    DragHandler* _dragHandler;
+
+    // generic data
     WinDllInjector* _injector;
     QList<ProcessInfo*> _scannedProcesses;
     Ui::NecromancyLoaderWindowClass *ui;
     QSettings* _properties;
+
+    // websocket
+    WebSocketBroadcastServer* _server;
 
     // toggle states
     bool _pluginLoaded;
     bool _serverRunning;
 
     // sending rate configurations
-    bool _immediateSendingRateWasReached;
+    bool _immediateSendingRateWasReached { true }; // immediate mode is default
 };

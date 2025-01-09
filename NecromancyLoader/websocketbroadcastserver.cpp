@@ -7,7 +7,6 @@ const QString WebSocketBroadcastServer::_defaultServerName = "MemorySurf broadca
 
 WebSocketBroadcastServer::WebSocketBroadcastServer(QObject *parent, qint16 port)
     : QObject(parent), _server(new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode, this)), _port(port) {
-    (void)start(); // todo: process if server not started
     connect(_server, &QWebSocketServer::newConnection, this, &WebSocketBroadcastServer::onPendingConnection);
 }
 
@@ -23,19 +22,20 @@ void WebSocketBroadcastServer::updatePort(qint16 port) {
     delete _server;
 
     _server = new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode);
-    if(!_server->listen(QHostAddress::Any, port)) {
+    if(!_server->listen(QHostAddress::LocalHost, port)) {
         throw std::runtime_error("Unable to run the server");
     }
     _port = port;
 }
 
 void WebSocketBroadcastServer::messageAcquired(const SharedMemoryReader::Buffer& byteData) {
-    _currentPacketSkipCount++;
-    if(_currentPacketSkipCount <= _packetSkip) {
-        return;
+    if(static_cast<bool>(_packetSkip)) {
+        _currentPacketSkipCount++;
+        if(_currentPacketSkipCount <= _packetSkip) {
+            return;
+        }
     }
 
-    _currentPacketSkipCount = 0;
     auto json = makeJsonFromRawData(byteData);
 
     for(auto client : _clients) {
@@ -59,7 +59,7 @@ void WebSocketBroadcastServer::onPendingConnection() {
 }
 
 bool WebSocketBroadcastServer::start() const {
-    return _server->listen(QHostAddress::Any, _port);
+    return _server->listen(QHostAddress::LocalHost, _port);
 }
 
 QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData) {

@@ -18,6 +18,8 @@ public:
 
     AUTO_PROPERTY(int, packetSkip)
 
+    bool start() const;
+
 private slots:
     void messageAcquired(const SharedMemoryReader::Buffer& byteData);
     void onPendingConnection();
@@ -25,7 +27,6 @@ private slots:
 private:
     static const QString _defaultServerName;
     static QString makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData);
-    bool start() const;
 
     // server
 

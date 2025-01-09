@@ -92,7 +92,7 @@
   </ItemDefinitionGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='DebugDeploy|x64'">
     <QtDeploy>true</QtDeploy>
-    <QtModules>core</QtModules>
+    <QtModules>core;gui;widgets</QtModules>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -133,6 +133,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="draghandler.cpp" />
     <ClCompile Include="injector.cpp" />
     <ClCompile Include="privileges.cpp" />
     <ClCompile Include="processhelper.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="websocketbroadcastserver.cpp" />
     <ClCompile Include="windefprettify.cpp" />
     <QtMoc Include="injector.h" />
+    <QtMoc Include="draghandler.h" />
     <ClInclude Include="privileges.h" />
     <QtMoc Include="processinfo.h" />
     <QtMoc Include="processhelper.h" />

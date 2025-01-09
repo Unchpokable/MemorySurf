@@ -1,10 +1,44 @@
 #include "pch.h"
+
 #include "necromancyloaderwindow.h"
+#include "draghandler.h"
+
 #include "privileges.h"
 #include "processinfo.h"
 #include "windefprettify.h"
 #include "injector.h"
 #include "processutils.h"
+#include "websocketbroadcastserver.h"
+
+std::set<qint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
+    1080,  // SOCKS Proxy
+    1433,  // Microsoft SQL Server
+    1521,  // Oracle DB
+    1723,  // PPTP VPN
+    1883,  // MQTT
+    2049,  // NFS
+    2181,  // Zookeeper
+    2379,  // etcd
+    2380,  // etcd (peer communication)
+    2480,  // OrientDB
+    3306,  // MySQL
+    3389,  // RDP
+    3690,  // Subversion
+    4369,  // RabbitMQ/Erlang
+    5000,  // Flask Development Server / UPnP
+    5432,  // PostgreSQL
+    5672,  // RabbitMQ
+    6379,  // Redis
+    8000,  // HTTP (Development servers)
+    8080,  // HTTP (Alternative)
+    8443,  // HTTPS (Alternative)
+    9000,  // SonarQube
+    9092,  // Kafka
+    9200,  // Elasticsearch
+    9300,  // Elasticsearch (Transport)
+    11211, // Memcached
+    27017, // MongoDB
+};
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         : QMainWindow(parent), _injector(new WinDllInjector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
@@ -12,6 +46,9 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
 
     qRegisterMetaType<ProcessInfo>();
     qRegisterMetaType<ProcessInfo*>();
+
+    _portEntryValidationTimer = new QTimer(this);
+    _portEntryValidationTimer->setSingleShot(true);
 
     loadProperties();
 
@@ -32,15 +69,23 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
 
     connect(ui->sendingRateSlider, &QSlider::valueChanged, this, &NecromancyLoaderWindow::onSendingRateChanged);
 
+    connect(ui->webSocketPortEntry, &QLineEdit::textChanged, this, &NecromancyLoaderWindow::onPortEntered);
+    connect(_portEntryValidationTimer, &QTimer::timeout, this, &NecromancyLoaderWindow::onPortValidationTimer);
     ui->sendingRateSlider->setValue(ui->sendingRateSlider->minimum());
+
+    _dragHandler = new DragHandler(this);
+
+    ui->centralWidget->installEventFilter(_dragHandler);
+
+    _server = new WebSocketBroadcastServer(this, _defaultPort);
+    ui->customHeader->setProperty("IsTopBar", true);
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
     delete ui;
 }
 
-void NecromancyLoaderWindow::onInjectButtonPressed()
-{
+void NecromancyLoaderWindow::onInjectButtonPressed() {
     auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
     _injector->setTargetProcPid(procInfo->processId());
 
@@ -71,15 +116,41 @@ void NecromancyLoaderWindow::onSendingRateChanged(int value) {
     if(value == ui->sendingRateSlider->minimum()) {
         ui->leftSendingRateSpeedLabel->setText("Immediate");
         _immediateSendingRateWasReached = true;
-        // todo: configure WebSocketServer delays
         return;
     }
-
-    // todo: configure WebSocketServer
 
     if(_immediateSendingRateWasReached) { // if this flag is set and we get there it only means that new value is not maximum
         ui->leftSendingRateSpeedLabel->setText("Faster");
     }
+}
+
+void NecromancyLoaderWindow::onPortEntered() const {
+    _portEntryValidationTimer->start();
+}
+
+void NecromancyLoaderWindow::onPortValidationTimer() const {
+    auto port = ui->webSocketPortEntry->text().toInt();
+    if(port > std::numeric_limits<qint16>::max()) {
+        freezeServerStartUiComponents();
+    }
+
+    auto allowed = isPortAllowed(static_cast<qint16>(port));
+
+    if(!allowed) {
+        freezeServerStartUiComponents();
+    } else {
+        unfreezeServerStartUiComponent();
+    }
+}
+
+void NecromancyLoaderWindow::freezeServerStartUiComponents() const {
+    ui->startServerButton->setEnabled(false);
+    ui->webSocketPortEntry->setProperty("validationState", "invalid");
+}
+
+void NecromancyLoaderWindow::unfreezeServerStartUiComponent() const {
+    ui->startServerButton->setEnabled(true);
+    ui->webSocketPortEntry->setProperty("validationState", "invalid");
 }
 
 void NecromancyLoaderWindow::loadProperties() {
@@ -126,7 +197,7 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
     WinHandle token;
     if(!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
         QMessageBox::warning(this, "Application rights warning", "You launched NecromancyLoader not as admin. "
-                                        "This may cause some errors, instability or total malfunctioning of software. Please, re-run application as admin");
+            "This may cause some errors, instability or total malfunctioning of software. Please, re-run application as admin");
         return;
     }
 
@@ -152,7 +223,21 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
     }
 }
 
-void NecromancyLoaderWindow::startWebSocketServer() const {
+void NecromancyLoaderWindow::startWebSocketServer() {
+    qint16 port { _defaultPort };
+    if(!ui->webSocketPortEntry->text().isEmpty()) {
+        port = ui->webSocketPortEntry->text().toInt();
+    }
+
+    _server = new WebSocketBroadcastServer(this, port);
+    _server->set_packetSkip(ui->sendingRateSlider->value());
+    auto serverStarted = _server->start();
+
+    if(!serverStarted) {
+        delete _server;
+        QMessageBox::warning(this, "Server boot error", 
+            "Server can't start with current parameters. Mostly it may be caused by wrong port number. Please, change port to any unused value and try again");
+    }
 }
 
 QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
@@ -164,4 +249,12 @@ QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
     }
 
     return {};
+}
+
+bool NecromancyLoaderWindow::isPortAllowed(qint16 port) {
+    if(port < _forbiddenSystemPorts) {
+        return false;
+    }
+
+    return _forbiddenExternalPorts.find(port) == _forbiddenExternalPorts.end();
 }
