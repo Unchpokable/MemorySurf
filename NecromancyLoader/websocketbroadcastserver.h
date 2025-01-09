@@ -14,9 +14,9 @@ public:
 
     Q_DISABLE_COPY_MOVE(WebSocketBroadcastServer)
 
-    void updatePort(quint16 port);
-
     AUTO_PROPERTY(int, packetSkip)
+
+    void updatePort(quint16 port);
 
     bool start() const;
 
