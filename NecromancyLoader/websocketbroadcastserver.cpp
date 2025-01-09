@@ -5,7 +5,7 @@
 
 const QString WebSocketBroadcastServer::_defaultServerName = "MemorySurf broadcast server";
 
-WebSocketBroadcastServer::WebSocketBroadcastServer(QObject *parent, qint16 port)
+WebSocketBroadcastServer::WebSocketBroadcastServer(QObject *parent, quint16 port)
     : QObject(parent), _server(new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode, this)), _port(port) {
     connect(_server, &QWebSocketServer::newConnection, this, &WebSocketBroadcastServer::onPendingConnection);
 }
@@ -15,7 +15,7 @@ WebSocketBroadcastServer::~WebSocketBroadcastServer() {
     delete _server;
 }
 
-void WebSocketBroadcastServer::updatePort(qint16 port) {
+void WebSocketBroadcastServer::updatePort(quint16 port) {
     if(_server->isListening()) {
         _server->close();
     }

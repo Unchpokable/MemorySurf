@@ -10,7 +10,7 @@
 #include "processutils.h"
 #include "websocketbroadcastserver.h"
 
-std::set<qint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
+std::set<quint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
     1080,  // SOCKS Proxy
     1433,  // Microsoft SQL Server
     1521,  // Oracle DB
@@ -38,6 +38,7 @@ std::set<qint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
     9300,  // Elasticsearch (Transport)
     11211, // Memcached
     27017, // MongoDB
+    50051, // gRPC
 };
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
@@ -130,11 +131,11 @@ void NecromancyLoaderWindow::onPortEntered() const {
 
 void NecromancyLoaderWindow::onPortValidationTimer() const {
     auto port = ui->webSocketPortEntry->text().toInt();
-    if(port > std::numeric_limits<qint16>::max()) {
+    if(port > std::numeric_limits<quint16>::max()) {
         freezeServerStartUiComponents();
     }
 
-    auto allowed = isPortAllowed(static_cast<qint16>(port));
+    auto allowed = isPortAllowed(static_cast<quint16>(port));
 
     if(!allowed) {
         freezeServerStartUiComponents();
@@ -224,7 +225,7 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
 }
 
 void NecromancyLoaderWindow::startWebSocketServer() {
-    qint16 port { _defaultPort };
+    quint16 port { _defaultPort };
     if(!ui->webSocketPortEntry->text().isEmpty()) {
         port = ui->webSocketPortEntry->text().toInt();
     }
@@ -251,7 +252,7 @@ QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
     return {};
 }
 
-bool NecromancyLoaderWindow::isPortAllowed(qint16 port) {
+bool NecromancyLoaderWindow::isPortAllowed(quint16 port) {
     if(port < _forbiddenSystemPorts) {
         return false;
     }

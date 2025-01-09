@@ -36,10 +36,10 @@ private:
     static QString locateReaderDll(const QString& targetFile);
 
     // ui validation implementation
-    static bool isPortAllowed(qint16 port);
-    inline static constexpr qint16 _defaultPort = 20080;
-    inline static constexpr qint16 _forbiddenSystemPorts = 1024;
-    static std::set<qint16> _forbiddenExternalPorts;
+    static bool isPortAllowed(quint16 port);
+    inline static constexpr quint16 _defaultPort = 20080;
+    inline static constexpr quint16 _forbiddenSystemPorts = 1024;
+    static std::set<quint16> _forbiddenExternalPorts;
 
     void freezeServerStartUiComponents() const;
     void unfreezeServerStartUiComponent() const;

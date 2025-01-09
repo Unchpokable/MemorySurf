@@ -9,12 +9,12 @@ class WebSocketBroadcastServer final : public QObject {
     Q_OBJECT
 
 public:
-    WebSocketBroadcastServer(QObject* parent, qint16 port);
+    WebSocketBroadcastServer(QObject* parent, quint16 port);
     virtual ~WebSocketBroadcastServer() override;
 
     Q_DISABLE_COPY_MOVE(WebSocketBroadcastServer)
 
-    void updatePort(qint16 port);
+    void updatePort(quint16 port);
 
     AUTO_PROPERTY(int, packetSkip)
 
@@ -32,7 +32,7 @@ private:
 
     QWebSocketServer* _server;
     QSet<QWebSocket*> _clients;
-    qint16 _port;
+    quint16 _port;
 
     //
     int _currentPacketSkipCount;
