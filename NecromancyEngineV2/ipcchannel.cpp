@@ -3,7 +3,6 @@
 #include "ipcchannel.h"
 #include "load.h"
 #include "logger.h"
-#include "taggedexception.hpp"
 #include "NecromancyMessages/messages.h"
 
 using namespace Necromancy::Ipc;
