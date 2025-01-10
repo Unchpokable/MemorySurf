@@ -105,7 +105,7 @@
     <ClInclude Include="version.h">
       <Filter>Headers\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="arrayconnectiemreader.h">
+    <ClInclude Include="arrayconnectitemreader.h">
       <Filter>Headers\memory</Filter>
     </ClInclude>
     <ClInclude Include="vtabledef.h">
@@ -157,9 +157,6 @@
     </ClCompile>
     <ClCompile Include="arrayconnectitemreader.cpp">
       <Filter>Source Files\memory</Filter>
-    </ClCompile>
-    <ClCompile Include="arrayconnectiemreader.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tablelayoutpresenter.cpp">
       <Filter>Source Files\memory\internals</Filter>

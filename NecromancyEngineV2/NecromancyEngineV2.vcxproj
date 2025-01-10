@@ -173,7 +173,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="arrayconnectiemreader.h" />
+    <ClInclude Include="arrayconnectitemreader.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
     <ClInclude Include="tablelayoutpresenter.h" />
@@ -195,7 +195,6 @@
     <ClInclude Include="vftableutils.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="arrayconnectiemreader.cpp" />
     <ClCompile Include="arrayconnectitemreader.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="engine.cpp" />

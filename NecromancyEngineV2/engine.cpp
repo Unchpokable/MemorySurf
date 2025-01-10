@@ -19,6 +19,11 @@ NecromancyEngine::~NecromancyEngine() {
 
 void NecromancyEngine::dump() {
     auto stats = _statsTable->getElementsTyped();
+    if(static_cast<std::int32_t>(stats.size()) > _dumped.statsArraySize) {
+        Free(&_dumped);
+        Initialize(&_dumped, stats.size());
+    }
+
     std::memcpy(_dumped.statsArray, stats.data(), sizeof(float) * stats.size());
 
     _dumped.score = _floatChannels.at(_scoreChannelName)->get();
