@@ -17,6 +17,7 @@ public:
     virtual ~Q3DArrayTableReader() override = default;
 
     int getElementsCount() const;
+    std::vector<std::vector<void*>> getElementsColMajor() const;
     std::vector<void*> getElements() const;
 
     TypedVector getElementsTyped() const;
@@ -37,21 +38,29 @@ int Q3DArrayTableReader<InternalReader>::getElementsCount() const {
     return _table.getTotalSize();
 }
 
-///@brief extracts and returns ArrayTable elements using Row-Major table layout. Even if Quest3D Uses Col-Major notation, this function will invert it to Row-Major because Row-Major is more human
-template<ValidPrimitiveReader InternalReader>
-std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
-    std::vector<void*> data {};
-
+template <ValidPrimitiveReader InternalReader>
+std::vector<std::vector<void*>> Q3DArrayTableReader<InternalReader>::getElementsColMajor() const {
+    std::vector<std::vector<void*>> colwiseData {};
     auto bounding = _table.getBounding(); // std::vector<int32_t> of lengths of every column
-    
-    std::vector<std::vector<void*>> colwiseData;
 
+    colwiseData.resize(bounding.size());
     for(std::size_t i { 0 }; i < bounding.size(); i++) {
         auto columnSize = bounding[i];
+        colwiseData[i].resize(columnSize);
         for(std::ptrdiff_t j { 0 }; j < columnSize; j++) {
             colwiseData[i][j] = _table.getItem(j, i);
         }
     }
+
+    return colwiseData;
+}
+
+///@brief extracts and returns ArrayTable elements using Row-Major table layout. Even if Quest3D Uses Col-Major notation, this function will invert it to Row-Major because Row-Major is more human
+template<ValidPrimitiveReader InternalReader>
+std::vector<void*> Q3DArrayTableReader<InternalReader>::getElements() const {
+    std::vector<void*> data;
+    
+    auto colwiseData = getElementsColMajor();
 
     std::size_t maxRows = 0;
     for(const auto& column : colwiseData) {

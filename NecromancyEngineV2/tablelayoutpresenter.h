@@ -80,7 +80,6 @@ std::vector<std::int32_t> TableLayout<Channel>::getBounding() const {
 
 template<typename Channel>
 void* TableLayout<Channel>::getAcoColumn(std::int32_t idx) const {
-
     auto columnCount = Memory::CallVTable<std::int32_t, Typedefs::ArrayTable_GetElementCount>(_arrayTable, ArrayTable_GetElementsVTableIdx, _arrayTable);
     if(idx > columnCount || idx < 0) {
         return nullptr;
