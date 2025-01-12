@@ -3,14 +3,14 @@
 #include "windefprettify.h"
 #include "processhelper.h"
 
-class WinDllInjector final : public QObject {
+class Injector final : public QObject {
     Q_OBJECT
 
 public:
-    Q_DISABLE_COPY_MOVE(WinDllInjector)
+    Q_DISABLE_COPY_MOVE(Injector)
 
-    WinDllInjector(QObject* parent);
-    virtual ~WinDllInjector() override = default;
+    Injector(QObject* parent);
+    virtual ~Injector() override = default;
 
     void setTargetLibrary(const std::wstring& libraryName);
     void setTargetProcPid(WinDword procId);

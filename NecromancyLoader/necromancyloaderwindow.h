@@ -6,7 +6,7 @@
 
 #include <set>
 
-class WinDllInjector;
+class Injector;
 class WebSocketBroadcastServer;
 class DragHandler;
 
@@ -58,7 +58,7 @@ private:
     DragHandler* _dragHandler;
 
     // generic data
-    WinDllInjector* _injector;
+    Injector* _injector;
     QList<ProcessInfo*> _scannedProcesses;
     Ui::NecromancyLoaderWindowClass *ui;
     QSettings* _properties;

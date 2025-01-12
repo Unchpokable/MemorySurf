@@ -42,13 +42,14 @@ std::set<quint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
 };
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
-        : QMainWindow(parent), _injector(new WinDllInjector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
+        : QMainWindow(parent), _injector(new Injector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
     ui->setupUi(this);
 
     qRegisterMetaType<ProcessInfo>();
     qRegisterMetaType<ProcessInfo*>();
 
     _portEntryValidationTimer = new QTimer(this);
+    _portEntryValidationTimer->setInterval(100);
     _portEntryValidationTimer->setSingleShot(true);
 
     loadProperties();
@@ -66,7 +67,7 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
 
     connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onInjectButtonPressed);
 
-    connect(_injector, &WinDllInjector::injectorExited, this, &NecromancyLoaderWindow::onInternalInjectorProcessFinished);
+    connect(_injector, &Injector::injectorExited, this, &NecromancyLoaderWindow::onInternalInjectorProcessFinished);
 
     connect(ui->sendingRateSlider, &QSlider::valueChanged, this, &NecromancyLoaderWindow::onSendingRateChanged);
 
