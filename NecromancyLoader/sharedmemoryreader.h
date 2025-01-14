@@ -1,6 +1,7 @@
 #pragma once
 
 #include "windefprettify.h"
+#include "NecromancyMessages/asdump.h"
 
 class SharedMemoryReader final : public QObject {
     Q_OBJECT
@@ -14,9 +15,13 @@ public:
         void free() const {
             delete data;
         }
+
+    private:
+        friend class SharedMemoryReader;
+        void from(const byte* buffer, std::size_t dataSize);
     };
 
-    SharedMemoryReader(QObject* parent = nullptr);
+    explicit SharedMemoryReader(QObject* parent = nullptr);
     virtual ~SharedMemoryReader() override = default;
 
     SharedMemoryReader(const SharedMemoryReader&) = delete;
@@ -58,4 +63,7 @@ private:
     WinHandle _mutex;
     WinHandle _sharedMemoryHandle;
     VoidPtr _smMapView;
+
+    // data
+    byte* _buffer;
 };

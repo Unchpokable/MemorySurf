@@ -20,8 +20,10 @@ public:
 
     bool start() const;
 
-private slots:
+public slots:
     void messageAcquired(const SharedMemoryReader::Buffer& byteData);
+
+private slots:
     void onPendingConnection();
 
 private:

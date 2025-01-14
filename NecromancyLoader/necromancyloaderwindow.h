@@ -2,11 +2,13 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_necromancyloaderwindow.h"
+
 #include "processinfo.h"
 
 #include <set>
 
 class Injector;
+class SharedMemoryReader;
 class WebSocketBroadcastServer;
 class DragHandler;
 
@@ -30,6 +32,9 @@ private slots:
     // ui validation
     void onPortEntered() const;
     void onPortValidationTimer() const;
+
+    // initialization
+    void onIpcChannelConnectionTimedOut() const;
 
 private:
     // generic statics
@@ -62,6 +67,9 @@ private:
     QList<ProcessInfo*> _scannedProcesses;
     Ui::NecromancyLoaderWindowClass *ui;
     QSettings* _properties;
+
+    // IPC handlers
+    SharedMemoryReader* _ipcChannel;
 
     // websocket
     WebSocketBroadcastServer* _server;

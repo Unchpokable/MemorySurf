@@ -3,12 +3,13 @@
 #include "necromancyloaderwindow.h"
 #include "draghandler.h"
 
+#include "injector.h"
 #include "privileges.h"
 #include "processinfo.h"
-#include "windefprettify.h"
-#include "injector.h"
 #include "processutils.h"
+#include "sharedmemoryreader.h"
 #include "websocketbroadcastserver.h"
+#include "windefprettify.h"
 
 std::set<quint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
     1080,  // SOCKS Proxy
@@ -81,6 +82,12 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
 
     _server = new WebSocketBroadcastServer(this, _defaultPort);
     ui->customHeader->setProperty("IsTopBar", true);
+
+    _ipcChannel = new SharedMemoryReader(this);
+    _ipcChannel->setBufferReadInterval(30);
+
+    connect(_ipcChannel, &SharedMemoryReader::initializationTimedOut, this, &NecromancyLoaderWindow::onIpcChannelConnectionTimedOut);
+    connect(_ipcChannel, &SharedMemoryReader::messageAcquired, _server, &WebSocketBroadcastServer::messageAcquired);
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
@@ -112,6 +119,8 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
     ui->statusBar->showMessage(QString("Injector finished") + QString::number(exitCode) + "out: " + stdOut);
+
+    _ipcChannel->startInit();
 }
 
 void NecromancyLoaderWindow::onSendingRateChanged(int value) {
@@ -143,6 +152,11 @@ void NecromancyLoaderWindow::onPortValidationTimer() const {
     } else {
         unfreezeServerStartUiComponent();
     }
+}
+
+void NecromancyLoaderWindow::onIpcChannelConnectionTimedOut() const {
+    ui->statusBar->showMessage("IPC connection timed out. Retrying...");
+    _ipcChannel->startInit();
 }
 
 void NecromancyLoaderWindow::freezeServerStartUiComponents() const {

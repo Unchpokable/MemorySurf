@@ -2,10 +2,18 @@
 #include "sharedmemoryreader.h"
 #include "NecromancyMessages/messages.h"
 
+void SharedMemoryReader::Buffer::from(const byte* buffer, std::size_t dataSize) {
+    data = new byte[dataSize];
+    std::memcpy(data, buffer, dataSize);
+    size = dataSize;
+}
+
 SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent) {
     _pollTimer = new QTimer(this);
     _pollTimer->setInterval(_initInterval);
     _initTimer = new QElapsedTimer();
+
+    _buffer = new byte[Necromancy::Constants::MessageMaxSize];
 }
 
 void SharedMemoryReader::enable() const {
@@ -33,15 +41,12 @@ void SharedMemoryReader::startInit() {
 }
 
 void SharedMemoryReader::readBuffer() {
-    byte* localBuffer = new byte[Necromancy::Constants::MessageMaxSize];
-
     WaitForSingleObject(_mutex, INFINITE);
-    std::memcpy(localBuffer, _smMapView, Necromancy::Constants::MessageMaxSize);
+    std::memcpy(_buffer, _smMapView, Necromancy::Constants::MessageMaxSize);
     ReleaseMutex(_mutex);
 
     Buffer data;
-    data.data = localBuffer;
-    data.size = Necromancy::Constants::MessageMaxSize;
+    data.from(_buffer, Necromancy::Constants::MessageMaxSize);
 
     emit messageAcquired(data);
 }
