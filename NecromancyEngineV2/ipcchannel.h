@@ -16,8 +16,8 @@ public:
 private:
     void initializeSharedMemory();
 
-    HANDLE _mutex { INVALID_HANDLE_VALUE };
-    HANDLE _sharedMemoryMapping { INVALID_HANDLE_VALUE };
+    HANDLE _mutex { NULL };
+    HANDLE _sharedMemoryMapping { NULL };
     LPVOID _mapView { nullptr };
 };
 

@@ -27,11 +27,11 @@ void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool fl
     }
 
     auto code = BlockwiseSerialize(data, static_cast<byte*>(_mapView), Constants::MessageMaxSize);
+    ReleaseMutex(_mutex);
+
     if(code != Messages::StatusCode::Ok) {
         Logger::panic("IPC Buffer", "Exception during serializing scanned data into buffer");
     }
-
-    ReleaseMutex(_mutex);
 }
 
 void IpcChannel::initializeSharedMemory() {
