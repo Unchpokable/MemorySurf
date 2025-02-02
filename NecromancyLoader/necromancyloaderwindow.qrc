@@ -4,5 +4,7 @@
         <file>mainwindow.qss</file>
         <file>messagebox.qss</file>
     </qresource>
-    <qresource prefix="/icons"/>
+    <qresource prefix="/icons">
+        <file alias="appicon">resources/ram.png</file>
+    </qresource>
 </RCC>

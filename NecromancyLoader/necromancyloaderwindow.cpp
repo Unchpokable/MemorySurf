@@ -46,6 +46,20 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         : QMainWindow(parent), _injector(new Injector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
     ui->setupUi(this);
 
+    QPixmap icon(":/icons/appicon");
+    auto scaledIcon = icon.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    ui->closeButton->resize(32, 32);
+
+    connect(ui->closeButton, &QPushButton::clicked, this, [this]() {
+        // todo: close all system resources before closing
+        close();
+    });
+
+    ui->iconLabel->setPixmap(scaledIcon);
+    ui->iconLabel->setScaledContents(true);
+    ui->iconLabel->resize(32, 32);
+
     qRegisterMetaType<ProcessInfo>();
     qRegisterMetaType<ProcessInfo*>();
 

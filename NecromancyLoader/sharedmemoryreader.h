@@ -22,7 +22,7 @@ public:
     };
 
     explicit SharedMemoryReader(QObject* parent = nullptr);
-    virtual ~SharedMemoryReader() override = default;
+    virtual ~SharedMemoryReader() override;
 
     SharedMemoryReader(const SharedMemoryReader&) = delete;
     SharedMemoryReader(SharedMemoryReader&&) = delete;

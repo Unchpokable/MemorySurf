@@ -16,6 +16,11 @@ SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent) {
     _buffer = new byte[Necromancy::Constants::MessageMaxSize];
 }
 
+SharedMemoryReader::~SharedMemoryReader() {
+    CloseHandle(_mutex);
+    CloseHandle(_sharedMemoryHandle);
+}
+
 void SharedMemoryReader::enable() const {
     _pollTimer->start();
 }
