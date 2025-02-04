@@ -116,7 +116,7 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
         return;
     }
 
-    auto fullDllPath = locateReaderDll(_properties->value("general/pluginDll").toString());
+    auto fullDllPath = locateReaderDll(_properties->value("engine/pluginDll").toString());
 
     _injector->setTargetLibrary(fullDllPath.replace("/", "\\").toStdWString());
 
@@ -184,7 +184,9 @@ void NecromancyLoaderWindow::unfreezeServerStartUiComponent() const {
 }
 
 void NecromancyLoaderWindow::loadProperties() {
-    _properties = new QSettings("props.ini", QSettings::IniFormat);
+    QString iniPath = QDir(QCoreApplication::applicationDirPath()).filePath("props.ini");
+    _properties = new QSettings(iniPath, QSettings::IniFormat);
+    _properties->sync();
 }
 
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
