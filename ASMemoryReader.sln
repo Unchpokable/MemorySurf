@@ -4,10 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyEngineV2", "NecromancyEngineV2\NecromancyEngineV2.vcxproj", "{7271C3E9-E771-4FB9-9DBA-E7E82CF0927B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E82E41CD-415C-4CE7-AE0C-C061460C0619} = {E82E41CD-415C-4CE7-AE0C-C061460C0619}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyMessages", "NecromancyMessages\NecromancyMessages.vcxproj", "{E82E41CD-415C-4CE7-AE0C-C061460C0619}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecromancyLoader", "NecromancyLoader\NecromancyLoader.vcxproj", "{AE2407ED-17AF-4CEA-BDA4-8375DE064F2E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7271C3E9-E771-4FB9-9DBA-E7E82CF0927B} = {7271C3E9-E771-4FB9-9DBA-E7E82CF0927B}
+		{E82E41CD-415C-4CE7-AE0C-C061460C0619} = {E82E41CD-415C-4CE7-AE0C-C061460C0619}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InjectHelper32", "InjectHelper32\InjectHelper32.vcxproj", "{E0A3A8D8-3EE1-4929-BDE0-3B96DBA50DE1}"
 EndProject

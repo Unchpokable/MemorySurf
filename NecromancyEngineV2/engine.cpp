@@ -18,7 +18,8 @@ NecromancyEngine::~NecromancyEngine() {
 }
 
 void NecromancyEngine::dump() {
-    auto stats = _statsTable->getElementsTyped();
+    std::vector<float> stats;
+    // todo: exctract stats
     if(static_cast<std::int32_t>(stats.size()) > _dumped.statsArraySize) {
         Free(&_dumped);
         Initialize(&_dumped, stats.size());
@@ -53,10 +54,9 @@ void NecromancyEngine::setupChannelReaders() {
 
     Logger::logCondition(notNull(statsGroup), "Stats ChannelGroup not null");
 
-    auto stats = findChannelNamed(_statsChannelName, statsGroup);
-    Logger::logCondition(notNull(stats), "Stats table available");
-    _statsTable = new Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>(stats);
+    _statsTable = new Memory::Q3DArrayTableReader();
 
+    // todo: add a channels with `Stats:` prefix and its `Index_`es
 
     auto points = findChannelNamed(_scoreChannelName, statsGroup);
     Logger::logCondition(notNull(points), "points table available");

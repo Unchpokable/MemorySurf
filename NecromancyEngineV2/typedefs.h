@@ -23,6 +23,8 @@ using ArrayTable_GetElementAtIndex = void*(__thiscall*)(void*, std::int32_t); //
 
 using A3d_List_GetItem = void*(__thiscall*)(void*, std::int32_t); // void* A3d_List::GetItem(std::int32_t idx);
 
+using ArrayValue_GetFloat = float(__thiscall*)(void*);
+
 // array table internals
 
 // for now lets suppose that ArrayTable class working with something, called "ArrayConnectItem" so

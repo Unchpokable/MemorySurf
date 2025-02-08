@@ -36,7 +36,7 @@ private:
     const char* _statsChannelName { "Stats Table" };
 
     std::unordered_map<std::string, Memory::Q3DFloatReader*> _floatChannels;
-    Memory::Q3DArrayTableReader<Memory::Q3DFloatReader>* _statsTable;
+    Memory::Q3DArrayTableReader* _statsTable;
     Ipc::IpcChannel _ipcChannel;
     Detours::HkFunctions _q3dFunctions;
 

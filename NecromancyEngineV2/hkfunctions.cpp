@@ -73,6 +73,8 @@ HkFunctions HkFunctions::setup() {
             DetourFindFunction("2346A6DF-5942-4CB5-9908-E59CEC72841F.dll", "?GetRowCount@ArrayConnectItem@@UAEHXZ"))
         .add("ChannelGroup_GetChannel", 
             DetourFindFunction("highpoly.dll", "?GetChannel@A3d_ChannelGroup@@UAEPAVA3d_Channel@@H@Z"))
+        .add("ArrayValue_GetFloat", 
+            DetourFindFunction("DF5BF7F7-C204-4F6E-BDB8-666A53DFCC58.dll", "?GetFloat@Aco_Array_Value@@UAEMXZ"))
         .add("Channel_GetChannelName", 
             DetourFindFunction("highpoly.dll", "?GetChannelName@A3d_Channel@@QAEPBDXZ"));
 
