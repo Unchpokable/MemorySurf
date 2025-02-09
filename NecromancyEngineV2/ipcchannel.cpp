@@ -20,17 +20,17 @@ IpcChannel::~IpcChannel() {
 }
 
 void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool flush) const {
-    WaitForSingleObject(_mutex, INFINITE);
+    if(WaitForSingleObject(_mutex, INFINITE) == WAIT_OBJECT_0) {
+        if(flush) {
+            std::memset(_mapView, 0, Constants::MessageMaxSize);
+        }
 
-    if(flush) {
-        std::memset(_mapView, 0, Constants::MessageMaxSize);
-    }
+        auto code = BlockwiseSerialize(data, static_cast<byte*>(_mapView), Constants::MessageMaxSize);
+        ReleaseMutex(_mutex);
 
-    auto code = BlockwiseSerialize(data, static_cast<byte*>(_mapView), Constants::MessageMaxSize);
-    ReleaseMutex(_mutex);
-
-    if(code != Messages::StatusCode::Ok) {
-        Logger::panic("IPC Buffer", "Exception during serializing scanned data into buffer");
+        if(code != Messages::StatusCode::Ok) {
+            Logger::panic("IPC Buffer", "Exception during serializing scanned data into buffer");
+        }
     }
 }
 

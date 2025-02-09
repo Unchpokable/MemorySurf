@@ -15,7 +15,7 @@ struct ASDumpStruct
     float goldThreshold;
     float trafficChainMax;
     float largestMatch;
-    float timestamp; // msec
+    float timeElapsed;
     float* statsArray;
 };
 #pragma pack(pop)
@@ -26,7 +26,7 @@ constexpr ptrdiff_t ASDump_StatsArraySizeFieldOffset = offsetof(ASDumpStruct, st
 constexpr ptrdiff_t ASDump_GoldThresholdFieldOffset = offsetof(ASDumpStruct, goldThreshold);
 constexpr ptrdiff_t ASDump_TrafficChainMaxFieldOffset = offsetof(ASDumpStruct, trafficChainMax);
 constexpr ptrdiff_t ASDump_LargestMatchFieldOffset = offsetof(ASDumpStruct, largestMatch);
-constexpr ptrdiff_t ASDump_TimestampFieldOffset = offsetof(ASDumpStruct, timestamp);
+constexpr ptrdiff_t ASDump_TimestampFieldOffset = offsetof(ASDumpStruct, timeElapsed);
 constexpr ptrdiff_t ASDump_StatsArrayFieldOffset = offsetof(ASDumpStruct, statsArray);
 
 constexpr ptrdiff_t ASDump_ScoreFieldSize = sizeof(ASDumpStruct::score);
@@ -34,7 +34,7 @@ constexpr ptrdiff_t ASDump_StatsArraySizeFieldSize = sizeof(ASDumpStruct::statsA
 constexpr ptrdiff_t ASDump_GoldThresholdFieldSize = sizeof(ASDumpStruct::goldThreshold);
 constexpr ptrdiff_t ASDump_TrafficChainMaxFieldSize = sizeof(ASDumpStruct::trafficChainMax);
 constexpr ptrdiff_t ASDump_LargestMatchFieldSize = sizeof(ASDumpStruct::largestMatch);
-constexpr ptrdiff_t ASDump_TimestampFieldSize = sizeof(ASDumpStruct::timestamp);
+constexpr ptrdiff_t ASDump_TimestampFieldSize = sizeof(ASDumpStruct::timeElapsed);
 constexpr ptrdiff_t ASDump_StatsArrayFieldSize = sizeof(ASDumpStruct::statsArray);
 
 /**

@@ -75,7 +75,7 @@ QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::
     jsonData["goldThreshold"] = data.goldThreshold;
     jsonData["trafficChainMax"] = data.trafficChainMax;
     jsonData["largestMatch"] = data.largestMatch;
-    jsonData["timestamp"] = data.timestamp;
+    jsonData["timeElapsed"] = data.timeElapsed;
 
     QJsonArray statsJsonArray;
     for(std::int32_t i = 0; i < data.statsArraySize; ++i) {

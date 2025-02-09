@@ -16,10 +16,10 @@ public:
     QString getProcStdOut() const;
 
 signals:
-    void processFinished(int exitCode, const QString& output);
+    void processFinished(int exitCode, const QString& output) const;
 
 private slots:
-    void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus) const;
 
 private:
     QStringList _clArgs;

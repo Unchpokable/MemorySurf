@@ -132,7 +132,7 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
 }
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
-    ui->statusBar->showMessage(QString("Injector finished") + QString::number(exitCode) + "out: " + stdOut);
+    ui->statusBar->showMessage(QString("Injector finished ") + QString::number(exitCode) + " out: " + stdOut);
 
     _ipcChannel->startInit();
 }

@@ -2,6 +2,7 @@
 
 #include "engine.h"
 #include "genericutils.h"
+#include "load.h"
 #include "logger.h"
 
 using namespace Necromancy;
@@ -15,13 +16,14 @@ std::unordered_map<NecromancyEngine::StatsChannels, const char*> NecromancyEngin
     { StatsCollectedTraffic, "Stats: CollectedColorCounts" },
     { Index_StatsCollectedTraffic, "Index_CollectedColorCounts" }
 };
+
 std::vector<float> NecromancyEngine::_allIndices {
     Purple, Blue, Green, Yellow, Red, White
 };
 
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
     _q3dFunctions = Detours::HkFunctions::setup();
-    Initialize(&_dumped, 32); // todo: place here actual dumped array size
+    Initialize(&_dumped, 12); // todo: place here actual dumped array size
 }
 
 NecromancyEngine::~NecromancyEngine() {
@@ -48,7 +50,7 @@ void NecromancyEngine::dump() {
 
     _dumped.score = _floatChannels.at(_scoreChannelName)->get();
     _dumped.largestMatch = _floatChannels.at(_largestMatchChannelName)->get();
-    _dumped.timestamp = _floatChannels.at(_timerChannelName)->get();
+    _dumped.timeElapsed = _floatChannels.at(_timerChannelName)->get();
 }
 
 void NecromancyEngine::send() const {
@@ -79,10 +81,24 @@ void NecromancyEngine::setupChannelReaders() {
 
     auto totalTrafficChannel = findChannelNamed(_statsTableExternalChannels[StatsTotalTraffic], statsGroup);
     auto indexTotalTrafficChannel = findChannelNamed(_statsTableExternalChannels[Index_StatsTotalTraffic], statsGroup);
+
+    bool totalTrafficOk = totalTrafficChannel && indexTotalTrafficChannel;
+    Logger::logCondition(totalTrafficOk, "Track traffic available");
+    if(!totalTrafficOk) {
+        Unload(NULL);
+    }
+
     _statsTable->addIndexedChannel(StatsTotalTraffic, totalTrafficChannel, indexTotalTrafficChannel);
 
     auto collectedTrafficChannel = findChannelNamed(_statsTableExternalChannels[StatsCollectedTraffic], statsGroup);
     auto indexCollectedTrafficChannel = findChannelNamed(_statsTableExternalChannels[Index_StatsCollectedTraffic], statsGroup);
+
+    bool collectedTrafficOk = collectedTrafficChannel && indexCollectedTrafficChannel;
+    Logger::logCondition(collectedTrafficOk, "Track traffic available");
+    if(!collectedTrafficOk) {
+        Unload(NULL);
+    }
+
     _statsTable->addIndexedChannel(StatsCollectedTraffic, collectedTrafficChannel, indexCollectedTrafficChannel);
 
     auto points = findChannelNamed(_scoreChannelName, statsGroup);

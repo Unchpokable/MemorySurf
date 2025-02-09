@@ -23,8 +23,15 @@ void ProcessHelper::setTargetProc(const QString& exe) {
 
 void ProcessHelper::run() const {
     _handle->setWorkingDirectory(QCoreApplication::applicationDirPath());
-    _handle->setArguments(_clArgs);
     _handle->start(_procExe, _clArgs);
+
+    if(!_handle->waitForStarted()) {
+        qDebug() << "process not started somewhy";
+    }
+
+    _handle->waitForFinished();
+
+    onProcessFinished(_handle->exitCode(), _handle->exitStatus());
 }
 
 void ProcessHelper::terminate() const {
@@ -35,7 +42,7 @@ QString ProcessHelper::getProcStdOut() const {
     return _handle->readAllStandardOutput();
 }
 
-void ProcessHelper::onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus) {
+void ProcessHelper::onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus) const {
     auto data = _handle->readAll();
     emit processFinished(exitCode, QString(data));
 }

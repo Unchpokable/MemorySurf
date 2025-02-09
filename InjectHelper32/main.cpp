@@ -10,13 +10,15 @@ int main(int argc, char** argv) {
         auto args = ParseArguments(argc, argv);
 
         if(args.mode == Inject) {
-            return InjectProcess(args);
+            std::cerr << InjectProcess(args);
         }
 
         if (args.mode == Unload) {
-            return UnloadProcess(args);
+            std::cerr << UnloadProcess(args);
         }
     } catch (std::exception &ex) {
         std::cerr << ex.what();
     }
+
+    return 0;
 }

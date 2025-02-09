@@ -46,14 +46,15 @@ void SharedMemoryReader::startInit() {
 }
 
 void SharedMemoryReader::readBuffer() {
-    WaitForSingleObject(_mutex, INFINITE);
-    std::memcpy(_buffer, _smMapView, Necromancy::Constants::MessageMaxSize);
-    ReleaseMutex(_mutex);
+    if(WaitForSingleObject(_mutex, INFINITE) == WAIT_OBJECT_0) {
+        std::memcpy(_buffer, _smMapView, Necromancy::Constants::MessageMaxSize);
+        ReleaseMutex(_mutex);
 
-    Buffer data;
-    data.from(_buffer, Necromancy::Constants::MessageMaxSize);
+        Buffer data;
+        data.from(_buffer, Necromancy::Constants::MessageMaxSize);
 
-    emit messageAcquired(data);
+        emit messageAcquired(data);
+    }
 }
 
 void SharedMemoryReader::tryInit() {
@@ -62,7 +63,7 @@ void SharedMemoryReader::tryInit() {
         return;
     }
     auto elapsed = _initTimer->elapsed();
-    if(elapsed > _initInterval)
+    if(elapsed > _initInterval && !initialized)
     {
         _pollTimer->stop();
         disconnect(_pollTimer, &QTimer::timeout, this, &SharedMemoryReader::tryInit);
@@ -76,6 +77,7 @@ void SharedMemoryReader::tryInit() {
     connect(_pollTimer, &QTimer::timeout, this, &SharedMemoryReader::readBuffer);
 
     _pollTimer->setInterval(_bufferPollInterval);
+    _pollTimer->start();
 
     emit this->initialized();
 }
