@@ -9,6 +9,24 @@
 namespace Necromancy {
 
 class NecromancyEngine final {
+private:
+    enum StatsChannels : int {
+        StatsTotalTraffic = 3,
+        Index_StatsTotalTraffic = 4,
+        StatsCollectedTraffic = 8,
+        Index_StatsCollectedTraffic = 16
+    };
+
+    enum BlockIndex : int {
+        Purple = 0,
+        Blue = 1,
+        Green = 2,
+        Yellow = 3,
+        Red = 4,
+        // specials
+        White = 7,
+    };
+
 public:
     NecromancyEngine();
     ~NecromancyEngine();
@@ -23,17 +41,16 @@ public:
     void setupChannelReaders();
 
 private:
+    inline static const char* _largestMatchChannelName { "LargestMatch" };
+    inline static const char* _timerChannelName { "Timer" };
+    inline static const char* _scoreChannelName { "Points" };
+    inline static const char* _statsChannelName { "Stats Table" };
+
+    static std::unordered_map<StatsChannels, const char*> _statsTableExternalChannels;
+    static std::vector<float> _allIndices;
+
     int getStatsCollectorIndex() const noexcept;
     A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const;
-
-    const char* _largestMatchChannelName { "LargestMatch" };
-    const char* _timerChannelName { "Timer" };
-    const char* _maxChainLengthChannelName { "MaxChainLength" }; // inactive channel
-    const char* _currentChainStrength { "CurrentChainStrength" }; // inactive channel 
-    const char* _redsPassedChannelName { "RedsPassed" }; // inactive channel
-    const char* _yellowsPassedChannelName { "YellowsPassed" }; // inactive channel
-    const char* _scoreChannelName { "Points" };
-    const char* _statsChannelName { "Stats Table" };
 
     std::unordered_map<std::string, Memory::Q3DFloatReader*> _floatChannels;
     Memory::Q3DArrayTableReader* _statsTable;

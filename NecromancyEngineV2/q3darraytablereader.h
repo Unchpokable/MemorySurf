@@ -43,7 +43,7 @@ public:
     Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue> &arrays = {});
     virtual ~Q3DArrayTableReader() override = default;
 
-    void addBoundedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer);
+    void addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer);
     float getValue(int row, float index); // lol Quest3D using a float for indexing LMFAO 
 
     std::vector<float> getValues(int row, const std::vector<float> &indexRange);

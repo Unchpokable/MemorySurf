@@ -1,16 +1,27 @@
 #include "pch.h"
 
 #include "engine.h"
-#include "logger.h"
 #include "genericutils.h"
+#include "logger.h"
 
 using namespace Necromancy;
 
 static constexpr const char* statsCollectorChannelGroup = "StatCollector";
 
+std::unordered_map<NecromancyEngine::StatsChannels, const char*> NecromancyEngine::_statsTableExternalChannels {
+    // todo: add total traffic channels
+    { StatsTotalTraffic, "Stats: TrafficColorCounts" },
+    { Index_StatsTotalTraffic, "Index_TrafficColorCounts" },
+    { StatsCollectedTraffic, "Stats: CollectedColorCounts" },
+    { Index_StatsCollectedTraffic, "Index_CollectedColorCounts" }
+};
+std::vector<float> NecromancyEngine::_allIndices {
+    Purple, Blue, Green, Yellow, Red, White
+};
+
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
     _q3dFunctions = Detours::HkFunctions::setup();
-    Initialize(&_dumped, 128); // todo: place here actual dumped array size
+    Initialize(&_dumped, 32); // todo: place here actual dumped array size
 }
 
 NecromancyEngine::~NecromancyEngine() {
@@ -19,10 +30,18 @@ NecromancyEngine::~NecromancyEngine() {
 
 void NecromancyEngine::dump() {
     std::vector<float> stats;
-    // todo: exctract stats
+
+    auto totalTraffic = _statsTable->getValues(StatsTotalTraffic, _allIndices);
+    auto collectedTraffic = _statsTable->getValues(StatsCollectedTraffic, _allIndices);
+
+    stats.reserve(totalTraffic.size() + collectedTraffic.size());
+
+    stats.insert(stats.end(), totalTraffic.begin(), totalTraffic.end());
+    stats.insert(stats.end(), collectedTraffic.begin(), collectedTraffic.end());
+
     if(static_cast<std::int32_t>(stats.size()) > _dumped.statsArraySize) {
         Free(&_dumped);
-        Initialize(&_dumped, stats.size());
+        Initialize(&_dumped, static_cast<std::int32_t>(stats.size()));
     }
 
     std::memcpy(_dumped.statsArray, stats.data(), sizeof(float) * stats.size());
@@ -57,6 +76,14 @@ void NecromancyEngine::setupChannelReaders() {
     _statsTable = new Memory::Q3DArrayTableReader();
 
     // todo: add a channels with `Stats:` prefix and its `Index_`es
+
+    auto totalTrafficChannel = findChannelNamed(_statsTableExternalChannels[StatsTotalTraffic], statsGroup);
+    auto indexTotalTrafficChannel = findChannelNamed(_statsTableExternalChannels[Index_StatsTotalTraffic], statsGroup);
+    _statsTable->addIndexedChannel(StatsTotalTraffic, totalTrafficChannel, indexTotalTrafficChannel);
+
+    auto collectedTrafficChannel = findChannelNamed(_statsTableExternalChannels[StatsCollectedTraffic], statsGroup);
+    auto indexCollectedTrafficChannel = findChannelNamed(_statsTableExternalChannels[Index_StatsCollectedTraffic], statsGroup);
+    _statsTable->addIndexedChannel(StatsCollectedTraffic, collectedTrafficChannel, indexCollectedTrafficChannel);
 
     auto points = findChannelNamed(_scoreChannelName, statsGroup);
     Logger::logCondition(notNull(points), "points table available");

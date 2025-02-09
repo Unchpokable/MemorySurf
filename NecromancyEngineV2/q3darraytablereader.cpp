@@ -2,7 +2,9 @@
 
 #include "q3darraytablereader.h"
 
-Necromancy::Memory::Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue> &arrays) : Q3DChannelReader(nullptr) {
+using namespace Necromancy::Memory;
+
+Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue> &arrays) : Q3DChannelReader(nullptr) {
     _boundTableChannels = arrays;
 
     auto functions = HkFunctions::setup();
@@ -12,11 +14,11 @@ Necromancy::Memory::Q3DArrayTableReader::Q3DArrayTableReader(const std::unordere
     _floatChannelSetFloat = functions.get<Aco_FloatChannel_SetFloat>("Aco_FloatChannel_SetFloat");
 }
 
-void Necromancy::Memory::Q3DArrayTableReader::addBoundedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer) {
+void Q3DArrayTableReader::addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer) {
     _boundTableChannels[row] = IndexedArrayValue { arrayValue, indexer };
 }
 
-float Necromancy::Memory::Q3DArrayTableReader::getValue(int row, float index) {
+float Q3DArrayTableReader::getValue(int row, float index) {
     auto indexer = _boundTableChannels[row].indexer;
     auto arrayValue = _boundTableChannels[row].arrayValue;
 
@@ -31,8 +33,10 @@ float Necromancy::Memory::Q3DArrayTableReader::getValue(int row, float index) {
     return value;
 }
 
-std::vector<float> Necromancy::Memory::Q3DArrayTableReader::getValues(int row, const std::vector<float> &indexRange) {
+std::vector<float> Q3DArrayTableReader::getValues(int row, const std::vector<float> &indexRange) {
     std::vector<float> result;
+
+    result.reserve(indexRange.size());
 
     for(auto index : indexRange) {
         result.push_back(getValue(row, index));
