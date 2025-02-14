@@ -10,7 +10,6 @@ using namespace Necromancy;
 static constexpr const char* statsCollectorChannelGroup = "StatCollector";
 
 std::unordered_map<NecromancyEngine::StatsChannels, const char*> NecromancyEngine::_statsTableExternalChannels {
-    // todo: add total traffic channels
     { StatsTotalTraffic, "Stats: TrafficColorCounts" },
     { Index_StatsTotalTraffic, "Index_TrafficColorCounts" },
     { StatsCollectedTraffic, "Stats: CollectedColorCounts" },
@@ -76,8 +75,6 @@ void NecromancyEngine::setupChannelReaders() {
     Logger::logCondition(notNull(statsGroup), "Stats ChannelGroup not null");
 
     _statsTable = new Memory::Q3DArrayTableReader();
-
-    // todo: add a channels with `Stats:` prefix and its `Index_`es
 
     auto totalTrafficChannel = findChannelNamed(_statsTableExternalChannels[StatsTotalTraffic], statsGroup);
     auto indexTotalTrafficChannel = findChannelNamed(_statsTableExternalChannels[Index_StatsTotalTraffic], statsGroup);
