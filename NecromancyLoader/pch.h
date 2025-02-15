@@ -9,6 +9,12 @@
 #include <QString>
 #include <QMap>
 #include <QImage>
+#include <QGraphicsView>
+
+#include <QGraphicsBlurEffect>
+#include <QGraphicsDropShadowEffect>
+#include <QGraphicsEllipseItem>
+#include <QGraphicsScene>
 
 // stdlib
 #include <windows.h>

@@ -11,39 +11,46 @@
 #include "websocketbroadcastserver.h"
 #include "windefprettify.h"
 
-std::set<quint16> NecromancyLoaderWindow::_forbiddenExternalPorts = {
-    1080,  // SOCKS Proxy
-    1433,  // Microsoft SQL Server
-    1521,  // Oracle DB
-    1723,  // PPTP VPN
-    1883,  // MQTT
-    2049,  // NFS
-    2181,  // Zookeeper
-    2379,  // etcd
-    2380,  // etcd (peer communication)
-    2480,  // OrientDB
-    3306,  // MySQL
-    3389,  // RDP
-    3690,  // Subversion
-    4369,  // RabbitMQ/Erlang
-    5000,  // Flask Development Server / UPnP
-    5432,  // PostgreSQL
-    5672,  // RabbitMQ
-    6379,  // Redis
-    8000,  // HTTP (Development servers)
-    8080,  // HTTP (Alternative)
-    8443,  // HTTPS (Alternative)
-    9000,  // SonarQube
-    9092,  // Kafka
-    9200,  // Elasticsearch
-    9300,  // Elasticsearch (Transport)
-    11211, // Memcached
-    27017, // MongoDB
-    50051, // gRPC
+std::unordered_map<quint16, QString> NecromancyLoaderWindow::_forbiddenExternalPorts = {
+    {1080,  "SOCKS Proxy"},
+    {1433,  "Microsoft SQL Server"},
+    {1521,  "Oracle DB"},
+    {1723,  "PPTP VPN"},
+    {1883,  "MQTT"},
+    {2049,  "NFS"},
+    {2181,  "Zookeeper"},
+    {2379,  "etcd"},
+    {2380,  "etcd (peer communication)"},
+    {2480,  "OrientDB"},
+    {3306,  "MySQL"},
+    {3389,  "RDP"},
+    {3690,  "Subversion"},
+    {4369,  "RabbitMQ/Erlang"},
+    {5000,  "Flask Development Server / UPnP"},
+    {5432,  "PostgreSQL"},
+    {5672,  "RabbitMQ"},
+    {6379,  "Redis"},
+    {8000,  "HTTP (Development servers)"},
+    {8080,  "HTTP (Alternative)"},
+    {8443,  "HTTPS (Alternative)"},
+    {9000,  "SonarQube"},
+    {9092,  "Kafka"},
+    {9200,  "Elasticsearch"},
+    {9300,  "Elasticsearch (Transport)"},
+    {11211, "Memcached"},
+    {27017, "MongoDB"},
+    {50051, "gRPC"}
 };
 
 NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         : QMainWindow(parent), _injector(new Injector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
+    setAttribute(Qt::WA_TranslucentBackground);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect;
+    shadow->setBlurRadius(10);
+    shadow->setOffset(0);
+    shadow->setColor(QColor(0, 0, 0, 160));
+    this->setGraphicsEffect(shadow);
+
     ui->setupUi(this);
 
     QPixmap icon(":/icons/appicon");
@@ -55,6 +62,13 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
         // todo: close all system resources before closing
         close();
     });
+
+    ui->rightsIndicator->setRenderHint(QPainter::Antialiasing);
+    ui->gameIndicator->setRenderHint(QPainter::Antialiasing);
+    ui->pluginIndicator->setRenderHint(QPainter::Antialiasing);
+    ui->serverIndicator->setRenderHint(QPainter::Antialiasing);
+
+    ui->webSocketPortEntry->setText("20080");
 
     ui->iconLabel->setPixmap(scaledIcon);
     ui->iconLabel->setScaledContents(true);
@@ -73,8 +87,6 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     checkAndAdjustAppPrivileges();
 
     scanProcessesAndPopulateSelectionCombo();
-
-    ui->statusBar->showMessage("Server stopped; Game offline; Game service not loaded");
 
     connect(ui->procRefreshButton, &QPushButton::clicked, this, [this]() {
         scanProcessesAndPopulateSelectionCombo();
@@ -101,7 +113,10 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     _ipcChannel->setBufferReadInterval(30);
 
     connect(_ipcChannel, &SharedMemoryReader::initializationTimedOut, this, &NecromancyLoaderWindow::onIpcChannelConnectionTimedOut);
+    connect(_ipcChannel, &SharedMemoryReader::initialized, this, &NecromancyLoaderWindow::onIpcChannelInitialized);
     connect(_ipcChannel, &SharedMemoryReader::messageAcquired, _server, &WebSocketBroadcastServer::messageAcquired);
+
+    setupGraphicsIndicators();
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
@@ -127,13 +142,12 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
     } else {
         _injector->free();
         _pluginLoaded = false;
+        makeEllipseIndicator(IndicatorState::Bad, ui->pluginIndicator);
         ui->loadButton->setText("Load");
     }
 }
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
-    ui->statusBar->showMessage(QString("Injector finished ") + QString::number(exitCode) + " out: " + stdOut);
-
     _ipcChannel->startInit();
 }
 
@@ -169,17 +183,97 @@ void NecromancyLoaderWindow::onPortValidationTimer() const {
 }
 
 void NecromancyLoaderWindow::onIpcChannelConnectionTimedOut() const {
-    ui->statusBar->showMessage("IPC connection timed out. Retrying...");
     _ipcChannel->startInit();
+}
+
+void NecromancyLoaderWindow::onIpcChannelInitialized() const {
+    makeEllipseIndicator(IndicatorState::Fine, ui->pluginIndicator);
+}
+
+QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
+    QDir currentDir(QCoreApplication::applicationDirPath());
+
+    QString filePath = currentDir.filePath(targetFile);
+    if(QFileInfo::exists(filePath)) {
+        return QFileInfo(filePath).absoluteFilePath();
+    }
+
+    return {};
+}
+
+QGraphicsEllipseItem* NecromancyLoaderWindow::makeEllipseIndicator(IndicatorState desiredState, QGraphicsView* graphicsView) {
+    if(!graphicsView) {
+        qDebug() << "No graphics view!";
+        return nullptr;
+    }
+
+    if(!graphicsView->scene()) {
+        QGraphicsScene* newScene = new QGraphicsScene(graphicsView);
+        graphicsView->setScene(newScene);
+    }
+
+    QGraphicsEllipseItem* ellipse = new QGraphicsEllipseItem(0, 0, 10, 10);
+
+    QColor color;
+    switch(desiredState) {
+    case IndicatorState::Bad: 
+        color = QColor(255, 107, 107); 
+        break;
+    case IndicatorState::Well:
+        color = QColor(255, 217, 102);
+        break;
+    case IndicatorState::Fine:
+        color = QColor(119, 221, 119);
+        break;
+    case IndicatorState::Good:
+        color = QColor(102, 153, 255);
+        break;
+    }
+
+    ellipse->setBrush(color);
+    ellipse->setPen(Qt::NoPen); 
+
+    QGraphicsDropShadowEffect* glow = new QGraphicsDropShadowEffect;
+    glow->setBlurRadius(15);
+    glow->setColor(color.lighter(150));
+    glow->setOffset(0, 0);
+    ellipse->setGraphicsEffect(glow);
+
+    QPoint viewCenter = graphicsView->viewport()->rect().center();
+    QPointF scenePos = graphicsView->mapToScene(viewCenter);
+    ellipse->setPos(scenePos);
+
+    graphicsView->scene()->clear();
+    graphicsView->scene()->addItem(ellipse);
+
+    return ellipse;
+}
+
+bool NecromancyLoaderWindow::isPortAllowed(quint16 port) {
+    if(port < _forbiddenSystemPorts) {
+        return false;
+    }
+
+    return _forbiddenExternalPorts.find(port) == _forbiddenExternalPorts.end();
 }
 
 void NecromancyLoaderWindow::freezeServerStartUiComponents() const {
     ui->startServerButton->setEnabled(false);
+    QString reason;
+    quint16 port = ui->webSocketPortEntry->text().toInt();
+    if(port <= _forbiddenSystemPorts) {
+        reason = QString("Port %1 is a system port, please provide user port (>= 1024)").arg(port);
+    } else {
+        reason = QString("Port %1 can be used by %2, please provide unused port").arg(port)
+            .arg(_forbiddenExternalPorts[port]);
+    }
+    ui->startServerButton->setToolTip(reason);
     ui->webSocketPortEntry->setProperty("validationState", "invalid");
 }
 
 void NecromancyLoaderWindow::unfreezeServerStartUiComponent() const {
     ui->startServerButton->setEnabled(true);
+    ui->startServerButton->setToolTip("");
     ui->webSocketPortEntry->setProperty("validationState", "invalid");
 }
 
@@ -225,11 +319,11 @@ void NecromancyLoaderWindow::swapScannedProcesses(const QList<ProcessInfo*> &new
     }
 }
 
-void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
+void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() const {
     WinHandle token;
     if(!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
-        QMessageBox::warning(this, "Application rights warning", "You launched NecromancyLoader not as admin. "
-            "This may cause some errors, instability or total malfunctioning of software. Please, re-run application as admin");
+        makeEllipseIndicator(IndicatorState::Bad, ui->rightsIndicator);
+        ui->appRightsLabel->setText("App privilege is bad!!");
         return;
     }
 
@@ -237,21 +331,29 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() {
     WinDword size;
     if(!GetTokenInformation(token, TokenElevation, &elevation, sizeof(elevation), &size)) {
         CloseHandle(token);
-        QMessageBox::warning(this, "Application rights warning", "You launched NecromancyLoader not as admin. "
-            "This may cause some errors, instability or total malfunctioning of software. Please, re-run application as admin");
+        makeEllipseIndicator(IndicatorState::Bad, ui->rightsIndicator);
+        ui->appRightsLabel->setText("App privilege is bad!!");
         return;
     }
 
     CloseHandle(token);
     if(elevation.TokenIsElevated == 0) {
-        QMessageBox::warning(this, "Application rights warning", "You launched NecromancyLoader not as admin. "
-            "This may cause some errors, instability or total malfunctioning of software. Please, re-run application as admin");
+        makeEllipseIndicator(IndicatorState::Well , ui->rightsIndicator);
+        ui->rightsIndicator->setToolTip("Loader running as user. Mostly enough, but can lead to some issues sometimes");
+        ui->appRightsLabel->setText("User");
         return;
     }
-    auto result = QMessageBox::question(this, "Application privileges", "NecromancyLoader has a highly close interactions with a game process."
-        "To do this this application can use a privileges of debug application to improve interaction quality. Would you like to expand privileges to external debugger level?");
-    if(result == QMessageBox::Yes) {
-        RaisePrivilegesToDebug();
+
+    makeEllipseIndicator(IndicatorState::Fine, ui->rightsIndicator);
+    ui->rightsIndicator->setToolTip("Loader running as Admin. Good for 99% cases. Enjoy Necromancy :>");
+    ui->appRightsLabel->setText("Admin");
+
+    auto isAdjusted = RaisePrivilegesToDebug();
+
+    if(isAdjusted) {
+        makeEllipseIndicator(IndicatorState::Good, ui->rightsIndicator);
+        ui->rightsIndicator->setToolTip("Loader running with all privileges that it needed. Enjoy Necromancy :>");
+        ui->appRightsLabel->setText("Admin");
     }
 }
 
@@ -272,21 +374,10 @@ void NecromancyLoaderWindow::startWebSocketServer() {
     }
 }
 
-QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
-    QDir currentDir(QCoreApplication::applicationDirPath());
+void NecromancyLoaderWindow::setupGraphicsIndicators() {
+    // todo: real implementation
 
-    QString filePath = currentDir.filePath(targetFile);
-    if(QFileInfo::exists(filePath)) {
-        return QFileInfo(filePath).absoluteFilePath();
-    }
-
-    return {};
-}
-
-bool NecromancyLoaderWindow::isPortAllowed(quint16 port) {
-    if(port < _forbiddenSystemPorts) {
-        return false;
-    }
-
-    return _forbiddenExternalPorts.find(port) == _forbiddenExternalPorts.end();
+    makeEllipseIndicator(IndicatorState::Bad, ui->gameIndicator);
+    makeEllipseIndicator(IndicatorState::Bad, ui->pluginIndicator);
+    makeEllipseIndicator(IndicatorState::Bad, ui->serverIndicator);
 }

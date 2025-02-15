@@ -13,6 +13,181 @@
   <property name="windowTitle">
    <string>NecromancyLoaderWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">/***********************/
+/* Базовые настройки */
+/***********************/
+* {
+    font-family: &quot;Roboto&quot;, &quot;Tahoma&quot;, &quot;System UI&quot;;
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+QWidget {
+    background-color: #292a2d;
+    selection-background-color: #3daee9;
+}
+
+/***********************/
+/* Общие элементы */
+/***********************/
+QPushButton, QLineEdit, QTextEdit, QSlider::handle, QComboBox {
+    border-radius: 5px;
+    border: 1px solid #4683d3;
+    background-color: #4683d3;
+    padding: 5px;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+QSlider::groove {
+    background: #404244;
+    border-radius: 2px;
+    height: 4px;
+}
+
+QSlider::handle:hover {
+    background: #5f93db;
+}
+
+QPushButton:hover, QLineEdit:hover, QTextEdit:hover, QComboBox:hover, QSlider::handle:hover {
+    background-color: #4d8feb;
+    border-color: #4d8feb;
+}
+
+QPushButton:pressed, QSlider::handle:pressed {
+    background-color: #375d8f;
+    border-color: #375d8f;
+}
+
+QLineEdit, QTextEdit {
+    background-color: #1e1f21;
+    border: 1px solid #353638;
+}
+
+QLineEdit:hover, QTextEdit:hover {
+    border-color: #4d8feb;
+    background-color: #252628;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left-width: 1px;
+    border-left-color: #353638;
+    border-left-style: solid;
+}
+
+/***********************/
+/* Специфичные элементы */
+/***********************/
+QScrollBar:vertical {
+    background: #1e1f21;
+    width: 10px;
+}
+
+QScrollBar::handle:vertical {
+    background: #353638;
+    border-radius: 4px;
+}
+
+/***********************/
+/* Основное окно */
+/***********************/
+QMainWindow, QDialog {
+    background-color: #292a2d;
+    border-radius: 5px;
+    padding: 1px; /* Помогает избежать обрезки контента */
+}
+
+/***********************/
+/* Комбобокс и скроллбар */
+/***********************/
+QComboBox QScrollBar:vertical {
+    background: #1e1f21;
+    width: 12px;
+    border-radius: 6px;
+}
+
+QComboBox QScrollBar::handle:vertical {
+    background: #3772c0;
+    border-radius: 6px;
+    min-height: 30px;
+}
+
+QComboBox QScrollBar::add-line:vertical,
+QComboBox QScrollBar::sub-line:vertical {
+    background: none;
+}
+
+/***********************/
+/* Слайдер */
+/***********************/
+QSlider::handle {
+    width: 20px;
+    height: 20px;
+    margin: -8px 0; /* Выступ за пределы groove */
+    border: 2px solid #3772c0;
+    transition: all 150ms ease;
+}
+
+QSlider::handle:hover {
+    background: #709ad4;
+    border-color: #e7e7e700;
+    transform: scale(1.1);
+}
+
+/***********************/
+/* Обновлённые стили */
+/***********************/
+QSlider::groove {
+    margin: 8px 0; /* Пространство для handle */
+}
+
+QComboBox QListView {
+    background: #1e1f21;
+    border-radius: 5px;
+    margin-top: 2px;
+}
+
+/***********************/
+/* Состояние Disabled */
+/***********************/
+QPushButton:disabled {
+    background-color: #3a3f45;     /* Тёмный серо-синий фон */
+    border-color: #2d3136;        /* Граница на тон темнее фона */
+    color: #909294;               /* Приглушённый серый текст */
+    transition: none;            /* Отключаем анимации */
+}
+
+/***********************/
+/* Всплывающие подсказки */
+/***********************/
+QToolTip {
+    background-color: #37393b;       /* Светло-серый фон (на 15% светлее основного) */
+    color: #e0e0e0;                 /* Стандартный цвет текста */
+    border: 1px solid #2d2f31;      /* Тёмная граница для контраста */
+    border-radius: 5px;             /* Скругление как у других элементов */
+    padding: 5px 8px;               /* Комфортные отступы */
+    font-family: &quot;Roboto&quot;, &quot;Tahoma&quot;, &quot;System UI&quot;;
+    font-weight: 600;
+    opacity: 230;                   /* Фикс для плавного появления в некоторых ОС */
+}
+
+/***********************/
+/* Графическая область */
+/***********************/
+QGraphicsView {
+    border: 0px transparent;      /* Полное удаление границы */
+    outline: 0px;                  /* Убираем фокусную рамку */
+    background-color: #292a2d;     /* Соответствие основному фону */
+}
+
+QGraphicsView::viewport {
+    border: none;                 /* Двойная страховка для внутренней области */
+    background-color: transparent;
+}</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
@@ -47,7 +222,7 @@
         <widget class="QLabel" name="label_5">
          <property name="font">
           <font>
-           <family>Tahoma</family>
+           <family>Roboto</family>
            <pointsize>12</pointsize>
            <bold>true</bold>
           </font>
@@ -62,6 +237,33 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <layout class="QHBoxLayout" name="rightStatusInfo">
+           <item>
+            <widget class="QGraphicsView" name="rightsIndicator">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="appRightsLabel">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
@@ -286,30 +488,6 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLabel" name="label_8">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Game status:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="gameStatusLabel">
-        <property name="text">
-         <string>Offline</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
        <widget class="QPushButton" name="startServerButton">
@@ -333,9 +511,80 @@
       </property>
      </spacer>
     </item>
+    <item>
+     <layout class="QHBoxLayout" name="statusBarLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Game</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGraphicsView" name="gameIndicator"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Plugin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGraphicsView" name="pluginIndicator"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Server</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGraphicsView" name="serverIndicator"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_6">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

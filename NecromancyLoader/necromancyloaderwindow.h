@@ -19,10 +19,17 @@ QT_END_NAMESPACE
 class NecromancyLoaderWindow : public QMainWindow {
     Q_OBJECT
 
+    enum class IndicatorState {
+        Bad, // red indicator
+        Well,// yellow indicator
+        Fine,// green indicator
+        Good // blue indicator
+    };
+
 public:
     Q_DISABLE_COPY_MOVE(NecromancyLoaderWindow)
 
-    explicit NecromancyLoaderWindow(QWidget *parent = nullptr);
+    explicit NecromancyLoaderWindow(QWidget* parent = nullptr);
 
     virtual ~NecromancyLoaderWindow() override;
 
@@ -37,16 +44,20 @@ private slots:
 
     // initialization
     void onIpcChannelConnectionTimedOut() const;
+    void onIpcChannelInitialized() const;
 
 private:
     // generic statics
     static QString locateReaderDll(const QString& targetFile);
 
+    // indicators (static)
+    static QGraphicsEllipseItem* makeEllipseIndicator(IndicatorState desiredState, QGraphicsView* graphicsView);
+
     // ui validation implementation
     static bool isPortAllowed(quint16 port);
     inline static constexpr quint16 _defaultPort = 20080;
     inline static constexpr quint16 _forbiddenSystemPorts = 1024;
-    static std::set<quint16> _forbiddenExternalPorts;
+    static std::unordered_map<quint16, QString> _forbiddenExternalPorts;
 
     void freezeServerStartUiComponents() const;
     void unfreezeServerStartUiComponent() const;
@@ -55,8 +66,11 @@ private:
     void loadProperties();
     void scanProcessesAndPopulateSelectionCombo();
     void swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses);
-    void checkAndAdjustAppPrivileges();
+    void checkAndAdjustAppPrivileges() const;
     void startWebSocketServer();
+
+    // indicators
+    void setupGraphicsIndicators();
 
     // ui validation fields
     QTimer* _portEntryValidationTimer;
@@ -77,6 +91,7 @@ private:
     WebSocketBroadcastServer* _server;
 
     // toggle states
+    bool _gameRunning;
     bool _pluginLoaded;
     bool _serverRunning;
 

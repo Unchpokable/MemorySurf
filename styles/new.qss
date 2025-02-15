@@ -1,0 +1,127 @@
+/***********************/
+/* Базовые настройки */
+/***********************/
+* {
+    font-family: "Roboto", "Tahoma", "System UI";
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+QWidget {
+    background-color: #292a2d;
+    selection-background-color: #6b9ebd;  /* Было #3daee9 → приглушенный серо-синий */
+}
+
+/***********************/
+/* Общие элементы */
+/***********************/
+QPushButton, QLineEdit, QTextEdit, QSlider::handle, QComboBox {
+    border-radius: 5px;
+    border: 1px solid #4a6fa5;          /* Было #1a73e8 → мягкий сине-серый */
+    background-color: #4a6fa5;          /* Тот же приглушенный синий */
+    padding: 5px;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+QSlider::groove {
+    background: #404244;
+    border-radius: 2px;
+    height: 4px;
+}
+
+QSlider::handle:hover {
+    background: #6d8fb5;                /* Было #4d8feb → приглушенный */
+}
+
+QPushButton:hover, QLineEdit:hover, QTextEdit:hover, QComboBox:hover, QSlider::handle:hover {
+    background-color: #6d8fb5;          /* Было #4d8feb */
+    border-color: #6d8fb5;
+}
+
+QPushButton:pressed, QSlider::handle:pressed {
+    background-color: #2a4a75;          /* Было #1557b0 → темный приглушенный */
+    border-color: #2a4a75;
+}
+
+QLineEdit, QTextEdit {
+    background-color: #1e1f21;
+    border: 1px solid #353638;
+}
+
+QLineEdit:hover, QTextEdit:hover {
+    border-color: #6d8fb5;              /* Согласовано с новым hover-цветом */
+    background-color: #252628;
+}
+
+/***********************/
+/* Комбобокс и скроллбар */
+/***********************/
+QComboBox QScrollBar::handle:vertical {
+    background: #4a6fa5;                /* Было #1a73e8 */
+    border-radius: 6px;
+    min-height: 30px;
+}
+
+/***********************/
+/* Слайдер */
+/***********************/
+QSlider::handle {
+    border: 2px solid #2a4a75;          /* Было #1557b0 → новый pressed-цвет */
+}
+
+QSlider::handle:hover {
+    background: #6d8fb5;
+    border-color: #4a6fa5;              /* Основной приглушенный цвет */
+    transform: scale(1.1);
+}
+
+/***********************/
+/* Обновлённые стили */
+/***********************/
+QSlider::groove {
+    margin: 8px 0; /* Пространство для handle */
+}
+
+QComboBox QListView {
+    background: #1e1f21;
+    border-radius: 5px;
+    margin-top: 2px;
+}
+
+/***********************/
+/* Состояние Disabled */
+/***********************/
+QPushButton:disabled {
+    background-color: #3a3f45;     /* Тёмный серо-синий фон */
+    border-color: #2d3136;        /* Граница на тон темнее фона */
+    color: #909294;               /* Приглушённый серый текст */
+    transition: none;            /* Отключаем анимации */
+}
+
+/***********************/
+/* Всплывающие подсказки */
+/***********************/
+QToolTip {
+    background-color: #37393b;       /* Светло-серый фон (на 15% светлее основного) */
+    color: #e0e0e0;                 /* Стандартный цвет текста */
+    border: 1px solid #2d2f31;      /* Тёмная граница для контраста */
+    border-radius: 5px;             /* Скругление как у других элементов */
+    padding: 5px 8px;               /* Комфортные отступы */
+    font-family: "Roboto", "Tahoma", "System UI";
+    font-weight: 600;
+    opacity: 230;                   /* Фикс для плавного появления в некоторых ОС */
+}
+
+/***********************/
+/* Графическая область */
+/***********************/
+QGraphicsView {
+    border: 0px transparent;      /* Полное удаление границы */
+    outline: 0px;                  /* Убираем фокусную рамку */
+    background-color: #292a2d;     /* Соответствие основному фону */
+}
+
+QGraphicsView::viewport {
+    border: none;                 /* Двойная страховка для внутренней области */
+    background-color: transparent;
+}
