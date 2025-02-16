@@ -154,7 +154,7 @@ DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {
     g_endSceneHook->detach();
     delete g_endSceneHook;
 
-    g_trueCallChannelHook->detach();
+    // g_trueCallChannelHook->detach(); // should be detached after attaching an EndScene
     delete g_trueCallChannelHook;
 
     delete g_necromancyEngine;
