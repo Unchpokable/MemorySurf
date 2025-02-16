@@ -108,7 +108,6 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     ui->centralWidget->installEventFilter(_dragHandler);
 
     _server = new WebSocketBroadcastServer(this, _defaultPort);
-    ui->customHeader->setProperty("IsTopBar", true);
 
     _ipcChannel = new SharedMemoryReader(this);
     _ipcChannel->setBufferReadInterval(30);
@@ -117,6 +116,11 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     connect(_ipcChannel, &SharedMemoryReader::initialized, this, &NecromancyLoaderWindow::onIpcChannelInitialized);
     connect(_ipcChannel, &SharedMemoryReader::messageAcquired, _server, &WebSocketBroadcastServer::messageAcquired);
 
+    _timerWaitUntilGameStarts = new QTimer(this);
+    _timerWaitUntilGameStarts->setSingleShot(true);
+    _timerWaitUntilGameStarts->setInterval(100);
+    connect(_timerWaitUntilGameStarts, &QTimer::timeout, this, &NecromancyLoaderWindow::onGameWaitTimer);
+
     setupGraphicsIndicators();
 }
 
@@ -124,12 +128,9 @@ NecromancyLoaderWindow::~NecromancyLoaderWindow() {
     delete ui;
 }
 
-void NecromancyLoaderWindow::onInjectButtonPressed() {
-    auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
-    _injector->setTargetProcPid(procInfo->processId());
-
+bool NecromancyLoaderWindow::injectPlugin() {
     if(_injector->hasTargetLoadedLibrary()) {
-        return;
+        return false;
     }
 
     auto fullDllPath = locateReaderDll(_properties->value("engine/pluginDll").toString());
@@ -146,6 +147,21 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
         makeEllipseIndicator(IndicatorState::Bad, ui->pluginIndicator);
         ui->loadButton->setText("Load");
     }
+
+    return true;
+}
+
+void NecromancyLoaderWindow::onInjectButtonPressed() {
+    if(!_gameExists) {
+        QProcess::startDetached("cmd.exe", { "/c", "start", "steam://rungameid/12900" });
+        _timerWaitUntilGameStarts->start();
+        return;
+    }
+
+    auto procInfo = ui->gameProcCombo->currentData().value<ProcessInfo*>();
+    _injector->setTargetProcPid(procInfo->processId());
+
+    injectPlugin();
 }
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
@@ -154,6 +170,10 @@ void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, con
             "This can happens when you launch a loader without admin rights. Please, re-run loader as admin and try again. "
             "For debug purposes, here is a Injector' stderr and stdout data:\n%2").arg(exitCode).arg(stdOut));
     }
+
+    makeEllipseIndicator(IndicatorState::Fine, ui->gameIndicator);
+    ui->loadButton->setText("Unload");
+
     _ipcChannel->startInit();
 }
 
@@ -214,6 +234,24 @@ void NecromancyLoaderWindow::onServerStartButtonPressed() {
             QMessageBox::warning(this, "Ooops!", "Unable to start or stop server. Please, restart the application");
         }
     }
+}
+
+void NecromancyLoaderWindow::onGameWaitTimer() {
+    auto gamePid = ProcessUtils::findProcessNamed("QuestViewer.exe");
+    if(gamePid == 0) {
+        _timerWaitUntilGameStarts->start();
+        return;
+    }
+
+    _gameExists = true;
+
+    scanProcessesAndPopulateSelectionCombo();
+
+    QTimer::singleShot(5000, [this, gamePid] {
+        _injector->setTargetProcPid(gamePid);
+        injectPlugin();
+    });
+
 }
 
 QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
@@ -310,6 +348,7 @@ void NecromancyLoaderWindow::loadProperties() {
 }
 
 void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
+
     ui->gameProcCombo->clear();
 
     swapScannedProcesses(ProcessUtils::listActiveProcesses());
@@ -323,12 +362,23 @@ void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
         ui->gameProcCombo->addItem(icon, proc->processName(), QVariant::fromValue(proc));
         if(proc->processName().toLower() == "questviewer.exe") {
             audiosurfProcId = counter;
+            _gameExists = true;
         }
 
         counter++;
     }
 
     ui->gameProcCombo->setCurrentIndex(audiosurfProcId);
+
+    _gameExists = audiosurfProcId != 0;
+
+    if(!_gameExists) {
+        ui->loadButton->setText("Launch via Steam");
+        hideLayout(ui->gameSelectionLayout);
+    } else {
+        ui->loadButton->setText("Load");
+        showLayout(ui->gameSelectionLayout);
+    }
 }
 
 void NecromancyLoaderWindow::swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses) {
@@ -397,6 +447,34 @@ void NecromancyLoaderWindow::startWebSocketServer() {
         delete _server;
         QMessageBox::warning(this, "Server boot error", 
             "Server can't start with current parameters. Mostly it may be caused by wrong port number. Please, change port to any unused value and try again");
+    }
+}
+
+void NecromancyLoaderWindow::hideLayout(const QLayout* layout) {
+    auto itemCount = layout->count();
+
+    for(int i { 0 }; i < itemCount; i++) {
+        auto item = layout->itemAt(i);
+        if(auto innerLayout = item->layout()) {
+            hideLayout(innerLayout);
+        }
+        if(item->widget()) {
+            item->widget()->hide();
+        }
+    }
+}
+
+void NecromancyLoaderWindow::showLayout(const QLayout* layout) {
+    auto itemCount = layout->count();
+
+    for(int i { 0 }; i < itemCount; i++) {
+        auto item = layout->itemAt(i);
+        if(auto innerLayout = item->layout()) {
+            showLayout(innerLayout);
+        }
+        if(item->widget()) {
+            item->widget()->show();
+        }
     }
 }
 

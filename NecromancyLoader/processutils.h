@@ -10,4 +10,6 @@ class ProcessUtils final {
 
 public:
     static QList<ProcessInfo*> listActiveProcesses();
+
+    static WinDword findProcessNamed(const QString &imageName);
 };

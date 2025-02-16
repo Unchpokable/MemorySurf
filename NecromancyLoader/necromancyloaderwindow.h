@@ -32,6 +32,7 @@ public:
     explicit NecromancyLoaderWindow(QWidget* parent = nullptr);
 
     virtual ~NecromancyLoaderWindow() override;
+    bool injectPlugin();
 
 private slots:
     void onInjectButtonPressed();
@@ -48,6 +49,9 @@ private slots:
 
     // web socket server
     void onServerStartButtonPressed();
+
+    // game loading
+    void onGameWaitTimer();
 
 private:
     // generic statics
@@ -71,6 +75,9 @@ private:
     void swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses);
     void checkAndAdjustAppPrivileges() const;
     void startWebSocketServer();
+
+    static void hideLayout(const QLayout* layout);
+    static void showLayout(const QLayout* layout);
 
     // indicators
     void setupGraphicsIndicators();
@@ -97,6 +104,10 @@ private:
     bool _gameRunning;
     bool _pluginLoaded;
     bool _serverRunning;
+
+    // game auto launch
+    bool _gameExists;
+    QTimer* _timerWaitUntilGameStarts;
 
     // sending rate configurations
     bool _immediateSendingRateWasReached { true }; // immediate mode is default

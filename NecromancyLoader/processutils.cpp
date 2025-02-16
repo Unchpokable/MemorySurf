@@ -62,3 +62,65 @@ QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
     CloseHandle(snapshot);
     return processes;
 }
+
+WinDword ProcessUtils::findProcessNamed(const QString &imageName) {
+    static const QStringList systemProcesses = {
+        "system", "winlogon.exe", "csrss.exe", "svchost.exe", "services.exe"
+    };
+
+    WinHandle snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if(snapshot == INVALID_HANDLE_VALUE) {
+        return 0;
+    }
+
+    PROCESSENTRY32W procEntry;
+    procEntry.dwSize = sizeof(PROCESSENTRY32W);
+    DWORD targetPid = 0;
+
+    if(Process32FirstW(snapshot, &procEntry)) {
+        do {
+            WinHandle hProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, procEntry.th32ProcessID);
+            if(!hProc) continue;
+
+            DWORD sessionId = 0;
+            if(ProcessIdToSessionId(procEntry.th32ProcessID, &sessionId) && sessionId == 0) {
+                CloseHandle(hProc);
+                continue;
+            }
+
+            WCHAR procPath[MAX_PATH] = { 0 };
+            DWORD pathSize = MAX_PATH;
+            if(QueryFullProcessImageNameW(hProc, 0, procPath, &pathSize)) {
+                QString qProcPath = QString::fromWCharArray(procPath).replace("/", "\\").toLower();
+
+                WCHAR systemRootEnv[MAX_PATH] = { 0 };
+                size_t envSize = 0;
+                _wgetenv_s(&envSize, systemRootEnv, L"SystemRoot");
+                QString systemRoot = QString::fromWCharArray(systemRootEnv).replace("/", "\\").toLower();
+
+                if(qProcPath.startsWith(systemRoot + "\\system32", Qt::CaseInsensitive) ||
+                    qProcPath.startsWith(systemRoot + "\\syswow64", Qt::CaseInsensitive)) {
+                    CloseHandle(hProc);
+                    continue;
+                }
+            }
+
+            QString procName = QString::fromWCharArray(procEntry.szExeFile).toLower();
+            if(systemProcesses.contains(procName)) {
+                CloseHandle(hProc);
+                continue;
+            }
+
+            if(procName == imageName.toLower()) {
+                targetPid = procEntry.th32ProcessID;
+                CloseHandle(hProc);
+                break;
+            }
+
+            CloseHandle(hProc);
+        } while(Process32NextW(snapshot, &procEntry));
+    }
+
+    CloseHandle(snapshot);
+    return targetPid;
+}
