@@ -46,6 +46,9 @@ private slots:
     void onIpcChannelConnectionTimedOut() const;
     void onIpcChannelInitialized() const;
 
+    // web socket server
+    void onServerStartButtonPressed();
+
 private:
     // generic statics
     static QString locateReaderDll(const QString& targetFile);

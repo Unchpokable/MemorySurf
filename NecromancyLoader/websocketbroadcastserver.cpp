@@ -62,6 +62,19 @@ bool WebSocketBroadcastServer::start() const {
     return _server->listen(QHostAddress::LocalHost, _port);
 }
 
+bool WebSocketBroadcastServer::stop() {
+    if(_server->isListening()) {
+        _clients.clear();
+        _server->close();
+        delete _server;
+        _server = new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode);
+
+        return true;
+    }
+
+    return false;
+}
+
 QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData) {
     Necromancy::Messages::ASDump::ASDumpStruct data;
     auto result = Deserialize(byteData.data, &data);

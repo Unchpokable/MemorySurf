@@ -93,6 +93,7 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     });
 
     connect(ui->loadButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onInjectButtonPressed);
+    connect(ui->startServerButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onServerStartButtonPressed);
 
     connect(_injector, &Injector::injectorExited, this, &NecromancyLoaderWindow::onInternalInjectorProcessFinished);
 
@@ -148,6 +149,11 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
 }
 
 void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
+    if(exitCode != 0) {
+        QMessageBox::critical(nullptr, "Injector error", QString("Injector process returned code %1. " 
+            "This can happens when you launch a loader without admin rights. Please, re-run loader as admin and try again. "
+            "For debug purposes, here is a Injector' stderr and stdout data:\n%2").arg(exitCode).arg(stdOut));
+    }
     _ipcChannel->startInit();
 }
 
@@ -188,6 +194,26 @@ void NecromancyLoaderWindow::onIpcChannelConnectionTimedOut() const {
 
 void NecromancyLoaderWindow::onIpcChannelInitialized() const {
     makeEllipseIndicator(IndicatorState::Fine, ui->pluginIndicator);
+}
+
+void NecromancyLoaderWindow::onServerStartButtonPressed() {
+    if(_serverRunning) {
+        if(_server->stop()) {
+            ui->startServerButton->setText("Start server");
+            _serverRunning = false;
+            makeEllipseIndicator(IndicatorState::Bad, ui->serverIndicator);
+        } else {
+            QMessageBox::warning(this, "Ooops!", "Unable to start or stop server. Please, restart the application");
+        }
+    } else {
+        if(_server->start()) {
+            ui->startServerButton->setText("Stop server");
+            _serverRunning = true;
+            makeEllipseIndicator(IndicatorState::Fine, ui->serverIndicator);
+        } else {
+            QMessageBox::warning(this, "Ooops!", "Unable to start or stop server. Please, restart the application");
+        }
+    }
 }
 
 QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>634</width>
-    <height>338</height>
+    <height>368</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -191,6 +191,19 @@ QGraphicsView::viewport {
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
+     <spacer name="verticalSpacer_8">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
      <widget class="QWidget" name="customHeader" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout_7">
        <property name="leftMargin">
@@ -242,7 +255,7 @@ QGraphicsView::viewport {
            <item>
             <widget class="QGraphicsView" name="rightsIndicator">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -250,7 +263,7 @@ QGraphicsView::viewport {
              <property name="maximumSize">
               <size>
                <width>30</width>
-               <height>16777215</height>
+               <height>30</height>
               </size>
              </property>
             </widget>
@@ -306,6 +319,19 @@ QGraphicsView::viewport {
        </item>
       </layout>
      </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_9">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
      <widget class="Line" name="line_2">
@@ -523,7 +549,20 @@ QGraphicsView::viewport {
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="gameIndicator"/>
+         <widget class="QGraphicsView" name="gameIndicator">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -537,7 +576,20 @@ QGraphicsView::viewport {
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="pluginIndicator"/>
+         <widget class="QGraphicsView" name="pluginIndicator">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -551,24 +603,24 @@ QGraphicsView::viewport {
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="serverIndicator"/>
+         <widget class="QGraphicsView" name="serverIndicator">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
      </layout>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_6">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
     </item>
     <item>
      <spacer name="verticalSpacer_5">

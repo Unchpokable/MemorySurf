@@ -2,8 +2,8 @@
 
 #include <QObject>
 
-#include "sharedmemoryreader.h"
 #include "propertymacro.h"
+#include "sharedmemoryreader.h"
 
 class WebSocketBroadcastServer final : public QObject {
     Q_OBJECT
@@ -19,6 +19,7 @@ public:
     void updatePort(quint16 port);
 
     bool start() const;
+    bool stop();
 
 public slots:
     void messageAcquired(const SharedMemoryReader::Buffer& byteData);
