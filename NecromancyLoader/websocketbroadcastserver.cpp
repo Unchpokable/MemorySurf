@@ -3,7 +3,7 @@
 #include "websocketbroadcastserver.h"
 #include "NecromancyMessages/messages.h"
 
-const QString WebSocketBroadcastServer::_defaultServerName = "MemorySurf broadcast server";
+const QString WebSocketBroadcastServer::_defaultServerName = "MemorySurf";
 
 WebSocketBroadcastServer::WebSocketBroadcastServer(QObject *parent, quint16 port)
     : QObject(parent), _server(new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode, this)), _port(port) {
