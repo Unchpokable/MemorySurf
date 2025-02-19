@@ -48,6 +48,10 @@ export class FullDump {
         this.timeElapsed = data.timeElapsed;
 
         this.eliteGoldThreshold = this.totalTraffic.reduce((acc, num) => acc + num, 0);
+    
+        this.hasSeeingRed();
+        this.hasButterNinja();
+        this.maxThresholdMatch();
     }
 
     public skillRating() : number {
