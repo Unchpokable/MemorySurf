@@ -17,6 +17,8 @@ export class FullDump {
     public maxMatch: Match = Match.NoMatch;
     public hasCF: boolean = true;
 
+    public skillRating: number = 0;
+
     private eliteLeagueMultiplier: number = 300;
 
     private indices: Record<string, number> = {
@@ -38,7 +40,7 @@ export class FullDump {
     }
 
     public fromRaw(data: any) : void {
-        [this.totalTraffic, this.collectedTraffic] = this.splitArray(data.stats);
+        [this.totalTraffic, this.collectedTraffic] = this.splitArray(data.statsArray);
         this.score = data.score;
         this.largestMatch = data.largestMatch;
         this.timeElapsed = data.timeElapsed;
@@ -48,9 +50,10 @@ export class FullDump {
         this.hasSeeingRed();
         this.hasButterNinja();
         this.maxThresholdMatch();
+        this.skillRating = this.getSkillRating();
     }
 
-    public skillRating() : number {
+    public getSkillRating() : number {
         const [hasSR, srBonus] = this.hasSeeingRed();
         const [hasBN, bnBonus] = this.hasButterNinja();
         const [match, matchBonus] = this.maxThresholdMatch();
