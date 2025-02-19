@@ -37,10 +37,6 @@ export class FullDump {
         'cleanfinish': (score: number) => score * 0.25
     }
 
-    constructor(data: any) {
-        this.fromRaw(data);
-    }
-
     public fromRaw(data: any) : void {
         [this.totalTraffic, this.collectedTraffic] = this.splitArray(data.stats);
         this.score = data.score;

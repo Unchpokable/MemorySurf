@@ -3,17 +3,17 @@
     import { invoke } from '@tauri-apps/api/core';
     import { fly } from 'svelte/transition';
     import { FullDump } from '../lib/fulldump';
-    import { type JSONValue } from '../lib/jsonvalue';
 
-    let content : JSONValue | null;
+    let content: any | null;
+    let fullDump: FullDump = new FullDump();
 
-    async function getArgs() : Promise<Record<string, string>> {
+    async function getArgs(): Promise<Record<string, string>> {
         return await invoke("get_cli_args");
     }
 
     function update() {
         if(content != null) {
-            
+            fullDump.fromRaw(content);
         }
     }
 
