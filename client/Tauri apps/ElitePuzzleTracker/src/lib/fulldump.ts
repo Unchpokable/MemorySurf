@@ -54,16 +54,22 @@ export class FullDump {
     }
 
     public getSkillRating() : number {
-        const [hasSR, srBonus] = this.hasSeeingRed();
-        const [hasBN, bnBonus] = this.hasButterNinja();
-        const [match, matchBonus] = this.maxThresholdMatch();
+        const [, srBonus] = this.hasSeeingRed();
+        const [, bnBonus] = this.hasButterNinja();
+        const [, matchBonus] = this.maxThresholdMatch();
         
         // lets asssume that CF is always earned 
-        const [hasCF, cfBonus] = [true, this.bonuses.cleanfinish(this.score)]
+        const [, cfBonus] = [true, this.bonuses.cleanfinish(this.score)]
 
         const totalScore = this.score + srBonus + bnBonus + matchBonus + cfBonus;
 
-        return (totalScore / this.eliteGoldThreshold) * this.eliteLeagueMultiplier;
+        let rating = (totalScore / this.eliteGoldThreshold) * this.eliteLeagueMultiplier;
+
+        if(Number.isNaN(rating)) {
+            rating = 0;
+        }
+        
+        return rating;
     }
 
     public hasSeeingRed() : [boolean, number] {

@@ -11,6 +11,11 @@
     $: collectedTraffic = fullDump.collectedTraffic;
     $: skillRating = fullDump.skillRating;
 
+    $: hasSeeingRed = fullDump.hasSR;
+    $: hasButterNinja = fullDump.hasBN;
+    $: maxMatch = fullDump.maxMatch;
+    $: hasCleanFinish = fullDump.hasCF;
+
     let dummy = {
         'score': 0,
         'statsArray': [
@@ -87,7 +92,7 @@
 </script>
 
 <div class="content">
-    <p> Skill Rating: { Math.trunc(skillRating) }</p>
+    <p class="sr_title"> Skill Rating: { Math.trunc(skillRating) }</p>
     <table>
         <tbody>
             <tr>
@@ -153,6 +158,10 @@
         font-size: 36px;
         background: linear-gradient(-45deg, #160631, #4d1616);
         border-radius: 10px;
+    }
+
+    .sr_title {
+        font-size: 24px;
     }
 
     table {
