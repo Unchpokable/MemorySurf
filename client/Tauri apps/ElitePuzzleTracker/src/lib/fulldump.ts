@@ -47,7 +47,7 @@ export class FullDump {
         this.largestMatch = data.largestMatch;
         this.timeElapsed = data.timeElapsed;
 
-        this.eliteGoldThreshold = this.totalTraffic.reduce((acc, num) => acc + num, 0);
+        this.eliteGoldThreshold = this.totalTraffic.reduce((acc, num) => acc + num, 0) * 85;
     
         this.hasSeeingRed();
         this.hasButterNinja();
