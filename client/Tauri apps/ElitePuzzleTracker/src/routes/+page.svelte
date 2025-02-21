@@ -7,6 +7,13 @@
     let content: any | null;
     let fullDump: FullDump = new FullDump();
 
+    const matchIcons = [
+        { type: Match.NoMatch, name: 'noMatch' },
+        { type: Match.Match7, name: 'match7' },
+        { type: Match.Match11, name: 'match11' },
+        { type: Match.Match21, name: 'match21' }
+    ];
+
     $: totalTraffic = fullDump.totalTraffic;
     $: collectedTraffic = fullDump.collectedTraffic;
     $: skillRating = fullDump.skillRating;
@@ -15,13 +22,6 @@
     $: hasButterNinja = fullDump.hasBN;
     $: maxMatch = fullDump.maxMatch;
     $: hasCleanFinish = fullDump.hasCF;
-
-    const matchIcons = [
-    { type: Match.NoMatch, name: 'noMatch' },
-    { type: Match.Match7, name: 'match7' },
-    { type: Match.Match11, name: 'match11' },
-    { type: Match.Match21, name: 'match21' }
-  ];
 
     let initial = {
         'score': 0,
