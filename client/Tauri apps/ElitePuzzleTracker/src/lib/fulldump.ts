@@ -12,10 +12,10 @@ export class FullDump {
 
     public eliteGoldThreshold: number = 0.0;
 
-    public hasSR: boolean = false;
-    public hasBN: boolean = false;
-    public maxMatch: Match = Match.NoMatch;
-    public hasCF: boolean = true;
+    public hasSR: [boolean, number] = [false, 0];
+    public hasBN: [boolean, number] = [false, 0];
+    public maxMatch: [Match, number] = [Match.NoMatch, 0];
+    public hasCF: [boolean, number] = [true, 0];
 
     public skillRating: number = 0;
 
@@ -37,6 +37,12 @@ export class FullDump {
         'match11': (score: number) => score * 0.11,
         'match21': (score: number) => score * 0.21,
         'cleanfinish': (score: number) => score * 0.25
+    }
+
+    public static fromRaw(data: any) : FullDump {
+        let instance = new FullDump();
+        instance.fromRaw(data);
+        return instance;
     }
 
     public fromRaw(data: any) : void {
@@ -84,8 +90,8 @@ export class FullDump {
             bonus = this.bonuses.seeingred(this.score);
         }
 
-        this.hasSR = gotBonus;
-        return [gotBonus, bonus];
+        this.hasSR = [gotBonus, bonus];
+        return this.hasSR;
     }
 
     public hasButterNinja() : [boolean, number] {
@@ -100,8 +106,8 @@ export class FullDump {
             bonus = this.bonuses.butterninja(this.score);
         }
 
-        this.hasBN = gotBonus;
-        return [gotBonus, bonus];
+        this.hasBN = [gotBonus, bonus];
+        return this.hasBN;
     }
 
     public maxThresholdMatch() : [Match, number]{
@@ -123,8 +129,8 @@ export class FullDump {
                 break;
         }
 
-        this.maxMatch = maxMatch;
-        return [maxMatch, bonus];
+        this.maxMatch = [maxMatch, bonus];
+        return this.maxMatch;
     }
 
     public splitArray(arr: Array<number>): [Array<number>, Array<number>] {

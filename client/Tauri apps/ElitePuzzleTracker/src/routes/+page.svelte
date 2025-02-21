@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { invoke } from '@tauri-apps/api/core';
     import { fly } from 'svelte/transition';
-    import { FullDump } from '../lib/fulldump';
+    import { FullDump, Match } from '../lib/fulldump';
 
     let content: any | null;
     let fullDump: FullDump = new FullDump();
@@ -16,7 +16,14 @@
     $: maxMatch = fullDump.maxMatch;
     $: hasCleanFinish = fullDump.hasCF;
 
-    let dummy = {
+    const matchIcons = [
+    { type: Match.NoMatch, name: 'noMatch' },
+    { type: Match.Match7, name: 'match7' },
+    { type: Match.Match11, name: 'match11' },
+    { type: Match.Match21, name: 'match21' }
+  ];
+
+    let initial = {
         'score': 0,
         'statsArray': [
             0, 0, 0, 0, 0, 0,
@@ -33,9 +40,7 @@
     function update() {
         if(content != null) {
             console.log("going to update dump!");
-            fullDump.fromRaw(content);
-            // @ts-ignore
-            fullDump = {...fullDump};
+            fullDump = FullDump.fromRaw(content);
         }
     }
 
@@ -45,15 +50,15 @@
     }
 
     function onSocketOpen(event : Event) {
-        content = null;
+        content = initial;
     }
 
     function onSocketClose(event : CloseEvent) {
-        content = null;
+        content = initial;
     }
 
     function onSocketError(event : Event) {
-        content = null;
+        content = initial;
     }
 
     onMount(() => {
@@ -76,15 +81,15 @@
                 console.error('Ошибка при получении аргументов:', error);
             }
         }
-        // setupWebSocket();
+        setupWebSocket();
 
-        content = dummy;
+        content = initial;
         update();
         console.log("updating");
 
         return () => {
             if (webSocket) {
-            webSocket.close();
+                webSocket.close();
             }
         };
     });
@@ -92,7 +97,7 @@
 </script>
 
 <div class="content">
-    <p class="sr_title"> Skill Rating: { Math.trunc(skillRating) }</p>
+    <p class="sr_title" transition:fly={{y: 20, duration: 100}}> Skill Rating (if CF): { Math.trunc(skillRating) }</p>
     <table>
         <tbody>
             <tr>
@@ -115,6 +120,29 @@
               </tr>
         </tbody>
     </table>
+
+    <div class='horizontal_container'>
+        {#if hasButterNinja[0]}
+            <img class='icon' src='bn.svg' alt='a gde'/>
+        {:else}
+            <img class='icon' src='bn_unacquired.svg' alt='a gde'/>
+        {/if}
+
+        {#if hasSeeingRed[0]}
+            <img class='icon' src='sr.svg' alt='a gde'/>
+        {:else}
+            <img class='icon' src='sr_unacquired.svg' alt='a gde'/>
+        {/if}
+
+        {#each matchIcons as icon}
+        <img
+            src={maxMatch[0] === icon.type
+            ? `/icons/${icon.name}-active.png`
+            : `/icons/${icon.name}-inactive.png`}
+            alt={`Иконка ${icon.name}`}
+        />
+        {/each}
+    </div>
 </div>
 
 <style>
@@ -160,14 +188,19 @@
         border-radius: 10px;
     }
 
+    div.horizontal_container {
+        flex-direction: row;
+    }
+
     .sr_title {
-        font-size: 24px;
+        font-size: 36px;
     }
 
     table {
         border-collapse: collapse;
         margin: 10px 0;
         table-layout: auto;
+        width: 100%;
     }
 
     td {
