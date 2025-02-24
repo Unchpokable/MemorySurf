@@ -16,6 +16,7 @@ public:
 
     AUTO_PROPERTY(int, packetSkip)
 
+    quint16 port() const;
     void updatePort(quint16 port);
 
     bool start() const;

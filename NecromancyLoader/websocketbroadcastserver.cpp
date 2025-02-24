@@ -15,6 +15,10 @@ WebSocketBroadcastServer::~WebSocketBroadcastServer() {
     delete _server;
 }
 
+quint16 WebSocketBroadcastServer::port() const {
+    return _port;
+}
+
 void WebSocketBroadcastServer::updatePort(quint16 port) {
     if(_server->isListening()) {
         _server->close();

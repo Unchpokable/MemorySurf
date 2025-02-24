@@ -50,8 +50,13 @@ private slots:
     // web socket server
     void onServerStartButtonPressed();
 
-    // game loading
+    // game loading and tracking
     void onGameWaitTimer();
+    void onGameTrackTimer();
+
+
+    // controlling trackers
+    void onLaunchTrackerButtonClicked() const;
 
 private:
     // generic statics
@@ -105,10 +110,14 @@ private:
     bool _pluginLoaded;
     bool _serverRunning;
 
-    // game auto launch
+    // game control and auto launch
     bool _gameExists;
     QTimer* _timerWaitUntilGameStarts;
+    QTimer* _gameTrackingTimer;
 
     // sending rate configurations
     bool _immediateSendingRateWasReached { true }; // immediate mode is default
+
+    // trackers plugins
+    QProcess* _trackerHandle;
 };

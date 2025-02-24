@@ -121,7 +121,14 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     _timerWaitUntilGameStarts->setInterval(100);
     connect(_timerWaitUntilGameStarts, &QTimer::timeout, this, &NecromancyLoaderWindow::onGameWaitTimer);
 
+    _gameTrackingTimer = new QTimer(this);
+    _gameTrackingTimer->setInterval(200);
+
     setupGraphicsIndicators();
+
+    connect(ui->launchTrackerButton, &QPushButton::clicked, this, &NecromancyLoaderWindow::onLaunchTrackerButtonClicked);
+
+    _trackerHandle = new QProcess();
 }
 
 NecromancyLoaderWindow::~NecromancyLoaderWindow() {
@@ -252,6 +259,24 @@ void NecromancyLoaderWindow::onGameWaitTimer() {
         injectPlugin();
     });
 
+}
+
+void NecromancyLoaderWindow::onGameTrackTimer() {
+    auto gameProc = ProcessUtils::findProcessNamed("QuestViewer.exe");
+    if(gameProc == NULL) {
+        _gameExists = false;
+
+        if(_serverRunning) {
+            onServerStartButtonPressed();
+        }
+    }
+}
+
+void NecromancyLoaderWindow::onLaunchTrackerButtonClicked() const {
+    // for testing purposes, only elite puzzle tracker is supported
+
+    auto trackerFile = "plugins/elitepuzzletracker.exe";
+    _trackerHandle->start(trackerFile, { QString("--ws=%1").arg(_server->port()) });
 }
 
 QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
