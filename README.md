@@ -11,10 +11,11 @@
 ---
 ## Features
 - Extracting game statistics:
-- - Total amount and collected counts of colored blocks traffic (actually mostly for Elite puzzles)
-- - Time elapsed sinse song start (ignores pauses)
-- - Total player score
-- - Medals threshold
+  - Total amount and collected counts of colored blocks traffic (actually mostly for Elite puzzles)
+  - Time elapsed sinse song start (ignores pauses)
+  - Total player score
+  - Max match
+  - (not quite) current and maximum chain strength
 - Web socket server that broadcasts readed data on localhost:port_that_you_selected (by default use localhost:20080)
 
 ## Planned features
