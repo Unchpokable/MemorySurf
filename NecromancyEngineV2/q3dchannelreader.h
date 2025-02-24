@@ -5,11 +5,11 @@
 
 #include "q3dprimitivereader.h"
 
-namespace Necromancy::Memory {
+namespace necromancy::Memory {
 
 class Q3DChannelReader;
 
-using namespace Necromancy::Detours;
+using namespace necromancy::hooks;
 
 template <typename T>
 concept ValidPrimitiveReader =

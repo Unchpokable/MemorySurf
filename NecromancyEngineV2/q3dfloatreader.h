@@ -3,7 +3,7 @@
 #include "q3dprimitivereader.h"
 #include "q3dchannelreader.h"
 
-namespace Necromancy::Memory {
+namespace necromancy::Memory {
 
 class Q3DFloatReader final : public Q3DChannelReader, public Q3DPrimitiveReader<float>
 {

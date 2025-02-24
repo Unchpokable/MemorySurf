@@ -1,7 +1,7 @@
 #pragma once
 #include <A3d_Channels.h>
 
-namespace Necromancy::Typedefs {
+namespace necromancy::Typedefs {
 
 //    void __fastcall HkTrueCallChannel(A3d_Channel* self, DWORD edx);
 

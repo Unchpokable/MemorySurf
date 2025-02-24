@@ -2,7 +2,7 @@
 
 #include "q3dfloatreader.h"
 
-using namespace Necromancy::Memory;
+using namespace necromancy::Memory;
 
 Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target), Q3DPrimitiveReader<float>() {
     // empty

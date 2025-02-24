@@ -5,7 +5,7 @@
 #include "load.h"
 #include "logger.h"
 
-using namespace Necromancy;
+using namespace necromancy;
 
 static constexpr const char* statsCollectorChannelGroup = "StatCollector";
 
@@ -21,7 +21,7 @@ std::vector<float> NecromancyEngine::_allIndices {
 };
 
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
-    _q3dFunctions = Detours::HkFunctions::setup();
+    _q3dFunctions = hooks::HkFunctions::setup();
     Initialize(&_dumped, 12); // todo: place here actual dumped array size
 }
 
@@ -64,7 +64,7 @@ void NecromancyEngine::setQ3DEngineInterface(EngineInterface* q3dInterface) {
     _q3dEngineInterface = q3dInterface;
 }
 
-const Detours::HkFunctions& NecromancyEngine::functions() const noexcept {
+const hooks::HkFunctions& NecromancyEngine::functions() const noexcept {
     return _q3dFunctions;
 }
 

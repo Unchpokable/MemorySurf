@@ -3,7 +3,7 @@
 #include "q3dchannelreader.h"
 #include "tablelayoutpresenter.h"
 
-namespace Necromancy::Memory {
+namespace necromancy::Memory {
 
 /* Idea of this class now is:
 - All columns or at least most interesting columns of ArrayTable placed in separate channels as `Array Value` and after all this `Array Value` exists channel called `Index_ofSomething` like

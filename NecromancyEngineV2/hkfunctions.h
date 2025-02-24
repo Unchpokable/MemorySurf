@@ -2,9 +2,9 @@
 
 #include "typedefs.h"
 
-namespace Necromancy::Detours {
+namespace necromancy::hooks {
 
-using namespace Necromancy::Typedefs;
+using namespace necromancy::Typedefs;
 
 class HkFunctions
 {

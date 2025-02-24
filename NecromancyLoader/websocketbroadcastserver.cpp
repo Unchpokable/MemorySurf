@@ -76,9 +76,9 @@ bool WebSocketBroadcastServer::stop() {
 }
 
 QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData) {
-    Necromancy::Messages::ASDump::ASDumpStruct data;
+    necromancy::Messages::ASDump::ASDumpStruct data;
     auto result = Deserialize(byteData.data, &data);
-    if(result != Necromancy::Messages::StatusCode::Ok) {
+    if(result != necromancy::Messages::StatusCode::Ok) {
         return "<ERROR>"; // todo: handle deserialization errors
     }
 

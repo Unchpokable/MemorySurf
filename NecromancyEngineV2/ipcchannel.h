@@ -1,10 +1,10 @@
 #pragma once
 
-namespace Necromancy::Messages::ASDump {
+namespace necromancy::Messages::ASDump {
 struct ASDumpStruct;
 }
 
-namespace Necromancy::Ipc {
+namespace necromancy::Ipc {
 
 class IpcChannel final {
 public:

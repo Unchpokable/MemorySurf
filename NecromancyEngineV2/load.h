@@ -3,7 +3,7 @@
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 
-namespace Necromancy {
+namespace necromancy {
 
 using DirectXEndScene = HRESULT(__stdcall*)(LPDIRECT3DDEVICE9);
 

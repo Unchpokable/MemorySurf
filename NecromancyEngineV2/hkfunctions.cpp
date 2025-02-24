@@ -3,7 +3,7 @@
 #include "hkfunctions.h"
 #include "logger.h"
 
-using namespace Necromancy::Detours;
+using namespace necromancy::hooks;
 
 HkFunctions* HkFunctions::_instance = nullptr;
 int HkFunctions::_referenceCount = 0;

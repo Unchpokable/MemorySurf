@@ -52,6 +52,12 @@
     <Filter Include="Source Files\memory\internals">
       <UniqueIdentifier>{59c020da-dce3-452b-8862-9221ce3a5367}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\hooks\wrappers">
+      <UniqueIdentifier>{71a0a889-5af2-4870-aae5-64ddb1affffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hooks\wrappers">
+      <UniqueIdentifier>{75f4b6e8-42c1-4d2a-b9e7-940060d9e855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -114,6 +120,12 @@
     <ClInclude Include="tablelayoutpresenter.h">
       <Filter>Headers\memory\internals</Filter>
     </ClInclude>
+    <ClInclude Include="proxymemoryobject.h">
+      <Filter>Headers\hooks\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="acofloatchannel.h">
+      <Filter>Headers\hooks\wrappers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -160,6 +172,12 @@
     </ClCompile>
     <ClCompile Include="tablelayoutpresenter.cpp">
       <Filter>Source Files\memory\internals</Filter>
+    </ClCompile>
+    <ClCompile Include="proxymemoryobject.cpp">
+      <Filter>Source Files\hooks\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="acofloatchannel.cpp">
+      <Filter>Source Files\hooks\wrappers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

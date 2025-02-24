@@ -5,7 +5,7 @@
 #include "logger.h"
 #include "NecromancyMessages/messages.h"
 
-using namespace Necromancy::Ipc;
+using namespace necromancy::Ipc;
 
 IpcChannel::IpcChannel() {
     initializeSharedMemory();

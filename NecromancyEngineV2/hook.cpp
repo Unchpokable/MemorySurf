@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "hook.h"
 
-using namespace Necromancy::Detours;
+using namespace necromancy::hooks;
 
 Hook::Hook(void* target, void* detour)
     : _targetFunction(target), _detourFunction(detour), _hookAttached(false) {

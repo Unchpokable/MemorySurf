@@ -18,9 +18,9 @@ constexpr ptrdiff_t DirectX_EndSceneOffset = 42;
 // runtime global variables
 constexpr std::chrono::duration<long long, std::milli> g_deltaTime { 100 };
 
-Necromancy::NecromancyEngine* g_necromancyEngine = nullptr;
-Necromancy::Detours::Hook* g_endSceneHook = nullptr;
-Necromancy::Detours::Hook* g_trueCallChannelHook = nullptr;
+necromancy::NecromancyEngine* g_necromancyEngine = nullptr;
+necromancy::hooks::Hook* g_endSceneHook = nullptr;
+necromancy::hooks::Hook* g_trueCallChannelHook = nullptr;
 std::chrono::time_point<std::chrono::steady_clock> g_timePoint;
 
 // Dll data
@@ -28,7 +28,7 @@ HMODULE g_this;
 
 }
 
-HRESULT __stdcall Necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
+HRESULT __stdcall necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
     auto now = std::chrono::high_resolution_clock::now();
     if(std::chrono::duration_cast<std::chrono::milliseconds>(now - g_timePoint) < g_deltaTime) {
         g_timePoint = now;
@@ -41,14 +41,14 @@ HRESULT __stdcall Necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
     return g_endSceneHook->original<DirectXEndScene>()(device);
 }
 
-void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
+void __fastcall necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
     if(g_necromancyEngine->engineInterface() == nullptr) {
         g_necromancyEngine->setQ3DEngineInterface(self->engine);
         Logger::logCondition(notNull(g_necromancyEngine->engineInterface()), "Engine interface is available");
 
         g_necromancyEngine->setupChannelReaders();
         g_trueCallChannelHook->detach();
-        if(g_endSceneHook->attach() != Detours::Status::Ok) {
+        if(g_endSceneHook->attach() != hooks::Status::Ok) {
             Logger::panic("Hooks", "Attaching hook to DirectX EndScene failed - load.cpp:HkTrueCallChannel");
             Unload(nullptr);
         }
@@ -60,7 +60,7 @@ void __fastcall Necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
     return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
 }
 
-HRESULT Necromancy::InitDirect3D() {
+HRESULT necromancy::InitDirect3D() {
     IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
     if(!pD3D) {
@@ -98,7 +98,7 @@ HRESULT Necromancy::InitDirect3D() {
         delete g_endSceneHook;
     }
 
-    g_endSceneHook = new Detours::Hook(endScene, HkEndScene_DumpMemory);
+    g_endSceneHook = new hooks::Hook(endScene, HkEndScene_DumpMemory);
 
     pDevice->Release();
     pD3D->Release();
@@ -108,13 +108,13 @@ HRESULT Necromancy::InitDirect3D() {
     return 0;
 }
 
-HWND Necromancy::GetProcWindow() {
+HWND necromancy::GetProcWindow() {
     HWND mainWindow = nullptr;
     EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&mainWindow));
     return mainWindow;
 }
 
-BOOL CALLBACK Necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
+BOOL CALLBACK necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
     DWORD processId = 0;
     GetWindowThreadProcessId(hwnd, &processId);
 
@@ -128,11 +128,11 @@ BOOL CALLBACK Necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
     return TRUE;
 }
 
-void Necromancy::Setup(HMODULE thisDll) {
+void necromancy::Setup(HMODULE thisDll) {
     g_this = thisDll;
 
     g_necromancyEngine = new NecromancyEngine();
-    g_trueCallChannelHook = new Detours::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), HkTrueCallChannel);
+    g_trueCallChannelHook = new hooks::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), HkTrueCallChannel);
 
     if(FAILED(InitDirect3D())) {
         Logger::panic("DirectX", "Failed to initialize DirectX environment. Hook setup failed");
@@ -140,7 +140,7 @@ void Necromancy::Setup(HMODULE thisDll) {
     }
 
     auto callChannelStatus = g_trueCallChannelHook->attach();
-    if(callChannelStatus == Detours::Status::DetourException) {
+    if(callChannelStatus == hooks::Status::DetourException) {
         Logger::panic("Hooks", "Critical exception during attaching TrueCallChannel hook");
         Unload(nullptr);
     }
@@ -148,7 +148,7 @@ void Necromancy::Setup(HMODULE thisDll) {
     Logger::info("Setup step 1 of 2 succeeded");
 }
 
-DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {
+DWORD WINAPI necromancy::Unload(LPVOID lpThreadParameter) {
     UNUSED(lpThreadParameter);
 
     g_endSceneHook->detach();
@@ -163,7 +163,7 @@ DWORD WINAPI Necromancy::Unload(LPVOID lpThreadParameter) {
     FreeLibraryAndExitThread(g_this, S_OK);
 }
 
-DWORD WINAPI Necromancy::Main(LPVOID lpThreadParameter) {
+DWORD WINAPI necromancy::Main(LPVOID lpThreadParameter) {
     Setup((HMODULE)lpThreadParameter);
 
     Logger::enableBuffering();

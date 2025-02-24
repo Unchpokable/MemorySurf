@@ -3,7 +3,7 @@
 #include "vtabledef.h"
 #include "hkfunctions.h"
 
-namespace Necromancy::Memory {
+namespace necromancy::Memory {
 
 class ArrayConnectItemReader final {
 public:
@@ -15,7 +15,7 @@ public:
     int getRowCount() const;
 
 private:
-    Detours::HkFunctions _functions;
+    hooks::HkFunctions _functions;
     void* _arrayConnectItem;
 };
 

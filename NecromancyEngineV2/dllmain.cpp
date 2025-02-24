@@ -12,12 +12,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
     {
-        CreateThread(nullptr, 0, Necromancy::Main, hModule, 0, nullptr);
+        CreateThread(nullptr, 0, necromancy::Main, hModule, 0, nullptr);
         return TRUE;
     }   
     case DLL_PROCESS_DETACH:
     {
-        CreateThread(nullptr, 0, Necromancy::Unload, hModule, 0, nullptr);
+        CreateThread(nullptr, 0, necromancy::Unload, hModule, 0, nullptr);
         return TRUE;
     }
     case DLL_THREAD_ATTACH:

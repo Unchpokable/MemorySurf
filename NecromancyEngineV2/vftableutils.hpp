@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Necromancy::Memory {
+namespace necromancy::Memory {
 
 template<typename Ret, typename Function, typename ...Args>
 Ret CallVTable(void* object, ptrdiff_t callIdx, Args... args) {

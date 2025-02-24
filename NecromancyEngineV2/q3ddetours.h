@@ -3,7 +3,7 @@
 #include "hook.h"
 #include "taggedexception.hpp"
 
-namespace Necromancy::Detours {
+namespace necromancy::hooks {
 
 template<typename Function>
 Hook<Function> AttachHook(Function target, Function detour)
@@ -15,7 +15,7 @@ Hook<Function> AttachHook(Function target, Function detour)
         return hook;
     }
 
-    throw TaggedException<struct DetoursOperationCriticalTag>("Critical exception in Detours lib");
+    throw TaggedException<struct DetoursOperationCriticalTag>("Critical exception in Hooks lib");
 }
 
 }

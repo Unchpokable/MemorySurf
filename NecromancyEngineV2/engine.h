@@ -6,7 +6,7 @@
 #include "q3dfloatreader.h"
 #include "NecromancyMessages/messages.h"
 
-namespace Necromancy {
+namespace necromancy {
 
 class NecromancyEngine final {
 private:
@@ -37,7 +37,7 @@ public:
     const EngineInterface* engineInterface() const noexcept;
     void setQ3DEngineInterface(EngineInterface* q3dInterface);
 
-    const Detours::HkFunctions& functions() const noexcept;
+    const hooks::HkFunctions& functions() const noexcept;
     void setupChannelReaders();
 
 private:
@@ -55,7 +55,7 @@ private:
     std::unordered_map<std::string, Memory::Q3DFloatReader*> _floatChannels;
     Memory::Q3DArrayTableReader* _statsTable;
     Ipc::IpcChannel _ipcChannel;
-    Detours::HkFunctions _q3dFunctions;
+    hooks::HkFunctions _q3dFunctions;
 
     Messages::ASDump::ASDumpStruct _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;

@@ -5,7 +5,7 @@
 #include "vftableutils.hpp"
 #include "vtabledef.h"
 
-namespace Necromancy::Memory::Internals {
+namespace necromancy::Memory::Internals {
 
 static constexpr ptrdiff_t ArrayTable_GetElementsVTableIdx = VTABLE_INDEX(8);
 static constexpr ptrdiff_t ArrayTable_GetElementAtVTableIdx = VTABLE_INDEX(4);
@@ -28,11 +28,11 @@ private:
     void* getAcoColumn(std::int32_t idx) const;
 
     void* _arrayTable;
-    Detours::HkFunctions _functions;
+    hooks::HkFunctions _functions;
 };
 
 template<typename Channel>
-TableLayout<Channel>::TableLayout(A3d_Channel *target) : _arrayTable(target), _functions(Detours::HkFunctions::setup()) {
+TableLayout<Channel>::TableLayout(A3d_Channel *target) : _arrayTable(target), _functions(hooks::HkFunctions::setup()) {
     // empty
 }
 
