@@ -179,13 +179,11 @@
     <ClInclude Include="genericutils.h" />
     <ClInclude Include="proxymemoryobject.h" />
     <ClInclude Include="vtabledef.h" />
-    <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
     <ClInclude Include="ipcchannel.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="q3dprimitivereader.h" />
     <ClInclude Include="q3darraytablereader.h" />
     <ClInclude Include="q3dchannelreader.h" />
     <ClInclude Include="q3ddetours.h" />
@@ -202,7 +200,6 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="genericutils.cpp" />
-    <ClCompile Include="hkfunctions.cpp" />
     <ClCompile Include="hook.cpp" />
     <ClCompile Include="ipcchannel.cpp" />
     <ClCompile Include="load.cpp" />

@@ -37,7 +37,6 @@ public:
     const EngineInterface* engineInterface() const noexcept;
     void setQ3DEngineInterface(EngineInterface* q3dInterface);
 
-    const hooks::HkFunctions& functions() const noexcept;
     void setupChannelReaders();
 
 private:

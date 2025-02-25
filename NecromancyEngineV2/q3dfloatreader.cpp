@@ -4,6 +4,7 @@
 #include "acofloatchannel.h"
 
 using namespace necromancy::memory;
+using namespace necromancy::hooks;
 
 Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target) {
     // empty

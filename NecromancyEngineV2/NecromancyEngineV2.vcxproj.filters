@@ -66,9 +66,6 @@
     <ClInclude Include="q3ddetours.h">
       <Filter>Headers\hooks</Filter>
     </ClInclude>
-    <ClInclude Include="hkfunctions.h">
-      <Filter>Headers\hooks</Filter>
-    </ClInclude>
     <ClInclude Include="hook.h">
       <Filter>Headers\hooks</Filter>
     </ClInclude>
@@ -92,9 +89,6 @@
     </ClInclude>
     <ClInclude Include="ipcchannel.h">
       <Filter>Headers\ipc</Filter>
-    </ClInclude>
-    <ClInclude Include="q3dprimitivereader.h">
-      <Filter>Headers\memory</Filter>
     </ClInclude>
     <ClInclude Include="logger.h">
       <Filter>Headers\log</Filter>
@@ -124,9 +118,6 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hkfunctions.cpp">
-      <Filter>Source Files\hooks</Filter>
     </ClCompile>
     <ClCompile Include="hook.cpp">
       <Filter>Source Files\hooks</Filter>
