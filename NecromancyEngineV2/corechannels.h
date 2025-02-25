@@ -22,6 +22,8 @@ public:
     static const char* getChannelName(void* object);
     static void trueCallChannel(void* object);
 
+    static bool allValid();
+
 protected:
     explicit CoreChannels();
 

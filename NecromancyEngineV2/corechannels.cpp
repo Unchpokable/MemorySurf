@@ -26,5 +26,9 @@ void CoreChannels::trueCallChannel(void *object) {
     _instance->_functions[_trueCallChannelId](object);
 }
 
+bool CoreChannels::allValid() {
+    return ProxyMemoryObject::allValid(_instance);
+}
+
 CoreChannels::CoreChannels() : ProxyMemoryObject("highpoly.dll") {
 }

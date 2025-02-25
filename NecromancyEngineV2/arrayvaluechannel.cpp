@@ -15,5 +15,9 @@ float ArrayValueChannel::getFloat(void* object) {
     return _instance->_functions[_getFloatId](object);
 }
 
+bool ArrayValueChannel::allValid() {
+    return ProxyMemoryObject::allValid(_instance);
+}
+
 ArrayValueChannel::ArrayValueChannel() : ProxyMemoryObject("DF5BF7F7-C204-4F6E-BDB8-666A53DFCC58.dll") {
 }

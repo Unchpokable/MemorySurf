@@ -11,6 +11,8 @@ public:
     static float getDefaultFloat(void* object);
     static void setFloat(void* object, float value);
 
+    static bool allValid();
+
 protected:
     virtual ~AcoFloatChannel() override = default;
     explicit AcoFloatChannel();

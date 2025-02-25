@@ -27,9 +27,14 @@ std::vector<float> NecromancyEngine::_allIndices {
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
     Initialize(&_dumped, 12); // todo: place here actual dumped array size
 
-    hooks::AcoFloatChannel::init();
-    hooks::ArrayValueChannel::init();
     hooks::CoreChannels::init();
+    Logger::logCondition(hooks::CoreChannels::allValid(), "Accessing to core game engine functions");
+
+    hooks::AcoFloatChannel::init();
+    Logger::logCondition(hooks::AcoFloatChannel::allValid(), "Accessing to Float Channel functions");
+
+    hooks::ArrayValueChannel::init();
+    Logger::logCondition(hooks::ArrayValueChannel::allValid(), "Accessing to Array Value functions");
 }
 
 NecromancyEngine::~NecromancyEngine() {

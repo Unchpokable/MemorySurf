@@ -9,6 +9,8 @@ public:
     static void init();
     static float getFloat(void* object);
 
+    static bool allValid();
+
 protected:
     explicit ArrayValueChannel();
 

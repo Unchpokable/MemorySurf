@@ -22,6 +22,8 @@ protected:
     /// @brief tries to find and add function with given name from module
     std::size_t add(const char* functionName);
 
+    static bool allValid(ProxyMemoryObject* object);
+
     std::unordered_map<std::size_t, AnonCFunc> _functions;
 
     const char* _moduleName;

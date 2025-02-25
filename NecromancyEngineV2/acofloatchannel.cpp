@@ -25,5 +25,9 @@ void AcoFloatChannel::setFloat(void* object, float value) {
     _instance->_functions[_setFloatId](object, value);
 }
 
+bool AcoFloatChannel::allValid() {
+    return ProxyMemoryObject::allValid(_instance);
+}
+
 AcoFloatChannel::AcoFloatChannel() : ProxyMemoryObject("BE69CCC4-CFC1-4362-AC81-767D199BBFC3.dll") {
 }

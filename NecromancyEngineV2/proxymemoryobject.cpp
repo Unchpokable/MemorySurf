@@ -23,3 +23,9 @@ std::size_t ProxyMemoryObject::add(const char* functionName) {
 
     return id;
 }
+
+bool ProxyMemoryObject::allValid(ProxyMemoryObject* object) {
+    return std::ranges::all_of(object->_functions, [](const auto& pair) {
+        return pair.second != nullptr;
+    });
+}
