@@ -5,6 +5,12 @@
 
 #include <detours.h>
 
+#define STATIC_DYNAMIC_CALL \
+    template<typename Ret, typename ...Args> \
+    static Ret staticDynamicCall(void* object, const char* funcName, Args... args) { \
+        return _instance->dynamicCall<Ret>(object, funcName, args...); \
+    } \
+
 namespace necromancy::hooks {
 
 class ProxyMemoryObject {
@@ -12,7 +18,7 @@ class ProxyMemoryObject {
 
 public:
     template<typename Ret, typename ...Args>
-    Ret dynamicCall(const char* funcName, Args... args);
+    Ret dynamicCall(void* object, const char* funcName, Args... args);
 
     virtual ~ProxyMemoryObject() = default;
 
@@ -31,14 +37,14 @@ protected:
 
 /// @brief Allows to call an arbitrary function inside of module that current object wraps
 template<typename Ret, typename ...Args>
-Ret ProxyMemoryObject::dynamicCall(const char* funcName, Args ...args) {
+Ret ProxyMemoryObject::dynamicCall(void* object, const char* funcName, Args ...args) {
     void* function = DetourFindFunction(_moduleName, funcName);
 
     if(function == nullptr) {
         throw new std::runtime_error("Error detouring function");
     }
 
-    return function(args);
+    return function(object, args...);
 }
 
 }

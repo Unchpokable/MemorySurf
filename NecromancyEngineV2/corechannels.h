@@ -13,6 +13,8 @@ concept Quest3DChannel = std::is_base_of_v<A3d_Channel, std::remove_pointer_t<T>
 
 class CoreChannels : public ProxyMemoryObject {
 public:
+    STATIC_DYNAMIC_CALL;
+
     static void init();
 
     template<Quest3DChannel Ch = void>
