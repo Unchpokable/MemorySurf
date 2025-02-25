@@ -174,11 +174,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="acofloatchannel.h" />
-    <ClInclude Include="arrayconnectitemreader.h" />
+    <ClInclude Include="corechannels.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
     <ClInclude Include="proxymemoryobject.h" />
-    <ClInclude Include="tablelayoutpresenter.h" />
     <ClInclude Include="vtabledef.h" />
     <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
@@ -198,7 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acofloatchannel.cpp" />
-    <ClCompile Include="arrayconnectitemreader.cpp" />
+    <ClCompile Include="arrayvaluechannel.cpp" />
+    <ClCompile Include="corechannels.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="genericutils.cpp" />
@@ -217,10 +217,10 @@
     <ClCompile Include="q3darraytablereader.cpp" />
     <ClCompile Include="q3dchannelreader.cpp" />
     <ClCompile Include="q3dfloatreader.cpp" />
-    <ClCompile Include="tablelayoutpresenter.cpp" />
     <ClCompile Include="taggedexception.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="arrayvaluechannel.h" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,16 +2,14 @@
 
 #include "q3darraytablereader.h"
 
-using namespace necromancy::Memory;
+#include "acofloatchannel.h"
+#include "arrayvaluechannel.h"
+
+using namespace necromancy::memory;
+using namespace necromancy::hooks;
 
 Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue> &arrays) : Q3DChannelReader(nullptr) {
     _boundTableChannels = arrays;
-
-    auto functions = HkFunctions::setup();
-
-    _arrayValueGetFloat = functions.get<ArrayValue_GetFloat>("ArrayValue_GetFloat");
-    _floatChannelGetFloat = functions.get<Aco_FloatChannel_GetFloat>("Aco_FloatChannel_GetFloat");
-    _floatChannelSetFloat = functions.get<Aco_FloatChannel_SetFloat>("Aco_FloatChannel_SetFloat");
 }
 
 void Q3DArrayTableReader::addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer) {
@@ -22,13 +20,13 @@ float Q3DArrayTableReader::getValue(int row, float index) {
     auto indexer = _boundTableChannels[row].indexer;
     auto arrayValue = _boundTableChannels[row].arrayValue;
 
-    auto oldIndex = _floatChannelGetFloat(indexer);
+    auto oldIndex = AcoFloatChannel::getFloat(indexer);
 
-    _floatChannelSetFloat(indexer, index);
+    AcoFloatChannel::setFloat(indexer, index);
 
-    auto value = _arrayValueGetFloat(arrayValue);
+    auto value = ArrayValueChannel::getFloat(arrayValue);
 
-    _floatChannelSetFloat(indexer, oldIndex);
+    AcoFloatChannel::setFloat(indexer, oldIndex);
 
     return value;
 }

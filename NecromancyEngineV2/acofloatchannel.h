@@ -6,7 +6,7 @@ namespace necromancy::hooks {
 
 class AcoFloatChannel : public ProxyMemoryObject {
 public:
-    static void setup();
+    static void init();
     static float getFloat(void* object);
     static float getDefaultFloat(void* object);
     static void setFloat(void* object, float value);

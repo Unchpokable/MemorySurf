@@ -46,12 +46,6 @@
     <Filter Include="Headers\memory">
       <UniqueIdentifier>{8a9cd464-2db7-4018-a038-f6221e45b395}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\memory\internals">
-      <UniqueIdentifier>{d9e315bb-9793-4aab-bfb8-92741b4c5f0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\memory\internals">
-      <UniqueIdentifier>{59c020da-dce3-452b-8862-9221ce3a5367}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headers\hooks\wrappers">
       <UniqueIdentifier>{71a0a889-5af2-4870-aae5-64ddb1affffd}</UniqueIdentifier>
     </Filter>
@@ -111,19 +105,16 @@
     <ClInclude Include="version.h">
       <Filter>Headers\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="arrayconnectitemreader.h">
-      <Filter>Headers\memory</Filter>
-    </ClInclude>
     <ClInclude Include="vtabledef.h">
       <Filter>Headers\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="tablelayoutpresenter.h">
-      <Filter>Headers\memory\internals</Filter>
     </ClInclude>
     <ClInclude Include="proxymemoryobject.h">
       <Filter>Headers\hooks\wrappers</Filter>
     </ClInclude>
     <ClInclude Include="acofloatchannel.h">
+      <Filter>Headers\hooks\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="corechannels.h">
       <Filter>Headers\hooks\wrappers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -167,20 +158,23 @@
     <ClCompile Include="genericutils.cpp">
       <Filter>Source Files\helpers</Filter>
     </ClCompile>
-    <ClCompile Include="arrayconnectitemreader.cpp">
-      <Filter>Source Files\memory</Filter>
-    </ClCompile>
-    <ClCompile Include="tablelayoutpresenter.cpp">
-      <Filter>Source Files\memory\internals</Filter>
-    </ClCompile>
     <ClCompile Include="proxymemoryobject.cpp">
       <Filter>Source Files\hooks\wrappers</Filter>
     </ClCompile>
     <ClCompile Include="acofloatchannel.cpp">
       <Filter>Source Files\hooks\wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="arrayvaluechannel.cpp">
+      <Filter>Source Files\hooks\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="corechannels.cpp">
+      <Filter>Source Files\hooks\wrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="arrayvaluechannel.h">
+      <Filter>Headers\hooks\wrappers</Filter>
+    </None>
   </ItemGroup>
 </Project>

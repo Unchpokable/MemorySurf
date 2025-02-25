@@ -1,6 +1,6 @@
 #pragma once
 
-namespace necromancy::Memory {
+namespace necromancy::memory {
 
 template<typename T>
 concept Primitive = std::is_fundamental_v<T>;

@@ -1,20 +1,19 @@
 #pragma once
 
-#include "q3dprimitivereader.h"
 #include "q3dchannelreader.h"
 
-namespace necromancy::Memory {
+namespace necromancy::memory {
 
-class Q3DFloatReader final : public Q3DChannelReader, public Q3DPrimitiveReader<float>
+class Q3DFloatReader final : public Q3DChannelReader
 {
 public:
     explicit Q3DFloatReader(A3d_Channel* target);
     virtual ~Q3DFloatReader() override = default;
 
-    virtual float get() const override;
+    float get() const;
     float getDefault() const;
 
-    virtual void set(float value) const override;
+    void set(float value) const;
 };
 
 }

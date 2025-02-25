@@ -17,9 +17,9 @@ std::size_t ProxyMemoryObject::add(const char* functionName) {
         throw std::runtime_error("Given function does not exports by given module");
     }
 
-    auto hash = std::hash<std::string>{}(functionName);
+    auto id = std::hash<std::string>{}(functionName);
 
-    _functions.insert_or_assign(hash, function);
+    _functions.insert_or_assign(id, function);
 
-    return hash;
+    return id;
 }

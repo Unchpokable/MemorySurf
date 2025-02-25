@@ -52,12 +52,11 @@ private:
     int getStatsCollectorIndex() const noexcept;
     A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const;
 
-    std::unordered_map<std::string, Memory::Q3DFloatReader*> _floatChannels;
-    Memory::Q3DArrayTableReader* _statsTable;
-    Ipc::IpcChannel _ipcChannel;
-    hooks::HkFunctions _q3dFunctions;
+    std::unordered_map<std::string, memory::Q3DFloatReader*> _floatChannels;
+    memory::Q3DArrayTableReader* _statsTable;
+    ipc::IpcChannel _ipcChannel;
 
-    Messages::ASDump::ASDumpStruct _dumped;
+    messages::ASDump::ASDumpStruct _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;
 };
 

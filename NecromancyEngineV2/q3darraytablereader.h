@@ -1,9 +1,8 @@
 #pragma once
 
 #include "q3dchannelreader.h"
-#include "tablelayoutpresenter.h"
 
-namespace necromancy::Memory {
+namespace necromancy::memory {
 
 /* Idea of this class now is:
 - All columns or at least most interesting columns of ArrayTable placed in separate channels as `Array Value` and after all this `Array Value` exists channel called `Index_ofSomething` like
@@ -32,7 +31,7 @@ MUST keep this order:
 4 - reset index to initial to keep game functionality
 */
 
-class Q3DArrayTableReader final : Q3DChannelReader
+class Q3DArrayTableReader final : public Q3DChannelReader
 {
 public:
     struct IndexedArrayValue {
@@ -50,10 +49,6 @@ public:
 
 private:
     std::unordered_map<int, IndexedArrayValue> _boundTableChannels;
-
-    ArrayValue_GetFloat _arrayValueGetFloat;
-    Aco_FloatChannel_GetFloat _floatChannelGetFloat;
-    Aco_FloatChannel_SetFloat _floatChannelSetFloat;
 };
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace necromancy::Messages {
+namespace necromancy::messages {
 
 enum class MessageIds : uint16_t {
     ShortDump = 0x0001,

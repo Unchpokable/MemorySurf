@@ -1,24 +1,8 @@
 #pragma once
 
-#include "hkfunctions.h"
-#include <type_traits>
-
-#include "q3dprimitivereader.h"
-
-namespace necromancy::Memory {
+namespace necromancy::memory {
 
 class Q3DChannelReader;
-
-using namespace necromancy::hooks;
-
-template <typename T>
-concept ValidPrimitiveReader =
-    std::is_base_of_v<Q3DChannelReader, T> &&
-    requires {
-        typename T::DataType;
-        requires Primitive<typename T::DataType>;
-        requires std::is_base_of_v<Q3DPrimitiveReader<typename T::DataType>, T>;
-    };
 
 class Q3DChannelReader {
 public:
@@ -32,7 +16,6 @@ public:
     Q3DChannelReader& operator=(Q3DChannelReader&& other) noexcept;
 
 protected:
-    HkFunctions _functions;
     A3d_Channel* _target;
 };
 

@@ -1,17 +1,17 @@
 #pragma once
 
-namespace necromancy::Messages::ASDump {
+namespace necromancy::messages::ASDump {
 struct ASDumpStruct;
 }
 
-namespace necromancy::Ipc {
+namespace necromancy::ipc {
 
 class IpcChannel final {
 public:
     IpcChannel();
     ~IpcChannel();
 
-    void writeBuffer(const Messages::ASDump::ASDumpStruct &data, bool flush = true) const;
+    void writeBuffer(const messages::ASDump::ASDumpStruct &data, bool flush = true) const;
 
 private:
     void initializeSharedMemory();

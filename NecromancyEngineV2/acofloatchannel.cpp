@@ -4,7 +4,8 @@
 
 using namespace necromancy::hooks;
 
-void AcoFloatChannel::setup() {
+void AcoFloatChannel::init() {
+    delete _instance;
     _instance = new AcoFloatChannel();
 
     _getFloatId = _instance->add("?GetFloat@Aco_FloatChannel@@UAEMXZ");
