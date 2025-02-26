@@ -33,7 +33,7 @@ public:
         return _ptr(_this, args...);
     }
 
-    CFunc ptr() {
+    operator CFunc() {
         return _ptr;
     }
 

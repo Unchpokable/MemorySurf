@@ -133,7 +133,7 @@ void necromancy::Setup(HMODULE thisDll) {
     g_this = thisDll;
 
     g_necromancyEngine = new NecromancyEngine();
-    g_trueCallChannelHook = new hooks::Hook(hooks::CoreChannels::trueCallChannel().ptr(), HkTrueCallChannel);
+    g_trueCallChannelHook = new hooks::Hook(hooks::CoreChannels::trueCallChannel(), HkTrueCallChannel);
 
     if(FAILED(InitDirect3D())) {
         Logger::panic("DirectX", "Failed to initialize DirectX environment. Hook setup failed");
