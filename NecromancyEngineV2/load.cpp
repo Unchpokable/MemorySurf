@@ -6,6 +6,7 @@
 #include "hook.h"
 #include "logger.h"
 #include "taggedexception.hpp"
+#include "corechannels.h"
 
 #define UNUSED(x) (void)x;
 
@@ -54,10 +55,10 @@ void __fastcall necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
         }
 
         Logger::info("Setup step 2 of 2 - hook EndScene succeeded");
-        return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
+        return g_trueCallChannelHook->original<typedefs::TrueCallChannelFn>()(self);
     }
 
-    return g_trueCallChannelHook->original<Typedefs::TrueCallChannelFn>()(self);
+    return g_trueCallChannelHook->original<typedefs::TrueCallChannelFn>()(self);
 }
 
 HRESULT necromancy::InitDirect3D() {
@@ -132,7 +133,7 @@ void necromancy::Setup(HMODULE thisDll) {
     g_this = thisDll;
 
     g_necromancyEngine = new NecromancyEngine();
-    g_trueCallChannelHook = new hooks::Hook(g_necromancyEngine->functions().get<Typedefs::TrueCallChannelFn>("TrueCallChannelFn"), HkTrueCallChannel);
+    g_trueCallChannelHook = new hooks::Hook(hooks::CoreChannels::trueCallChannel().ptr(), HkTrueCallChannel);
 
     if(FAILED(InitDirect3D())) {
         Logger::panic("DirectX", "Failed to initialize DirectX environment. Hook setup failed");

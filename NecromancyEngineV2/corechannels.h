@@ -3,10 +3,12 @@
 #include <type_traits>
 
 #include "proxymemoryobject.h"
-
-namespace necromancy::hooks {
+#include "virtualfunction.h"
+#include "typedefs.h"
 
 class A3d_Channel;
+
+namespace necromancy::hooks {
 
 template<typename T>
 concept Quest3DChannel = std::is_base_of_v<A3d_Channel, std::remove_pointer_t<T>> || std::is_same_v<std::remove_pointer_t<T>*, void*>;
@@ -17,12 +19,10 @@ public:
 
     static void init();
 
-    template<Quest3DChannel Ch = void>
-    static const Ch* getChannel(void* object, std::int32_t id);
-
-    static const char* getPoolName(void* object);
-    static const char* getChannelName(void* object);
-    static void trueCallChannel(void* object);
+    static VirtualFunction<typedefs::ChannelGroup_GetChannel> getChannel();
+    static VirtualFunction<typedefs::ChannelGroup_GetPoolName> getPoolName();
+    static VirtualFunction<typedefs::Channel_GetChannelName> getChannelName();
+    static VirtualFunction<typedefs::TrueCallChannelFn> trueCallChannel();
 
     static bool allValid();
 
@@ -37,13 +37,6 @@ private:
     static std::size_t _getChannelNameId;
     static std::size_t _trueCallChannelId;
 };
-
-template <Quest3DChannel Ch>
-const Ch* CoreChannels::getChannel(void* object, std::int32_t id) {
-    auto channel = _instance->_functions[_getChannelId](object, id);
-
-    return reinterpret_cast<Ch*>(channel);
-}
 
 }
 

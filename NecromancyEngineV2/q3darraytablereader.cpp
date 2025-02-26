@@ -20,13 +20,13 @@ float Q3DArrayTableReader::getValue(int row, float index) {
     auto indexer = _boundTableChannels[row].indexer;
     auto arrayValue = _boundTableChannels[row].arrayValue;
 
-    auto oldIndex = AcoFloatChannel::getFloat(indexer);
+    float oldIndex = AcoFloatChannel::getFloat()(indexer);
 
-    AcoFloatChannel::setFloat(indexer, index);
+    AcoFloatChannel::setFloat()(indexer, index);
 
-    auto value = ArrayValueChannel::getFloat(arrayValue);
+    float value = ArrayValueChannel::getFloat()(arrayValue);
 
-    AcoFloatChannel::setFloat(indexer, oldIndex);
+    AcoFloatChannel::setFloat()(indexer, oldIndex);
 
     return value;
 }

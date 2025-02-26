@@ -3,11 +3,12 @@
 #include "acofloatchannel.h"
 
 using namespace necromancy::hooks;
+using namespace necromancy::typedefs;
 
 AcoFloatChannel* AcoFloatChannel::_instance = nullptr;
-std::size_t AcoFloatChannel::_getFloatId = 0;
-std::size_t AcoFloatChannel::_getDefaultFloatId = 0;
-std::size_t AcoFloatChannel::_setFloatId = 0;
+std::size_t AcoFloatChannel::_getFloatId = -1;
+std::size_t AcoFloatChannel::_getDefaultFloatId = -1;
+std::size_t AcoFloatChannel::_setFloatId = -1;
 
 void AcoFloatChannel::init() {
     delete _instance;
@@ -18,16 +19,16 @@ void AcoFloatChannel::init() {
     _setFloatId = _instance->add("?SetFloat@Aco_FloatChannel@@UAEXM@Z");
 }
 
-float AcoFloatChannel::getFloat(void* object) {
-    return _instance->_functions[_getFloatId](object);
+VirtualFunction<Aco_FloatChannel_GetFloat> AcoFloatChannel::getFloat() {
+    return _instance->_functions[_getFloatId];
 }
 
-float AcoFloatChannel::getDefaultFloat(void* object) {
-    return _instance->_functions[_getDefaultFloatId](object);
+VirtualFunction<Aco_FloatChannel_GetDefaultFloat> AcoFloatChannel::getDefaultFloat() {
+    return _instance->_functions[_getDefaultFloatId];
 }
 
-void AcoFloatChannel::setFloat(void* object, float value) {
-    _instance->_functions[_setFloatId](object, value);
+VirtualFunction<Aco_FloatChannel_SetFloat> AcoFloatChannel::setFloat() {
+    return _instance->_functions[_setFloatId];
 }
 
 bool AcoFloatChannel::allValid() {

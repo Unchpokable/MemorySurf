@@ -11,13 +11,13 @@ Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target) {
 }
 
 float Q3DFloatReader::get() const {
-    return AcoFloatChannel::getFloat(_target);
+    return AcoFloatChannel::getFloat()(_target);
 }
 
 float Q3DFloatReader::getDefault() const {
-    return AcoFloatChannel::getDefaultFloat(_target);
+    return AcoFloatChannel::getDefaultFloat()(_target);
 }
 
 void Q3DFloatReader::set(float value) const {
-    AcoFloatChannel::setFloat(_target, value);
+    AcoFloatChannel::setFloat()(_target, value);
 }

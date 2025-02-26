@@ -3,6 +3,11 @@
 #include "arrayvaluechannel.h"
 
 using namespace necromancy::hooks;
+using namespace necromancy::typedefs;
+
+ArrayValueChannel* ArrayValueChannel::_instance = nullptr;
+std::size_t ArrayValueChannel::_getFloatId = -1;
+std::size_t ArrayValueChannel::_setFloatId = -1;
 
 void ArrayValueChannel::init() {
     delete _instance;
@@ -11,8 +16,8 @@ void ArrayValueChannel::init() {
     _getFloatId = _instance->add("?GetFloat@Aco_Array_Value@@UAEMXZ");
 }
 
-float ArrayValueChannel::getFloat(void* object) {
-    return _instance->_functions[_getFloatId](object);
+VirtualFunction<ArrayValue_GetFloat> ArrayValueChannel::getFloat() {
+    return _instance->_functions[_getFloatId];
 }
 
 bool ArrayValueChannel::allValid() {

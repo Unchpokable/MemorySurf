@@ -1,14 +1,19 @@
 #pragma once
 
-#include <functional>
-#include <stdexcept>
-
 #include <detours.h>
+#include <functional>
+
+#include "virtualfunction.h"
 
 #define STATIC_DYNAMIC_CALL \
     template<typename Ret, typename ...Args> \
     static Ret staticDynamicCall(void* object, const char* funcName, Args... args) { \
         return _instance->dynamicCall<Ret>(object, funcName, args...); \
+    } \
+    \
+    template<typename Ret, typename ...Args> \
+    static VirtualFunction<Ret(__thiscall*)(Args...)> staticDynamicFunc(const char* funcName) { \
+        return _instance->dynamicFunc<Ret, Args>(funcName); \
     } \
 
 namespace necromancy::hooks {
@@ -19,6 +24,9 @@ class ProxyMemoryObject {
 public:
     template<typename Ret, typename ...Args>
     Ret dynamicCall(void* object, const char* funcName, Args... args);
+
+    template<typename Ret, typename ...Args>
+    VirtualFunction<Ret(__thiscall*)(Args...)> dynamicFunc(const char* funcName);
 
     virtual ~ProxyMemoryObject() = default;
 
@@ -35,16 +43,24 @@ protected:
     const char* _moduleName;
 };
 
-/// @brief Allows to call an arbitrary function inside of module that current object wraps
+/// @brief Allows to call an arbitrary function by its name inside of module that current object wraps
 template<typename Ret, typename ...Args>
 Ret ProxyMemoryObject::dynamicCall(void* object, const char* funcName, Args ...args) {
-    void* function = DetourFindFunction(_moduleName, funcName);
+    using fnType = Ret(__thiscall*)(Args...);
 
-    if(function == nullptr) {
-        throw new std::runtime_error("Error detouring function");
-    }
+    VirtualFunction<fnType> func = dynamicFunc<Ret, Args>(funcName);
 
-    return function(object, args...);
+    return func(object, args...);
+}
+
+/// @brief Allows to find an arbitrary function by its name inside of module that current object wraps
+template<typename Ret, typename ...Args>
+VirtualFunction<Ret(__thiscall*)(Args...)> ProxyMemoryObject::dynamicFunc(const char* funcName) {
+    using fnType = Ret(__thiscall*)(Args...);
+
+    fnType function = DetourFindFunction(_moduleName, funcName);
+
+    return function;
 }
 
 }

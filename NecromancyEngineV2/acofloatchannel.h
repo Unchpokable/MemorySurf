@@ -1,17 +1,21 @@
 #pragma once
 
 #include "proxymemoryobject.h"
+#include "typedefs.h"
+#include "virtualfunction.h"
 
 namespace necromancy::hooks {
+
+using namespace necromancy;
 
 class AcoFloatChannel : public ProxyMemoryObject {
 public:
     STATIC_DYNAMIC_CALL;
 
     static void init();
-    static float getFloat(void* object);
-    static float getDefaultFloat(void* object);
-    static void setFloat(void* object, float value);
+    static VirtualFunction<typedefs::Aco_FloatChannel_GetFloat> getFloat();
+    static VirtualFunction<typedefs::Aco_FloatChannel_GetDefaultFloat> getDefaultFloat();
+    static VirtualFunction<typedefs::Aco_FloatChannel_SetFloat> setFloat();
 
     static bool allValid();
 

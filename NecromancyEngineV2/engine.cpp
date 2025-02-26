@@ -121,30 +121,31 @@ void NecromancyEngine::setupChannelReaders() {
     Logger::forceWrite();
 }
 
+
+A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_ChannelGroup* group) {
+    constexpr auto maxChannel = 10'000;
+
+    for(std::int32_t i { 0 }; i < maxChannel; i++) {
+        auto channel = hooks::CoreChannels::getChannel()(group, i);
+        auto channelName = hooks::CoreChannels::getChannelName()(channel);
+        if(std::strcmp(channelName, name.c_str()) == 0) {
+            return static_cast<A3d_Channel*>(channel);
+        }
+    }
+
+    return nullptr;
+}
+
 int NecromancyEngine::getStatsCollectorIndex() const noexcept {
     constexpr auto maxChannelGroup = 1024;
 
     for(auto i { 0 }; i < maxChannelGroup; i++) {
         auto channel = _q3dEngineInterface->GetChannelGroup(i);
-        auto poolName = hooks::CoreChannels::getPoolName(channel);
+        auto poolName = hooks::CoreChannels::getPoolName()(channel);
         if(std::strcmp(poolName, statsCollectorChannelGroup) == 0) {
             return i;
         }
     }
 
     return -1;
-}
-
-A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const {
-    constexpr auto maxChannel = 10'000;
-
-    for(auto i { 0 }; i < maxChannel; i++) {
-        auto channel = hooks::CoreChannels::getChannel<A3d_Channel>(group, i);
-        auto channelName = hooks::CoreChannels::getChannelName(channel);
-        if(std::strcmp(channelName, name.c_str()) == 0) {
-            return channel;
-        }
-    }
-
-    return nullptr;
 }

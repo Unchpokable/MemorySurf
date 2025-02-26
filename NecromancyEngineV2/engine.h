@@ -1,6 +1,5 @@
 #pragma once
 
-#include "hkfunctions.h"
 #include "ipcchannel.h"
 #include "q3darraytablereader.h"
 #include "q3dfloatreader.h"
@@ -45,11 +44,12 @@ private:
     inline static const char* _scoreChannelName { "Points" };
     inline static const char* _statsChannelName { "Stats Table" };
 
+    static A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group);
+
     static std::unordered_map<StatsChannels, const char*> _statsTableExternalChannels;
     static std::vector<float> _allIndices;
 
     int getStatsCollectorIndex() const noexcept;
-    A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const;
 
     std::unordered_map<std::string, memory::Q3DFloatReader*> _floatChannels;
     memory::Q3DArrayTableReader* _statsTable;

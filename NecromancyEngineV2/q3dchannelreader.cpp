@@ -17,6 +17,10 @@ Q3DChannelReader::Q3DChannelReader(Q3DChannelReader&& other) noexcept {
 }
 
 Q3DChannelReader& Q3DChannelReader::operator=(const Q3DChannelReader& other) noexcept {
+    if(this == &other) {
+        return *this;
+    }
+
     _target = other._target;
 
     return *this;

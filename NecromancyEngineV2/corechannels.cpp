@@ -2,7 +2,16 @@
 
 #include "corechannels.h"
 
+#include "typedefs.h"
+
 using namespace necromancy::hooks;
+using namespace necromancy::typedefs;
+
+CoreChannels* CoreChannels::_instance = nullptr;
+std::size_t CoreChannels::_getChannelId = -1;
+std::size_t CoreChannels::_getPoolNameId = -1;
+std::size_t CoreChannels::_getChannelNameId = -1;
+std::size_t CoreChannels::_trueCallChannelId = -1;
 
 void CoreChannels::init() {
     delete _instance;
@@ -14,16 +23,20 @@ void CoreChannels::init() {
     _trueCallChannelId = _instance->add("?CallChannel@A3d_Channel@@UAEXXZ");
 }
 
-const char* CoreChannels::getPoolName(void* object) {
-    return _instance->_functions[_getPoolNameId](object);
+VirtualFunction<ChannelGroup_GetChannel> CoreChannels::getChannel() {
+    return _instance->_functions[_getChannelId];
 }
 
-const char* CoreChannels::getChannelName(void *object) {
-    return _instance->_functions[_getChannelNameId](object);
+VirtualFunction<ChannelGroup_GetPoolName> CoreChannels::getPoolName() {
+    return _instance->_functions[_getPoolNameId];
 }
 
-void CoreChannels::trueCallChannel(void *object) {
-    _instance->_functions[_trueCallChannelId](object);
+VirtualFunction<Channel_GetChannelName> CoreChannels::getChannelName() {
+    return _instance->_functions[_getChannelNameId];
+}
+
+VirtualFunction<TrueCallChannelFn> CoreChannels::trueCallChannel() {
+    return _instance->_functions[_trueCallChannelId];
 }
 
 bool CoreChannels::allValid() {
