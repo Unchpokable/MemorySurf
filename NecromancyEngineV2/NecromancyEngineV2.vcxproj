@@ -107,7 +107,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)$(Configuration);$(SolutionDir)x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;$(SolutionDir)x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;d3dx9.lib;detours.lib;NecromancyMessages.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
