@@ -4,6 +4,11 @@
 
 using namespace necromancy::hooks;
 
+AcoFloatChannel* AcoFloatChannel::_instance = nullptr;
+std::size_t AcoFloatChannel::_getFloatId = 0;
+std::size_t AcoFloatChannel::_getDefaultFloatId = 0;
+std::size_t AcoFloatChannel::_setFloatId = 0;
+
 void AcoFloatChannel::init() {
     delete _instance;
     _instance = new AcoFloatChannel();
