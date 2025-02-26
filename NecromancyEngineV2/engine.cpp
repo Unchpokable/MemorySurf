@@ -80,7 +80,7 @@ void NecromancyEngine::setupChannelReaders() {
     auto statsGroupIdx = getStatsCollectorIndex();
     auto statsGroup = _q3dEngineInterface->GetChannelGroup(statsGroupIdx);
 
-    Logger::logCondition(notNull(statsGroup), "Stats CoreChannels not null");
+    Logger::logCondition(notNull(statsGroup), "Stats channel group not null");
 
     _statsTable = new memory::Q3DArrayTableReader();
 
@@ -124,10 +124,12 @@ void NecromancyEngine::setupChannelReaders() {
 
 A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_ChannelGroup* group) {
     constexpr auto maxChannel = 10'000;
+    auto getChannel = hooks::CoreChannels::getChannel();
+    auto getChannelName = hooks::CoreChannels::getChannelName();
 
     for(std::int32_t i { 0 }; i < maxChannel; i++) {
-        auto channel = hooks::CoreChannels::getChannel()(group, i);
-        auto channelName = hooks::CoreChannels::getChannelName()(channel);
+        auto channel = getChannel(group, i);
+        auto channelName = getChannelName(channel);
         if(std::strcmp(channelName, name.c_str()) == 0) {
             return static_cast<A3d_Channel*>(channel);
         }
@@ -138,10 +140,11 @@ A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_Cha
 
 int NecromancyEngine::getStatsCollectorIndex() const noexcept {
     constexpr auto maxChannelGroup = 1024;
+    auto getPoolName = hooks::CoreChannels::getPoolName();
 
     for(auto i { 0 }; i < maxChannelGroup; i++) {
         auto channel = _q3dEngineInterface->GetChannelGroup(i);
-        auto poolName = hooks::CoreChannels::getPoolName()(channel);
+        auto poolName = getPoolName(channel);
         if(std::strcmp(poolName, statsCollectorChannelGroup) == 0) {
             return i;
         }

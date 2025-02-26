@@ -3,19 +3,16 @@
 #include <type_traits>
 
 #include "proxymemoryobject.h"
-#include "virtualfunction.h"
 #include "typedefs.h"
+#include "virtualfunction.h"
 
 class A3d_Channel;
 
 namespace necromancy::hooks {
 
-template<typename T>
-concept Quest3DChannel = std::is_base_of_v<A3d_Channel, std::remove_pointer_t<T>> || std::is_same_v<std::remove_pointer_t<T>*, void*>;
-
 class CoreChannels : public ProxyMemoryObject {
 public:
-    STATIC_DYNAMIC_CALL;
+    STATIC_DYNAMIC_CALL
 
     static void init();
 

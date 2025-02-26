@@ -10,7 +10,7 @@ using namespace necromancy;
 
 class AcoFloatChannel : public ProxyMemoryObject {
 public:
-    STATIC_DYNAMIC_CALL;
+    STATIC_DYNAMIC_CALL
 
     static void init();
     static VirtualFunction<typedefs::Aco_FloatChannel_GetFloat> getFloat();
