@@ -1,10 +1,11 @@
 #pragma once
 
-class ProcessHelper final : public QObject {
+class ProcessHelper final : public QObject
+{
     Q_OBJECT
 
 public:
-    ProcessHelper(QObject *parent = nullptr);
+    ProcessHelper(QObject* parent = nullptr);
     ProcessHelper(const QStringList& clArgs, const QString& procExe);
 
     void setClArgs(const QStringList& args);

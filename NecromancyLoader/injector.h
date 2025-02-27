@@ -3,7 +3,8 @@
 #include "windefprettify.h"
 #include "processhelper.h"
 
-class Injector final : public QObject {
+class Injector final : public QObject
+{
     Q_OBJECT
 
 public:

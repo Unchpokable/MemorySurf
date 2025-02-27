@@ -5,10 +5,10 @@
 #include "virtualfunction.h"
 
 namespace necromancy::hooks {
-
 using namespace necromancy;
 
-class AcoFloatChannel : public ProxyMemoryObject {
+class AcoFloatChannel : public ProxyMemoryObject
+{
 public:
     STATIC_DYNAMIC_CALL
 
@@ -30,6 +30,4 @@ private:
     static std::size_t _getDefaultFloatId;
     static std::size_t _setFloatId;
 };
-
 }
-

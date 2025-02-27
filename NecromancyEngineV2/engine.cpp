@@ -24,7 +24,8 @@ std::vector<float> NecromancyEngine::_allIndices {
     Purple, Blue, Green, Yellow, Red, White
 };
 
-NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
+NecromancyEngine::NecromancyEngine(): _statsTable(nullptr)
+{
     Initialize(&_dumped, 12); // todo: place here actual dumped array size
 
     hooks::CoreChannels::init();
@@ -37,11 +38,13 @@ NecromancyEngine::NecromancyEngine(): _statsTable(nullptr) {
     Logger::logCondition(hooks::ArrayValueChannel::allValid(), "Accessing to Array Value functions");
 }
 
-NecromancyEngine::~NecromancyEngine() {
+NecromancyEngine::~NecromancyEngine()
+{
     Free(&_dumped);
 }
 
-void NecromancyEngine::dump() {
+void NecromancyEngine::dump()
+{
     std::vector<float> stats;
 
     auto totalTraffic = _statsTable->getValues(StatsTotalTraffic, _allIndices);
@@ -64,19 +67,23 @@ void NecromancyEngine::dump() {
     _dumped.timeElapsed = _floatChannels.at(_timerChannelName)->get();
 }
 
-void NecromancyEngine::send() const {
+void NecromancyEngine::send() const
+{
     _ipcChannel.writeBuffer(_dumped);
 }
 
-const EngineInterface* NecromancyEngine::engineInterface() const noexcept {
+const EngineInterface* NecromancyEngine::engineInterface() const noexcept
+{
     return _q3dEngineInterface;
 }
 
-void NecromancyEngine::setQ3DEngineInterface(EngineInterface* q3dInterface) {
+void NecromancyEngine::setQ3DEngineInterface(EngineInterface* q3dInterface)
+{
     _q3dEngineInterface = q3dInterface;
 }
 
-void NecromancyEngine::setupChannelReaders() {
+void NecromancyEngine::setupChannelReaders()
+{
     auto statsGroupIdx = getStatsCollectorIndex();
     auto statsGroup = _q3dEngineInterface->GetChannelGroup(statsGroupIdx);
 
@@ -121,8 +128,8 @@ void NecromancyEngine::setupChannelReaders() {
     Logger::forceWrite();
 }
 
-
-A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_ChannelGroup* group) {
+A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_ChannelGroup* group)
+{
     constexpr auto maxChannel = 10'000;
     auto getChannel = hooks::CoreChannels::getChannel();
     auto getChannelName = hooks::CoreChannels::getChannelName();
@@ -138,7 +145,8 @@ A3d_Channel* NecromancyEngine::findChannelNamed(const std::string& name, A3d_Cha
     return nullptr;
 }
 
-int NecromancyEngine::getStatsCollectorIndex() const noexcept {
+int NecromancyEngine::getStatsCollectorIndex() const noexcept
+{
     constexpr auto maxChannelGroup = 1024;
     auto getPoolName = hooks::CoreChannels::getPoolName();
 

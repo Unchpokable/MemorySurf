@@ -4,7 +4,6 @@
 #pragma comment(lib, "d3dx9.lib")
 
 namespace necromancy {
-
 using DirectXEndScene = HRESULT(__stdcall*)(LPDIRECT3DDEVICE9);
 
 HRESULT __stdcall HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device);
@@ -20,5 +19,4 @@ void Setup(HMODULE thisDll);
 
 DWORD WINAPI Unload(LPVOID lpThreadParameter);
 DWORD WINAPI Main(LPVOID lpThreadParameter);
-
 }

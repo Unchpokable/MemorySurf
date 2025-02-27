@@ -13,7 +13,8 @@ std::size_t CoreChannels::_getPoolNameId = -1;
 std::size_t CoreChannels::_getChannelNameId = -1;
 std::size_t CoreChannels::_trueCallChannelId = -1;
 
-void CoreChannels::init() {
+void CoreChannels::init()
+{
     delete _instance;
     _instance = new CoreChannels();
 
@@ -23,25 +24,31 @@ void CoreChannels::init() {
     _trueCallChannelId = _instance->add("?CallChannel@A3d_Channel@@UAEXXZ");
 }
 
-VirtualFunction<ChannelGroup_GetChannel> CoreChannels::getChannel() {
+VirtualFunction<ChannelGroup_GetChannel> CoreChannels::getChannel()
+{
     return _instance->_functions[_getChannelId];
 }
 
-VirtualFunction<ChannelGroup_GetPoolName> CoreChannels::getPoolName() {
+VirtualFunction<ChannelGroup_GetPoolName> CoreChannels::getPoolName()
+{
     return _instance->_functions[_getPoolNameId];
 }
 
-VirtualFunction<Channel_GetChannelName> CoreChannels::getChannelName() {
+VirtualFunction<Channel_GetChannelName> CoreChannels::getChannelName()
+{
     return _instance->_functions[_getChannelNameId];
 }
 
-VirtualFunction<TrueCallChannelFn> CoreChannels::trueCallChannel() {
+VirtualFunction<TrueCallChannelFn> CoreChannels::trueCallChannel()
+{
     return _instance->_functions[_trueCallChannelId];
 }
 
-bool CoreChannels::allValid() {
+bool CoreChannels::allValid()
+{
     return ProxyMemoryObject::allValid(_instance);
 }
 
-CoreChannels::CoreChannels() : ProxyMemoryObject("highpoly.dll") {
+CoreChannels::CoreChannels() : ProxyMemoryObject("highpoly.dll")
+{
 }

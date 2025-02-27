@@ -2,7 +2,6 @@
 #include <A3d_Channels.h>
 
 namespace necromancy::typedefs {
-
 //    void __fastcall HkTrueCallChannel(A3d_Channel* self, DWORD edx);
 
 using ChannelGroup_GetPoolName = const char*(__thiscall*)(void*);
@@ -23,5 +22,4 @@ using A3d_List_GetItem = void*(__thiscall*)(void*, std::int32_t); // void* A3d_L
 using ArrayValue_GetFloat = float(__thiscall*)(void*);
 
 // array table internals
-
 }

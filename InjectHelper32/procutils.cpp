@@ -6,7 +6,8 @@
 #include <stdexcept>
 #include <iostream>
 
-HRESULT InjectProcess(const InjectorArguments& args) {
+HRESULT InjectProcess(const InjectorArguments& args)
+{
     HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, args.procId);
 
     auto existingDll = FindDll(procHandle, LibName(args.dllPath));
@@ -20,7 +21,7 @@ HRESULT InjectProcess(const InjectorArguments& args) {
     if(procHandle) {
         auto loadLibAddr = (LPVOID)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "LoadLibraryW");
         LPVOID targetProcAllocMem = VirtualAllocEx(procHandle, NULL, dllPathSize,
-            MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+                                                   MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
         if(targetProcAllocMem == nullptr) {
             std::cerr << "Error " << LAST_ERROR;
@@ -34,7 +35,7 @@ HRESULT InjectProcess(const InjectorArguments& args) {
             return LAST_ERROR;
         }
         HANDLE hRemoteThread = CreateRemoteThread(procHandle, NULL, NULL,
-            (LPTHREAD_START_ROUTINE)loadLibAddr, targetProcAllocMem, 0, NULL);
+                                                  (LPTHREAD_START_ROUTINE)loadLibAddr, targetProcAllocMem, 0, NULL);
 
         if(hRemoteThread == nullptr) {
             VirtualFreeEx(procHandle, targetProcAllocMem, 0, MEM_RELEASE);
@@ -55,7 +56,8 @@ HRESULT InjectProcess(const InjectorArguments& args) {
     return LAST_ERROR;
 }
 
-HRESULT UnloadProcess(const InjectorArguments& args) {
+HRESULT UnloadProcess(const InjectorArguments& args)
+{
     HANDLE procHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, args.procId);
 
     auto dll = FindDll(procHandle, LibName(args.dllPath));
@@ -83,7 +85,8 @@ HRESULT UnloadProcess(const InjectorArguments& args) {
     return 0;
 }
 
-HMODULE FindDll(HANDLE proc, const wchar_t* dllName) {
+HMODULE FindDll(HANDLE proc, const wchar_t* dllName)
+{
     if(!proc) {
         // todo replace exceptions to status codes
         throw std::runtime_error("Denied access to process:");
@@ -110,7 +113,8 @@ HMODULE FindDll(HANDLE proc, const wchar_t* dllName) {
     return NULL;
 }
 
-const wchar_t* LibName(const wchar_t* libPath) {
+const wchar_t* LibName(const wchar_t* libPath)
+{
     const wchar_t* lastBackslash = wcsrchr(libPath, L'\\');
     return lastBackslash ? lastBackslash + 1 : libPath;
 }

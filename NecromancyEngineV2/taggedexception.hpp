@@ -1,13 +1,16 @@
 #pragma once
 
 template <typename Tag>
-class TaggedException : public std::exception {
+class TaggedException : public std::exception
+{
 public:
     explicit TaggedException(const std::string& message)
-        : _message(message) {
+    : _message(message)
+    {
     }
 
-    const char* what() const noexcept override {
+    const char* what() const noexcept override
+    {
         return _message.c_str();
     }
 

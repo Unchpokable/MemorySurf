@@ -1,10 +1,10 @@
 #pragma once
 
 namespace necromancy::memory {
-
 class Q3DChannelReader;
 
-class Q3DChannelReader {
+class Q3DChannelReader
+{
 public:
     Q3DChannelReader(A3d_Channel* target);
     virtual ~Q3DChannelReader() = default;
@@ -18,7 +18,4 @@ public:
 protected:
     A3d_Channel* _target;
 };
-
 }
-
-

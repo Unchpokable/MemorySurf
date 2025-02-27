@@ -3,7 +3,6 @@
 #include "q3dchannelreader.h"
 
 namespace necromancy::memory {
-
 class Q3DFloatReader final : public Q3DChannelReader
 {
 public:
@@ -15,5 +14,4 @@ public:
 
     void set(float value) const;
 };
-
 }

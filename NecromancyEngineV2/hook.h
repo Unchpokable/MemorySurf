@@ -1,12 +1,13 @@
 #pragma once
 
 namespace necromancy::hooks {
-
-enum class Status {
+enum class Status
+{
     AlreadyInUse, UnnecessaryOperation, DetourException, Ok, InvalidHookMode
 };
 
-class Hook final {
+class Hook final
+{
 public:
     Hook(void* target, void* detour);
     Hook();
@@ -20,10 +21,10 @@ public:
     Status attach();
     Status detach();
 
-    template<typename Function>
+    template <typename Function>
     Function original() const noexcept;
 
-    template<typename Function>
+    template <typename Function>
     Function detour() const noexcept;
 
 private:
@@ -32,14 +33,15 @@ private:
     bool _hookAttached;
 };
 
-template<typename Function>
-Function Hook::original() const noexcept {
+template <typename Function>
+Function Hook::original() const noexcept
+{
     return reinterpret_cast<Function>(_targetFunction);
 }
 
-template<typename Function>
-Function Hook::detour() const noexcept {
+template <typename Function>
+Function Hook::detour() const noexcept
+{
     return reinterpret_cast<Function>(_detourFunction);
 }
-
 } // namespace necromancy::Hooks

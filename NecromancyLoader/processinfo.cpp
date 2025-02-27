@@ -3,20 +3,24 @@
 
 #include "processutils.h"
 
-ProcessInfo::ProcessInfo(QObject *parent) : QObject(parent), _processId(0) {
+ProcessInfo::ProcessInfo(QObject* parent) : QObject(parent), _processId(0)
+{
     // empty
 }
 
-QString ProcessInfo::processName() {
+QString ProcessInfo::processName()
+{
     return _processName;
 }
 
-void ProcessInfo::setProcessName(const QString& processName) {
+void ProcessInfo::setProcessName(const QString& processName)
+{
     _processName = processName;
     loadProcessIcon();
 }
 
-void ProcessInfo::loadProcessIcon() {
+void ProcessInfo::loadProcessIcon()
+{
     auto nativeIcon = getNativeProcIcon();
     if(nativeIcon == NULL) {
         return;
@@ -25,7 +29,8 @@ void ProcessInfo::loadProcessIcon() {
     set_icon(QImage::fromHICON(nativeIcon));
 }
 
-WinIconHandle ProcessInfo::getNativeProcIcon() const {
+WinIconHandle ProcessInfo::getNativeProcIcon() const
+{
     if(_processName.isEmpty()) {
         return NULL;
     }

@@ -2,13 +2,15 @@
 #include "sharedmemoryreader.h"
 #include "NecromancyMessages/messages.h"
 
-void SharedMemoryReader::Buffer::from(const byte* buffer, std::size_t dataSize) {
+void SharedMemoryReader::Buffer::from(const byte* buffer, std::size_t dataSize)
+{
     data = new byte[dataSize];
     std::memcpy(data, buffer, dataSize);
     size = dataSize;
 }
 
-SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent) {
+SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent)
+{
     _pollTimer = new QTimer(this);
     _pollTimer->setInterval(_initInterval);
     _initTimer = new QElapsedTimer();
@@ -16,28 +18,34 @@ SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent) {
     _buffer = new byte[necromancy::Constants::MessageMaxSize];
 }
 
-SharedMemoryReader::~SharedMemoryReader() {
+SharedMemoryReader::~SharedMemoryReader()
+{
     CloseHandle(_mutex);
     CloseHandle(_sharedMemoryHandle);
 }
 
-void SharedMemoryReader::enable() const {
+void SharedMemoryReader::enable() const
+{
     _pollTimer->start();
 }
 
-void SharedMemoryReader::disable() const {
+void SharedMemoryReader::disable() const
+{
     _pollTimer->stop();
 }
 
-void SharedMemoryReader::setInitTimeout(int msec) {
+void SharedMemoryReader::setInitTimeout(int msec)
+{
     _initTimeout = msec;
 }
 
-void SharedMemoryReader::setBufferReadInterval(int msec) {
+void SharedMemoryReader::setBufferReadInterval(int msec)
+{
     _bufferPollInterval = msec;
 }
 
-void SharedMemoryReader::startInit() {
+void SharedMemoryReader::startInit()
+{
     disconnect(_pollTimer, &QTimer::timeout, this, &SharedMemoryReader::readBuffer);
     connect(_pollTimer, &QTimer::timeout, this, &SharedMemoryReader::tryInit);
     _pollTimer->start();
@@ -45,7 +53,8 @@ void SharedMemoryReader::startInit() {
     _initTimer->start();
 }
 
-void SharedMemoryReader::readBuffer() {
+void SharedMemoryReader::readBuffer()
+{
     if(WaitForSingleObject(_mutex, INFINITE) == WAIT_OBJECT_0) {
         std::memcpy(_buffer, _smMapView, necromancy::Constants::MessageMaxSize);
         ReleaseMutex(_mutex);
@@ -57,14 +66,14 @@ void SharedMemoryReader::readBuffer() {
     }
 }
 
-void SharedMemoryReader::tryInit() {
+void SharedMemoryReader::tryInit()
+{
     auto initialized = init();
     if(!initialized) {
         return;
     }
     auto elapsed = _initTimer->elapsed();
-    if(elapsed > _initInterval && !initialized)
-    {
+    if(elapsed > _initInterval && !initialized) {
         _pollTimer->stop();
         disconnect(_pollTimer, &QTimer::timeout, this, &SharedMemoryReader::tryInit);
         emit initializationTimedOut();
@@ -82,7 +91,8 @@ void SharedMemoryReader::tryInit() {
     emit this->initialized();
 }
 
-bool SharedMemoryReader::init() {
+bool SharedMemoryReader::init()
+{
     auto mutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, necromancy::Constants::MutexName);
 
     if(!mutex) {

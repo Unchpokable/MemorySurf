@@ -3,16 +3,19 @@
 #include "windefprettify.h"
 #include "NecromancyMessages/asdump.h"
 
-class SharedMemoryReader final : public QObject {
+class SharedMemoryReader final : public QObject
+{
     Q_OBJECT
 
 public:
     ///@brief Service message structure contains data buffer read from memory buffer from game
-    struct Buffer {
+    struct Buffer
+    {
         byte* data;
         std::size_t size;
 
-        void free() const {
+        void free() const
+        {
             delete data;
         }
 

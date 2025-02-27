@@ -3,7 +3,8 @@
 #include <stdexcept>
 #include <sstream>
 
-InjectorArguments ParseArguments(int argc, char** argv) {
+InjectorArguments ParseArguments(int argc, char** argv)
+{
     if(argc != 4) {
         std::stringstream err;
         err << "Should be given 3 cl args but " << argc << " given. ";
@@ -32,4 +33,3 @@ InjectorArguments ParseArguments(int argc, char** argv) {
 
     return args;
 }
-

@@ -7,11 +7,13 @@
 
 using namespace necromancy::ipc;
 
-IpcChannel::IpcChannel() {
+IpcChannel::IpcChannel()
+{
     initializeSharedMemory();
 }
 
-IpcChannel::~IpcChannel() {
+IpcChannel::~IpcChannel()
+{
     WaitForSingleObject(_mutex, INFINITE);
     UnmapViewOfFile(_mapView);
     CloseHandle(_sharedMemoryMapping);
@@ -19,7 +21,8 @@ IpcChannel::~IpcChannel() {
     CloseHandle(_mutex);
 }
 
-void IpcChannel::writeBuffer(const messages::ASDump::ASDumpStruct& data, bool flush) const {
+void IpcChannel::writeBuffer(const messages::ASDump::ASDumpStruct& data, bool flush) const
+{
     if(WaitForSingleObject(_mutex, INFINITE) == WAIT_OBJECT_0) {
         if(flush) {
             std::memset(_mapView, 0, Constants::MessageMaxSize);
@@ -34,7 +37,8 @@ void IpcChannel::writeBuffer(const messages::ASDump::ASDumpStruct& data, bool fl
     }
 }
 
-void IpcChannel::initializeSharedMemory() {
+void IpcChannel::initializeSharedMemory()
+{
     SECURITY_DESCRIPTOR mutexSd;
     InitializeSecurityDescriptor(&mutexSd, SECURITY_DESCRIPTOR_REVISION);
     SetSecurityDescriptorDacl(&mutexSd, TRUE, NULL, FALSE);

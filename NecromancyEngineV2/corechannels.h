@@ -9,8 +9,8 @@
 class A3d_Channel;
 
 namespace necromancy::hooks {
-
-class CoreChannels : public ProxyMemoryObject {
+class CoreChannels : public ProxyMemoryObject
+{
 public:
     STATIC_DYNAMIC_CALL
 
@@ -34,6 +34,4 @@ private:
     static std::size_t _getChannelNameId;
     static std::size_t _trueCallChannelId;
 };
-
 }
-

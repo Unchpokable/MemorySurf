@@ -2,15 +2,16 @@
 
 #include <QObject>
 
-class DragHandler  : public QObject {
+class DragHandler : public QObject
+{
     Q_OBJECT
 
 public:
-    DragHandler(QObject *parent);
+    DragHandler(QObject* parent);
     virtual ~DragHandler() override = default;
 
 protected:
-    virtual bool eventFilter(QObject *watched, QEvent *event) override;
+    virtual bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
     QWidget* _parentWindow;

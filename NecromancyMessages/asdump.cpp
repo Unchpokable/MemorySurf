@@ -4,7 +4,8 @@
 
 using namespace necromancy::messages;
 
-StatusCode ASDump::SafeSerialize(const ASDumpStruct& dump, byte** buffer) {
+StatusCode ASDump::SafeSerialize(const ASDumpStruct& dump, byte** buffer)
+{
     if(!buffer) return StatusCode::ErrorCausedWrongData;
 
     auto localBuffer = new byte[ASDumpMessageSize];
@@ -16,7 +17,8 @@ StatusCode ASDump::SafeSerialize(const ASDumpStruct& dump, byte** buffer) {
     return StatusCode::Ok;
 }
 
-StatusCode ASDump::FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
+StatusCode ASDump::FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize)
+{
     if(bufferSize < ASDumpMessageSize) {
         return StatusCode::ErrorCausedWrongData;
     }
@@ -56,7 +58,8 @@ StatusCode ASDump::FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, si
     return StatusCode::Ok;
 }
 
-StatusCode ASDump::BlockwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize) {
+StatusCode ASDump::BlockwiseSerialize(const ASDumpStruct& dump, byte* buffer, size_t bufferSize)
+{
     if(bufferSize < ASDumpMessageSize) {
         return StatusCode::ErrorCausedWrongData;
     }
@@ -80,10 +83,10 @@ StatusCode ASDump::BlockwiseSerialize(const ASDumpStruct& dump, byte* buffer, si
     std::memcpy(serializationPtr, dump.statsArray, sizeof(float) * dump.statsArraySize);
 
     return StatusCode::Ok;
-
 }
 
-StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
+StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result)
+{
     ASDumpStruct data;
 
     uint16_t messageId;
@@ -104,7 +107,6 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
     std::memcpy(structPtr + ASDump_StatsArraySizeFieldOffset, serializationPtr, ASDump_StatsArraySizeFieldSize);
     serializationPtr += ASDump_StatsArraySizeFieldSize;
 
-
     std::memcpy(structPtr + ASDump_GoldThresholdFieldOffset, serializationPtr, ASDump_GoldThresholdFieldSize);
     serializationPtr += ASDump_GoldThresholdFieldSize;
 
@@ -122,13 +124,12 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result) {
     std::memcpy(arrayBuffer, serializationPtr, sizeof(float) * data.statsArraySize);
     data.statsArray = arrayBuffer;
 
-
     *result = data;
     return StatusCode::Ok;
 }
 
-
-void ASDump::Initialize(ASDumpStruct* dumpStruct, int statsArraySize) {
+void ASDump::Initialize(ASDumpStruct* dumpStruct, int statsArraySize)
+{
     dumpStruct->score = 0.0;
     dumpStruct->statsArraySize = statsArraySize;
     dumpStruct->statsArray = new float[statsArraySize];
@@ -137,9 +138,8 @@ void ASDump::Initialize(ASDumpStruct* dumpStruct, int statsArraySize) {
     dumpStruct->largestMatch = 0.0;
 }
 
-void ASDump::Free(ASDumpStruct* dumpStruct) {
+void ASDump::Free(ASDumpStruct* dumpStruct)
+{
     delete[] dumpStruct->statsArray;
     dumpStruct->statsArray = nullptr;
 }
-
-

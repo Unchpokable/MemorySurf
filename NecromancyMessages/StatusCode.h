@@ -2,13 +2,11 @@
 
 namespace necromancy {
 namespace messages {
-
-enum class StatusCode {
-    Ok = 0,
+enum class StatusCode
+{
+    Ok                   = 0,
     ErrorCausedWrongData = 1,
-    ErrorCausedSystem = -1
+    ErrorCausedSystem    = -1
 };
-
 }
 }
-

@@ -3,12 +3,14 @@
 #include <cstdint>
 #include <Windows.h>
 
-enum InjectorMode : uint8_t {
+enum InjectorMode : uint8_t
+{
     Inject = 105, // -i
     Unload = 117  // -u
 };
 
-struct InjectorArguments {
+struct InjectorArguments
+{
     InjectorArguments() = default;
 
     InjectorMode mode;

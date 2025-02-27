@@ -13,17 +13,23 @@ class WebSocketBroadcastServer;
 class DragHandler;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class NecromancyLoaderWindowClass; };
+
+namespace Ui {
+class NecromancyLoaderWindowClass;
+};
+
 QT_END_NAMESPACE
 
-class NecromancyLoaderWindow : public QMainWindow {
+class NecromancyLoaderWindow : public QMainWindow
+{
     Q_OBJECT
 
-    enum class IndicatorState {
-        Bad, // red indicator
-        Well,// yellow indicator
-        Fine,// green indicator
-        Good // blue indicator
+    enum class IndicatorState
+    {
+        Bad,  // red indicator
+        Well, // yellow indicator
+        Fine, // green indicator
+        Good  // blue indicator
     };
 
 public:
@@ -54,7 +60,6 @@ private slots:
     void onGameWaitTimer();
     void onGameTrackTimer();
 
-
     // controlling trackers
     void onLaunchTrackerButtonClicked() const;
 
@@ -77,7 +82,7 @@ private:
     // generic functions
     void loadProperties();
     void scanProcessesAndPopulateSelectionCombo();
-    void swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses);
+    void swapScannedProcesses(const QList<ProcessInfo*>& newScannedProcesses);
     void checkAndAdjustAppPrivileges() const;
     void startWebSocketServer();
 
@@ -96,7 +101,7 @@ private:
     // generic data
     Injector* _injector;
     QList<ProcessInfo*> _scannedProcesses;
-    Ui::NecromancyLoaderWindowClass *ui;
+    Ui::NecromancyLoaderWindowClass* ui;
     QSettings* _properties;
 
     // IPC handlers

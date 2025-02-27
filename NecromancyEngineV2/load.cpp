@@ -11,7 +11,6 @@
 #define UNUSED(x) (void)x;
 
 namespace {
-
 // constants
 
 constexpr ptrdiff_t DirectX_EndSceneOffset = 42;
@@ -26,10 +25,10 @@ std::chrono::time_point<std::chrono::steady_clock> g_timePoint;
 
 // Dll data
 HMODULE g_this;
-
 }
 
-HRESULT __stdcall necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
+HRESULT __stdcall necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device)
+{
     auto now = std::chrono::high_resolution_clock::now();
     if(std::chrono::duration_cast<std::chrono::milliseconds>(now - g_timePoint) < g_deltaTime) {
         g_timePoint = now;
@@ -42,7 +41,8 @@ HRESULT __stdcall necromancy::HkEndScene_DumpMemory(LPDIRECT3DDEVICE9 device) {
     return g_endSceneHook->original<DirectXEndScene>()(device);
 }
 
-void __fastcall necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
+void __fastcall necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx)
+{
     if(g_necromancyEngine->engineInterface() == nullptr) {
         g_necromancyEngine->setQ3DEngineInterface(self->engine);
         Logger::logCondition(notNull(g_necromancyEngine->engineInterface()), "Engine interface is available");
@@ -61,7 +61,8 @@ void __fastcall necromancy::HkTrueCallChannel(A3d_Channel* self, DWORD edx) {
     return g_trueCallChannelHook->original<typedefs::TrueCallChannelFn>()(self);
 }
 
-HRESULT necromancy::InitDirect3D() {
+HRESULT necromancy::InitDirect3D()
+{
     IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
     if(!pD3D) {
@@ -109,13 +110,15 @@ HRESULT necromancy::InitDirect3D() {
     return 0;
 }
 
-HWND necromancy::GetProcWindow() {
+HWND necromancy::GetProcWindow()
+{
     HWND mainWindow = nullptr;
     EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&mainWindow));
     return mainWindow;
 }
 
-BOOL CALLBACK necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
+BOOL CALLBACK necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam)
+{
     DWORD processId = 0;
     GetWindowThreadProcessId(hwnd, &processId);
 
@@ -129,7 +132,8 @@ BOOL CALLBACK necromancy::EnumWindowsProc(HWND hwnd, LPARAM lparam) {
     return TRUE;
 }
 
-void necromancy::Setup(HMODULE thisDll) {
+void necromancy::Setup(HMODULE thisDll)
+{
     g_this = thisDll;
 
     g_necromancyEngine = new NecromancyEngine();
@@ -149,7 +153,8 @@ void necromancy::Setup(HMODULE thisDll) {
     Logger::info("Setup step 1 of 2 succeeded");
 }
 
-DWORD WINAPI necromancy::Unload(LPVOID lpThreadParameter) {
+DWORD WINAPI necromancy::Unload(LPVOID lpThreadParameter)
+{
     UNUSED(lpThreadParameter);
 
     g_endSceneHook->detach();
@@ -164,7 +169,8 @@ DWORD WINAPI necromancy::Unload(LPVOID lpThreadParameter) {
     FreeLibraryAndExitThread(g_this, S_OK);
 }
 
-DWORD WINAPI necromancy::Main(LPVOID lpThreadParameter) {
+DWORD WINAPI necromancy::Main(LPVOID lpThreadParameter)
+{
     Setup((HMODULE)lpThreadParameter);
 
     Logger::enableBuffering();
@@ -172,4 +178,3 @@ DWORD WINAPI necromancy::Main(LPVOID lpThreadParameter) {
 
     return TRUE;
 }
-

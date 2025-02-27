@@ -14,18 +14,18 @@
     template<typename Ret, typename ...Args> \
     static VirtualFunction<Ret(__thiscall*)(Args...)> staticDynamicFunc(const char* funcName) { \
         return _instance->dynamicFunc<Ret, Args>(funcName); \
-    } \
+    }
 
 namespace necromancy::hooks {
-
-class ProxyMemoryObject {
+class ProxyMemoryObject
+{
     using AnonCFunc = void*;
 
 public:
-    template<typename Ret, typename ...Args>
+    template <typename Ret, typename... Args>
     Ret dynamicCall(void* object, const char* funcName, Args... args);
 
-    template<typename Ret, typename ...Args>
+    template <typename Ret, typename... Args>
     VirtualFunction<Ret(__thiscall*)(Args...)> dynamicFunc(const char* funcName);
 
     virtual ~ProxyMemoryObject() = default;
@@ -44,8 +44,9 @@ protected:
 };
 
 /// @brief Allows to call an arbitrary function by its name inside of module that current object wraps
-template<typename Ret, typename ...Args>
-Ret ProxyMemoryObject::dynamicCall(void* object, const char* funcName, Args ...args) {
+template <typename Ret, typename... Args>
+Ret ProxyMemoryObject::dynamicCall(void* object, const char* funcName, Args... args)
+{
     using fnType = Ret(__thiscall*)(Args...);
 
     VirtualFunction<fnType> func = dynamicFunc<Ret, Args>(funcName);
@@ -54,13 +55,13 @@ Ret ProxyMemoryObject::dynamicCall(void* object, const char* funcName, Args ...a
 }
 
 /// @brief Allows to find an arbitrary function by its name inside of module that current object wraps
-template<typename Ret, typename ...Args>
-VirtualFunction<Ret(__thiscall*)(Args...)> ProxyMemoryObject::dynamicFunc(const char* funcName) {
+template <typename Ret, typename... Args>
+VirtualFunction<Ret(__thiscall*)(Args...)> ProxyMemoryObject::dynamicFunc(const char* funcName)
+{
     using fnType = Ret(__thiscall*)(Args...);
 
     fnType function = DetourFindFunction(_moduleName, funcName);
 
     return function;
 }
-
 }

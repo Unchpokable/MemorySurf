@@ -3,7 +3,6 @@
 #include "q3dchannelreader.h"
 
 namespace necromancy::memory {
-
 /* Idea of this class now is:
 - All columns or at least most interesting columns of ArrayTable placed in separate channels as `Array Value` and after all this `Array Value` exists channel called `Index_ofSomething` like
 Stats: CollectedColorCounts <--- this is a channel number 8 in StatsCollector.cgr
@@ -34,22 +33,21 @@ MUST keep this order:
 class Q3DArrayTableReader final : public Q3DChannelReader
 {
 public:
-    struct IndexedArrayValue {
+    struct IndexedArrayValue
+    {
         A3d_Channel* arrayValue;
         A3d_Channel* indexer;
     };
 
-    Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue> &arrays = {});
+    Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue>& arrays = {});
     virtual ~Q3DArrayTableReader() override = default;
 
     void addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer);
     float getValue(int row, float index); // lol Quest3D using a float for indexing LMFAO 
 
-    std::vector<float> getValues(int row, const std::vector<float> &indexRange);
+    std::vector<float> getValues(int row, const std::vector<float>& indexRange);
 
 private:
     std::unordered_map<int, IndexedArrayValue> _boundTableChannels;
 };
-
 }
-

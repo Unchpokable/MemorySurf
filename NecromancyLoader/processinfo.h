@@ -3,7 +3,8 @@
 #include "propertymacro.h"
 #include "windefprettify.h"
 
-class ProcessInfo final : public QObject {
+class ProcessInfo final : public QObject
+{
     Q_OBJECT
 
 public:
@@ -25,4 +26,5 @@ private:
 };
 
 Q_DECLARE_METATYPE(ProcessInfo)
+
 Q_DECLARE_METATYPE(ProcessInfo*)

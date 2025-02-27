@@ -5,19 +5,23 @@
 using namespace necromancy::hooks;
 
 Hook::Hook(void* target, void* detour)
-    : _targetFunction(target), _detourFunction(detour), _hookAttached(false) {
+: _targetFunction(target), _detourFunction(detour), _hookAttached(false)
+{
     // empty
 }
 
-Hook::Hook() : _targetFunction(nullptr), _detourFunction(nullptr), _hookAttached(false) {
+Hook::Hook() : _targetFunction(nullptr), _detourFunction(nullptr), _hookAttached(false)
+{
     // empty
 }
 
-Hook::~Hook() {
+Hook::~Hook()
+{
     detach();
 }
 
-Status Hook::attach() {
+Status Hook::attach()
+{
     if(_hookAttached)
         return Status::AlreadyInUse;
 
@@ -34,7 +38,8 @@ Status Hook::attach() {
     return Status::Ok;
 }
 
-Status Hook::detach() {
+Status Hook::detach()
+{
     if(!_hookAttached)
         return Status::UnnecessaryOperation;
 

@@ -5,21 +5,25 @@
 #include "processhelper.h"
 #include "processutils.h"
 
-Injector::Injector(QObject* parent) : QObject(parent), _targetProcId(0), _injectorHelper(new ProcessHelper(this)) {
+Injector::Injector(QObject* parent) : QObject(parent), _targetProcId(0), _injectorHelper(new ProcessHelper(this))
+{
     connect(_injectorHelper, &ProcessHelper::processFinished, this, &Injector::onInjectorExited);
 }
 
-void Injector::setTargetLibrary(const std::wstring& libraryName) {
+void Injector::setTargetLibrary(const std::wstring& libraryName)
+{
     _targetLibraryPath = libraryName;
 }
 
-void Injector::setTargetProcPid(WinDword procId) {
+void Injector::setTargetProcPid(WinDword procId)
+{
     _targetProcId = procId;
 }
 
-void Injector::inject() const {
+void Injector::inject() const
+{
     auto existingDll = findTargetDll();
-    if(existingDll != NULL){
+    if(existingDll != NULL) {
         return;
     }
 
@@ -28,21 +32,25 @@ void Injector::inject() const {
     _injectorHelper->run();
 }
 
-void Injector::free() const {
+void Injector::free() const
+{
     _injectorHelper->setClArgs({ "-u", QString::number(_targetProcId), QString::fromStdWString(_targetLibraryPath) });
     _injectorHelper->setTargetProc("InjectHelper32.exe");
     _injectorHelper->run();
 }
 
-bool Injector::hasTargetLoadedLibrary() const {
+bool Injector::hasTargetLoadedLibrary() const
+{
     return findTargetDll() != NULL;
 }
 
-void Injector::onInjectorExited(int exitCode, const QString& stdOut) {
+void Injector::onInjectorExited(int exitCode, const QString& stdOut)
+{
     emit injectorExited(exitCode, stdOut);
 }
 
-WinModuleHandle Injector::findTargetDll() const {
+WinModuleHandle Injector::findTargetDll() const
+{
     WinHandle procHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, _targetProcId);
     if(!procHandle) {
         // todo replace exceptions to status codes

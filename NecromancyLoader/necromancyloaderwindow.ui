@@ -1,555 +1,558 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <ui version="4.0">
- <class>NecromancyLoaderWindowClass</class>
- <widget class="QMainWindow" name="NecromancyLoaderWindowClass">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>410</width>
-    <height>358</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="windowTitle">
-   <string>NecromancyLoaderWindow</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">/***********************/
-/* Базовые настройки */
-/***********************/
-* {
-    font-family: &quot;Roboto&quot;, &quot;Tahoma&quot;, &quot;System UI&quot;;
-    font-weight: 600;
-    color: #e0e0e0;
-}
+	<class>NecromancyLoaderWindowClass</class>
+	<widget class="QMainWindow" name="NecromancyLoaderWindowClass">
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>410</width>
+				<height>358</height>
+			</rect>
+		</property>
+		<property name="sizePolicy">
+			<sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+				<horstretch>0</horstretch>
+				<verstretch>0</verstretch>
+			</sizepolicy>
+		</property>
+		<property name="windowTitle">
+			<string>NecromancyLoaderWindow</string>
+		</property>
+		<property name="styleSheet">
+			<string notr="true">
+				/***********************/
+				/* Базовые настройки */
+				/***********************/
+				* {
+				font-family: &quot;Roboto&quot;, &quot;Tahoma&quot;, &quot;System UI&quot;;
+				font-weight: 600;
+				color: #e0e0e0;
+				}
 
-QWidget {
-    background-color: #292a2d;
-    selection-background-color: #3daee9;
-}
+				QWidget {
+				background-color: #292a2d;
+				selection-background-color: #3daee9;
+				}
 
-/***********************/
-/* Общие элементы */
-/***********************/
-QPushButton, QLineEdit, QTextEdit, QSlider::handle, QComboBox {
-    border-radius: 5px;
-    border: 1px solid #4683d3;
-    background-color: #4683d3;
-    padding: 5px;
-    transition: background-color 150ms ease, border-color 150ms ease;
-}
+				/***********************/
+				/* Общие элементы */
+				/***********************/
+				QPushButton, QLineEdit, QTextEdit, QSlider::handle, QComboBox {
+				border-radius: 5px;
+				border: 1px solid #4683d3;
+				background-color: #4683d3;
+				padding: 5px;
+				transition: background-color 150ms ease, border-color 150ms ease;
+				}
 
-QSlider::groove {
-    background: #404244;
-    border-radius: 2px;
-    height: 4px;
-}
+				QSlider::groove {
+				background: #404244;
+				border-radius: 2px;
+				height: 4px;
+				}
 
-QSlider::handle:hover {
-    background: #5f93db;
-}
+				QSlider::handle:hover {
+				background: #5f93db;
+				}
 
-QPushButton:hover, QLineEdit:hover, QTextEdit:hover, QComboBox:hover, QSlider::handle:hover {
-    background-color: #4d8feb;
-    border-color: #4d8feb;
-}
+				QPushButton:hover, QLineEdit:hover, QTextEdit:hover, QComboBox:hover, QSlider::handle:hover {
+				background-color: #4d8feb;
+				border-color: #4d8feb;
+				}
 
-QPushButton:pressed, QSlider::handle:pressed {
-    background-color: #375d8f;
-    border-color: #375d8f;
-}
+				QPushButton:pressed, QSlider::handle:pressed {
+				background-color: #375d8f;
+				border-color: #375d8f;
+				}
 
-QLineEdit, QTextEdit {
-    background-color: #1e1f21;
-    border: 1px solid #353638;
-}
+				QLineEdit, QTextEdit {
+				background-color: #1e1f21;
+				border: 1px solid #353638;
+				}
 
-QLineEdit:hover, QTextEdit:hover {
-    border-color: #4d8feb;
-    background-color: #252628;
-}
+				QLineEdit:hover, QTextEdit:hover {
+				border-color: #4d8feb;
+				background-color: #252628;
+				}
 
-QComboBox::drop-down {
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    width: 20px;
-    border-left-width: 1px;
-    border-left-color: #353638;
-    border-left-style: solid;
-}
+				QComboBox::drop-down {
+				subcontrol-origin: padding;
+				subcontrol-position: top right;
+				width: 20px;
+				border-left-width: 1px;
+				border-left-color: #353638;
+				border-left-style: solid;
+				}
 
-/***********************/
-/* Специфичные элементы */
-/***********************/
-QScrollBar:vertical {
-    background: #1e1f21;
-    width: 10px;
-}
+				/***********************/
+				/* Специфичные элементы */
+				/***********************/
+				QScrollBar:vertical {
+				background: #1e1f21;
+				width: 10px;
+				}
 
-QScrollBar::handle:vertical {
-    background: #353638;
-    border-radius: 4px;
-}
+				QScrollBar::handle:vertical {
+				background: #353638;
+				border-radius: 4px;
+				}
 
-/***********************/
-/* Основное окно */
-/***********************/
-QMainWindow, QDialog {
-    background-color: #292a2d;
-    border-radius: 5px;
-    padding: 1px; /* Помогает избежать обрезки контента */
-}
+				/***********************/
+				/* Основное окно */
+				/***********************/
+				QMainWindow, QDialog {
+				background-color: #292a2d;
+				border-radius: 5px;
+				padding: 1px; /* Помогает избежать обрезки контента */
+				}
 
-/***********************/
-/* Комбобокс и скроллбар */
-/***********************/
-QComboBox QScrollBar:vertical {
-    background: #1e1f21;
-    width: 12px;
-    border-radius: 6px;
-}
+				/***********************/
+				/* Комбобокс и скроллбар */
+				/***********************/
+				QComboBox QScrollBar:vertical {
+				background: #1e1f21;
+				width: 12px;
+				border-radius: 6px;
+				}
 
-QComboBox QScrollBar::handle:vertical {
-    background: #3772c0;
-    border-radius: 6px;
-    min-height: 30px;
-}
+				QComboBox QScrollBar::handle:vertical {
+				background: #3772c0;
+				border-radius: 6px;
+				min-height: 30px;
+				}
 
-QComboBox QScrollBar::add-line:vertical,
-QComboBox QScrollBar::sub-line:vertical {
-    background: none;
-}
+				QComboBox QScrollBar::add-line:vertical,
+				QComboBox QScrollBar::sub-line:vertical {
+				background: none;
+				}
 
-/***********************/
-/* Слайдер */
-/***********************/
-QSlider::handle {
-    width: 20px;
-    height: 20px;
-    margin: -8px 0; /* Выступ за пределы groove */
-    border: 2px solid #3772c0;
-    transition: all 150ms ease;
-}
+				/***********************/
+				/* Слайдер */
+				/***********************/
+				QSlider::handle {
+				width: 20px;
+				height: 20px;
+				margin: -8px 0; /* Выступ за пределы groove */
+				border: 2px solid #3772c0;
+				transition: all 150ms ease;
+				}
 
-QSlider::handle:hover {
-    background: #709ad4;
-    border-color: #e7e7e700;
-    transform: scale(1.1);
-}
+				QSlider::handle:hover {
+				background: #709ad4;
+				border-color: #e7e7e700;
+				transform: scale(1.1);
+				}
 
-/***********************/
-/* Обновлённые стили */
-/***********************/
-QSlider::groove {
-    margin: 8px 0; /* Пространство для handle */
-}
+				/***********************/
+				/* Обновлённые стили */
+				/***********************/
+				QSlider::groove {
+				margin: 8px 0; /* Пространство для handle */
+				}
 
-QComboBox QListView {
-    background: #1e1f21;
-    border-radius: 5px;
-    margin-top: 2px;
-}
+				QComboBox QListView {
+				background: #1e1f21;
+				border-radius: 5px;
+				margin-top: 2px;
+				}
 
-/***********************/
-/* Состояние Disabled */
-/***********************/
-QPushButton:disabled {
-    background-color: #3a3f45;     /* Тёмный серо-синий фон */
-    border-color: #2d3136;        /* Граница на тон темнее фона */
-    color: #909294;               /* Приглушённый серый текст */
-    transition: none;            /* Отключаем анимации */
-}
+				/***********************/
+				/* Состояние Disabled */
+				/***********************/
+				QPushButton:disabled {
+				background-color: #3a3f45;     /* Тёмный серо-синий фон */
+				border-color: #2d3136;        /* Граница на тон темнее фона */
+				color: #909294;               /* Приглушённый серый текст */
+				transition: none;            /* Отключаем анимации */
+				}
 
-/***********************/
-/* Всплывающие подсказки */
-/***********************/
-QToolTip {
-    background-color: #37393b;       /* Светло-серый фон (на 15% светлее основного) */
-    color: #e0e0e0;                 /* Стандартный цвет текста */
-    border: 1px solid #2d2f31;      /* Тёмная граница для контраста */
-    border-radius: 5px;             /* Скругление как у других элементов */
-    padding: 5px 8px;               /* Комфортные отступы */
-    font-family: &quot;Roboto&quot;, &quot;Tahoma&quot;, &quot;System UI&quot;;
-    font-weight: 600;
-    opacity: 230;                   /* Фикс для плавного появления в некоторых ОС */
-}
+				/***********************/
+				/* Всплывающие подсказки */
+				/***********************/
+				QToolTip {
+				background-color: #37393b;       /* Светло-серый фон (на 15% светлее основного) */
+				color: #e0e0e0;                 /* Стандартный цвет текста */
+				border: 1px solid #2d2f31;      /* Тёмная граница для контраста */
+				border-radius: 5px;             /* Скругление как у других элементов */
+				padding: 5px 8px;               /* Комфортные отступы */
+				font-family: &quot;Roboto&quot;, &quot;Tahoma&quot;, &quot;System UI&quot;;
+				font-weight: 600;
+				opacity: 230;                   /* Фикс для плавного появления в некоторых ОС */
+				}
 
-/***********************/
-/* Графическая область */
-/***********************/
-QGraphicsView {
-    border: 0px transparent;      /* Полное удаление границы */
-    outline: 0px;                  /* Убираем фокусную рамку */
-    background-color: #292a2d;     /* Соответствие основному фону */
-}
+				/***********************/
+				/* Графическая область */
+				/***********************/
+				QGraphicsView {
+				border: 0px transparent;      /* Полное удаление границы */
+				outline: 0px;                  /* Убираем фокусную рамку */
+				background-color: #292a2d;     /* Соответствие основному фону */
+				}
 
-QGraphicsView::viewport {
-    border: none;                 /* Двойная страховка для внутренней области */
-    background-color: transparent;
-}</string>
-  </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QWidget" name="customHeader" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="iconLabel">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>ICON</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <item>
-          <layout class="QHBoxLayout" name="rightStatusInfo">
-           <item>
-            <widget class="QLabel" name="label_5">
-             <property name="font">
-              <font>
-               <family>Roboto</family>
-               <pointsize>12</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>MemorySurf control panel</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGraphicsView" name="rightsIndicator">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="appRightsLabel">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="closeButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>48</width>
-             <height>48</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>X</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="Line" name="line_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="gameSelectionLayout">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Game process:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="gameProcCombo"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="procRefreshButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>↻</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QPushButton" name="loadButton">
-        <property name="text">
-         <string>Load</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Config broadcast server</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Web socket port</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="webSocketPortEntry"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="portUpdateButton">
-        <property name="text">
-         <string>Update</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Sending rate</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="leftSendingRateSpeedLabel">
-        <property name="text">
-         <string>Immediate</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSlider" name="sendingRateSlider">
-        <property name="minimum">
-         <number>0</number>
-        </property>
-        <property name="maximum">
-         <number>5</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_right">
-        <property name="text">
-         <string>Slower</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="setSendingRateButton">
-        <property name="text">
-         <string>Set</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
-      <item>
-       <widget class="QPushButton" name="startServerButton">
-        <property name="text">
-         <string>Start server</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="statusBarLayout">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
-        <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Game</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="gameIndicator">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Plugin</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="pluginIndicator">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Server</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="serverIndicator">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="launchTrackerButton">
-      <property name="text">
-       <string>Launch tracker</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
- </widget>
- <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="necromancyloaderwindow.qrc"/>
- </resources>
- <connections/>
+				QGraphicsView::viewport {
+				border: none;                 /* Двойная страховка для внутренней области */
+				background-color: transparent;
+				}
+			</string>
+		</property>
+		<widget class="QWidget" name="centralWidget">
+			<layout class="QVBoxLayout" name="verticalLayout_2">
+				<item>
+					<widget class="QWidget" name="customHeader" native="true">
+						<layout class="QHBoxLayout" name="horizontalLayout_7">
+							<property name="leftMargin">
+								<number>0</number>
+							</property>
+							<property name="topMargin">
+								<number>0</number>
+							</property>
+							<property name="rightMargin">
+								<number>0</number>
+							</property>
+							<property name="bottomMargin">
+								<number>0</number>
+							</property>
+							<item>
+								<widget class="QLabel" name="iconLabel">
+									<property name="sizePolicy">
+										<sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+											<horstretch>0</horstretch>
+											<verstretch>0</verstretch>
+										</sizepolicy>
+									</property>
+									<property name="text">
+										<string>ICON</string>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<layout class="QHBoxLayout" name="horizontalLayout_8">
+									<item>
+										<layout class="QHBoxLayout" name="rightStatusInfo">
+											<item>
+												<widget class="QLabel" name="label_5">
+													<property name="font">
+														<font>
+															<family>Roboto</family>
+															<pointsize>12</pointsize>
+															<bold>true</bold>
+														</font>
+													</property>
+													<property name="text">
+														<string>MemorySurf control panel</string>
+													</property>
+													<property name="alignment">
+														<set>Qt::AlignCenter</set>
+													</property>
+												</widget>
+											</item>
+											<item>
+												<widget class="QGraphicsView" name="rightsIndicator">
+													<property name="sizePolicy">
+														<sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+															<horstretch>0</horstretch>
+															<verstretch>0</verstretch>
+														</sizepolicy>
+													</property>
+													<property name="maximumSize">
+														<size>
+															<width>30</width>
+															<height>30</height>
+														</size>
+													</property>
+												</widget>
+											</item>
+											<item>
+												<widget class="QLabel" name="appRightsLabel">
+													<property name="text">
+														<string />
+													</property>
+												</widget>
+											</item>
+										</layout>
+									</item>
+									<item>
+										<widget class="QPushButton" name="closeButton">
+											<property name="sizePolicy">
+												<sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+													<horstretch>0</horstretch>
+													<verstretch>0</verstretch>
+												</sizepolicy>
+											</property>
+											<property name="minimumSize">
+												<size>
+													<width>24</width>
+													<height>24</height>
+												</size>
+											</property>
+											<property name="maximumSize">
+												<size>
+													<width>48</width>
+													<height>48</height>
+												</size>
+											</property>
+											<property name="text">
+												<string>X</string>
+											</property>
+										</widget>
+									</item>
+								</layout>
+							</item>
+						</layout>
+					</widget>
+				</item>
+				<item>
+					<widget class="Line" name="line_2">
+						<property name="orientation">
+							<enum>Qt::Horizontal</enum>
+						</property>
+					</widget>
+				</item>
+				<item>
+					<layout class="QVBoxLayout" name="gameSelectionLayout">
+						<item>
+							<layout class="QHBoxLayout" name="horizontalLayout">
+								<item>
+									<widget class="QLabel" name="label">
+										<property name="sizePolicy">
+											<sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="text">
+											<string>Game process:</string>
+										</property>
+									</widget>
+								</item>
+								<item>
+									<widget class="QComboBox" name="gameProcCombo" />
+								</item>
+								<item>
+									<widget class="QPushButton" name="procRefreshButton">
+										<property name="sizePolicy">
+											<sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="text">
+											<string>↻</string>
+										</property>
+									</widget>
+								</item>
+							</layout>
+						</item>
+					</layout>
+				</item>
+				<item>
+					<layout class="QHBoxLayout" name="horizontalLayout_4">
+						<item>
+							<widget class="QPushButton" name="loadButton">
+								<property name="text">
+									<string>Load</string>
+								</property>
+							</widget>
+						</item>
+					</layout>
+				</item>
+				<item>
+					<widget class="Line" name="line">
+						<property name="orientation">
+							<enum>Qt::Horizontal</enum>
+						</property>
+					</widget>
+				</item>
+				<item>
+					<widget class="QLabel" name="label_2">
+						<property name="text">
+							<string>Config broadcast server</string>
+						</property>
+						<property name="alignment">
+							<set>Qt::AlignCenter</set>
+						</property>
+					</widget>
+				</item>
+				<item>
+					<layout class="QHBoxLayout" name="horizontalLayout_2">
+						<item>
+							<widget class="QLabel" name="label_3">
+								<property name="text">
+									<string>Web socket port</string>
+								</property>
+							</widget>
+						</item>
+						<item>
+							<widget class="QLineEdit" name="webSocketPortEntry" />
+						</item>
+						<item>
+							<widget class="QPushButton" name="portUpdateButton">
+								<property name="text">
+									<string>Update</string>
+								</property>
+							</widget>
+						</item>
+					</layout>
+				</item>
+				<item>
+					<widget class="QLabel" name="label_4">
+						<property name="text">
+							<string>Sending rate</string>
+						</property>
+						<property name="alignment">
+							<set>Qt::AlignCenter</set>
+						</property>
+					</widget>
+				</item>
+				<item>
+					<layout class="QHBoxLayout" name="horizontalLayout_3">
+						<item>
+							<widget class="QLabel" name="leftSendingRateSpeedLabel">
+								<property name="text">
+									<string>Immediate</string>
+								</property>
+							</widget>
+						</item>
+						<item>
+							<widget class="QSlider" name="sendingRateSlider">
+								<property name="minimum">
+									<number>0</number>
+								</property>
+								<property name="maximum">
+									<number>5</number>
+								</property>
+								<property name="orientation">
+									<enum>Qt::Horizontal</enum>
+								</property>
+							</widget>
+						</item>
+						<item>
+							<widget class="QLabel" name="label_right">
+								<property name="text">
+									<string>Slower</string>
+								</property>
+							</widget>
+						</item>
+						<item>
+							<widget class="QPushButton" name="setSendingRateButton">
+								<property name="text">
+									<string>Set</string>
+								</property>
+							</widget>
+						</item>
+					</layout>
+				</item>
+				<item>
+					<layout class="QHBoxLayout" name="horizontalLayout_6">
+						<item>
+							<widget class="QPushButton" name="startServerButton">
+								<property name="text">
+									<string>Start server</string>
+								</property>
+							</widget>
+						</item>
+					</layout>
+				</item>
+				<item>
+					<layout class="QHBoxLayout" name="statusBarLayout">
+						<item>
+							<layout class="QHBoxLayout" name="horizontalLayout_10">
+								<item>
+									<widget class="QLabel" name="label_6">
+										<property name="text">
+											<string>Game</string>
+										</property>
+									</widget>
+								</item>
+								<item>
+									<widget class="QGraphicsView" name="gameIndicator">
+										<property name="sizePolicy">
+											<sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>16777215</width>
+												<height>30</height>
+											</size>
+										</property>
+									</widget>
+								</item>
+							</layout>
+						</item>
+						<item>
+							<layout class="QHBoxLayout" name="horizontalLayout_9">
+								<item>
+									<widget class="QLabel" name="label_8">
+										<property name="text">
+											<string>Plugin</string>
+										</property>
+									</widget>
+								</item>
+								<item>
+									<widget class="QGraphicsView" name="pluginIndicator">
+										<property name="sizePolicy">
+											<sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>16777215</width>
+												<height>30</height>
+											</size>
+										</property>
+									</widget>
+								</item>
+							</layout>
+						</item>
+						<item>
+							<layout class="QHBoxLayout" name="horizontalLayout_5">
+								<item>
+									<widget class="QLabel" name="label_7">
+										<property name="text">
+											<string>Server</string>
+										</property>
+									</widget>
+								</item>
+								<item>
+									<widget class="QGraphicsView" name="serverIndicator">
+										<property name="sizePolicy">
+											<sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+												<horstretch>0</horstretch>
+												<verstretch>0</verstretch>
+											</sizepolicy>
+										</property>
+										<property name="maximumSize">
+											<size>
+												<width>16777215</width>
+												<height>30</height>
+											</size>
+										</property>
+									</widget>
+								</item>
+							</layout>
+						</item>
+					</layout>
+				</item>
+				<item>
+					<widget class="QPushButton" name="launchTrackerButton">
+						<property name="text">
+							<string>Launch tracker</string>
+						</property>
+					</widget>
+				</item>
+			</layout>
+		</widget>
+	</widget>
+	<layoutdefault spacing="6" margin="11" />
+	<resources>
+		<include location="necromancyloaderwindow.qrc" />
+	</resources>
+	<connections />
 </ui>

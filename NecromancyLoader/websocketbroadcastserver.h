@@ -5,7 +5,8 @@
 #include "propertymacro.h"
 #include "sharedmemoryreader.h"
 
-class WebSocketBroadcastServer final : public QObject {
+class WebSocketBroadcastServer final : public QObject
+{
     Q_OBJECT
 
 public:

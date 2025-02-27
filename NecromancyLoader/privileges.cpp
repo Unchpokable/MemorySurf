@@ -3,7 +3,8 @@
 
 #include <winternl.h>
 
-bool RaisePrivilegesToDebug() {
+bool RaisePrivilegesToDebug()
+{
     HANDLE hToken;
     if(!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
         return false;

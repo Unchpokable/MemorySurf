@@ -6,7 +6,6 @@
 #include "constants.h"
 
 namespace necromancy::messages::ASDump {
-
 #pragma pack(push, 1)
 struct ASDumpStruct
 {
@@ -86,5 +85,4 @@ void Initialize(ASDumpStruct* dumpStruct, int statsArraySize);
  * \param dumpStruct pointer to \c ASDumpStruct object
  */
 void Free(ASDumpStruct* dumpStruct);
-
 }

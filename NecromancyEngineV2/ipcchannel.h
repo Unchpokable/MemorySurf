@@ -5,13 +5,13 @@ struct ASDumpStruct;
 }
 
 namespace necromancy::ipc {
-
-class IpcChannel final {
+class IpcChannel final
+{
 public:
     IpcChannel();
     ~IpcChannel();
 
-    void writeBuffer(const messages::ASDump::ASDumpStruct &data, bool flush = true) const;
+    void writeBuffer(const messages::ASDump::ASDumpStruct& data, bool flush = true) const;
 
 private:
     void initializeSharedMemory();
@@ -20,5 +20,4 @@ private:
     HANDLE _sharedMemoryMapping { NULL };
     LPVOID _mapView { nullptr };
 };
-
 }

@@ -14,13 +14,11 @@
         (__DATE__[10] - '0') \
     )
 
-
 #define COMPUTE_BUILD_DAY \
     ( \
         ((__DATE__[4] >= '0') ? (__DATE__[4] - '0') * 10 : 0) + \
         (__DATE__[5] - '0') \
     )
-
 
 #define BUILD_MONTH_IS_JAN (__DATE__[0] == 'J' && __DATE__[1] == 'a' && __DATE__[2] == 'n')
 #define BUILD_MONTH_IS_FEB (__DATE__[0] == 'F')
@@ -34,7 +32,6 @@
 #define BUILD_MONTH_IS_OCT (__DATE__[0] == 'O')
 #define BUILD_MONTH_IS_NOV (__DATE__[0] == 'N')
 #define BUILD_MONTH_IS_DEC (__DATE__[0] == 'D')
-
 
 #define COMPUTE_BUILD_MONTH \
     ( \
@@ -56,7 +53,6 @@
 #define COMPUTE_BUILD_HOUR ((__TIME__[0] - '0') * 10 + __TIME__[1] - '0')
 #define COMPUTE_BUILD_MIN  ((__TIME__[3] - '0') * 10 + __TIME__[4] - '0')
 #define COMPUTE_BUILD_SEC  ((__TIME__[6] - '0') * 10 + __TIME__[7] - '0')
-
 
 #define BUILD_DATE_IS_BAD (__DATE__[0] == '?')
 

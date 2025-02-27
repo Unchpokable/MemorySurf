@@ -8,15 +8,18 @@
 using namespace necromancy::memory;
 using namespace necromancy::hooks;
 
-Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue> &arrays) : Q3DChannelReader(nullptr) {
+Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue>& arrays) : Q3DChannelReader(nullptr)
+{
     _boundTableChannels = arrays;
 }
 
-void Q3DArrayTableReader::addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer) {
+void Q3DArrayTableReader::addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer)
+{
     _boundTableChannels[row] = IndexedArrayValue { arrayValue, indexer };
 }
 
-float Q3DArrayTableReader::getValue(int row, float index) {
+float Q3DArrayTableReader::getValue(int row, float index)
+{
     auto indexer = _boundTableChannels[row].indexer;
     auto arrayValue = _boundTableChannels[row].arrayValue;
 
@@ -31,7 +34,8 @@ float Q3DArrayTableReader::getValue(int row, float index) {
     return value;
 }
 
-std::vector<float> Q3DArrayTableReader::getValues(int row, const std::vector<float> &indexRange) {
+std::vector<float> Q3DArrayTableReader::getValues(int row, const std::vector<float>& indexRange)
+{
     std::vector<float> result;
 
     result.reserve(indexRange.size());

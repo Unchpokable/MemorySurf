@@ -4,12 +4,13 @@
 
 class ProcessInfo;
 
-class ProcessUtils final {
+class ProcessUtils final
+{
     ProcessUtils() = delete;
     ~ProcessUtils() = delete;
 
 public:
     static QList<ProcessInfo*> listActiveProcesses();
 
-    static WinDword findProcessNamed(const QString &imageName);
+    static WinDword findProcessNamed(const QString& imageName);
 };

@@ -6,22 +6,24 @@
 #include "NecromancyMessages/messages.h"
 
 namespace necromancy {
-
-class NecromancyEngine final {
+class NecromancyEngine final
+{
 private:
-    enum StatsChannels : int {
-        StatsTotalTraffic = 3,
-        Index_StatsTotalTraffic = 4,
-        StatsCollectedTraffic = 8,
+    enum StatsChannels : int
+    {
+        StatsTotalTraffic           = 3,
+        Index_StatsTotalTraffic     = 4,
+        StatsCollectedTraffic       = 8,
         Index_StatsCollectedTraffic = 16
     };
 
-    enum BlockIndex : int {
+    enum BlockIndex : int
+    {
         Purple = 0,
-        Blue = 1,
-        Green = 2,
+        Blue   = 1,
+        Green  = 2,
         Yellow = 3,
-        Red = 4,
+        Red    = 4,
         // specials
         White = 7,
     };
@@ -58,5 +60,4 @@ private:
     messages::ASDump::ASDumpStruct _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;
 };
-
 };

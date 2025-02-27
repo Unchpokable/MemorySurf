@@ -5,21 +5,25 @@
 
 const QString WebSocketBroadcastServer::_defaultServerName = "MemorySurf";
 
-WebSocketBroadcastServer::WebSocketBroadcastServer(QObject *parent, quint16 port)
-    : QObject(parent), _server(new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode, this)), _port(port) {
+WebSocketBroadcastServer::WebSocketBroadcastServer(QObject* parent, quint16 port)
+: QObject(parent), _server(new QWebSocketServer(_defaultServerName, QWebSocketServer::NonSecureMode, this)), _port(port)
+{
     connect(_server, &QWebSocketServer::newConnection, this, &WebSocketBroadcastServer::onPendingConnection);
 }
 
-WebSocketBroadcastServer::~WebSocketBroadcastServer() {
+WebSocketBroadcastServer::~WebSocketBroadcastServer()
+{
     _server->close();
     delete _server;
 }
 
-quint16 WebSocketBroadcastServer::port() const {
+quint16 WebSocketBroadcastServer::port() const
+{
     return _port;
 }
 
-void WebSocketBroadcastServer::updatePort(quint16 port) {
+void WebSocketBroadcastServer::updatePort(quint16 port)
+{
     if(_server->isListening()) {
         _server->close();
     }
@@ -32,7 +36,8 @@ void WebSocketBroadcastServer::updatePort(quint16 port) {
     _port = port;
 }
 
-void WebSocketBroadcastServer::messageAcquired(const SharedMemoryReader::Buffer& byteData) {
+void WebSocketBroadcastServer::messageAcquired(const SharedMemoryReader::Buffer& byteData)
+{
     if(static_cast<bool>(_packetSkip)) {
         _currentPacketSkipCount++;
         if(_currentPacketSkipCount <= _packetSkip) {
@@ -49,7 +54,8 @@ void WebSocketBroadcastServer::messageAcquired(const SharedMemoryReader::Buffer&
     }
 }
 
-void WebSocketBroadcastServer::onPendingConnection() {
+void WebSocketBroadcastServer::onPendingConnection()
+{
     auto client = _server->nextPendingConnection();
     if(!client) {
         return;
@@ -62,11 +68,13 @@ void WebSocketBroadcastServer::onPendingConnection() {
     });
 }
 
-bool WebSocketBroadcastServer::start() const {
+bool WebSocketBroadcastServer::start() const
+{
     return _server->listen(QHostAddress::LocalHost, _port);
 }
 
-bool WebSocketBroadcastServer::stop() {
+bool WebSocketBroadcastServer::stop()
+{
     if(_server->isListening()) {
         _clients.clear();
         _server->close();
@@ -79,7 +87,8 @@ bool WebSocketBroadcastServer::stop() {
     return false;
 }
 
-QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData) {
+QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::Buffer& byteData)
+{
     necromancy::messages::ASDump::ASDumpStruct data;
     auto result = Deserialize(byteData.data, &data);
     if(result != necromancy::messages::StatusCode::Ok) {

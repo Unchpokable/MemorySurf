@@ -2,7 +2,8 @@
 #include "processutils.h"
 #include "processinfo.h"
 
-QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
+QList<ProcessInfo*> ProcessUtils::listActiveProcesses()
+{
     QList<ProcessInfo*> processes;
     static const QStringList systemProcesses = {
         "system", "winlogon.exe", "csrss.exe", "svchost.exe", "services.exe"
@@ -39,7 +40,7 @@ QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
                 QString path = QString::fromLatin1(procPath);
 
                 if(path.startsWith(systemRoot + "\\System32", Qt::CaseInsensitive) ||
-                    path.startsWith(systemRoot + "\\SysWOW64", Qt::CaseInsensitive)) {
+                path.startsWith(systemRoot + "\\SysWOW64", Qt::CaseInsensitive)) {
                     CloseHandle(proc);
                     continue;
                 }
@@ -63,7 +64,8 @@ QList<ProcessInfo*> ProcessUtils::listActiveProcesses() {
     return processes;
 }
 
-WinDword ProcessUtils::findProcessNamed(const QString &imageName) {
+WinDword ProcessUtils::findProcessNamed(const QString& imageName)
+{
     static const QStringList systemProcesses = {
         "system", "winlogon.exe", "csrss.exe", "svchost.exe", "services.exe"
     };
@@ -99,7 +101,7 @@ WinDword ProcessUtils::findProcessNamed(const QString &imageName) {
                 QString systemRoot = QString::fromWCharArray(systemRootEnv).replace("/", "\\").toLower();
 
                 if(qProcPath.startsWith(systemRoot + "\\system32", Qt::CaseInsensitive) ||
-                    qProcPath.startsWith(systemRoot + "\\syswow64", Qt::CaseInsensitive)) {
+                qProcPath.startsWith(systemRoot + "\\syswow64", Qt::CaseInsensitive)) {
                     CloseHandle(hProc);
                     continue;
                 }

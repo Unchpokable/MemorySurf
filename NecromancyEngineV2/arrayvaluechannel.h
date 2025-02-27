@@ -5,8 +5,8 @@
 #include "typedefs.h"
 
 namespace necromancy::hooks {
-
-class ArrayValueChannel : public ProxyMemoryObject {
+class ArrayValueChannel : public ProxyMemoryObject
+{
 public:
     STATIC_DYNAMIC_CALL
 
@@ -24,5 +24,4 @@ private:
     static std::size_t _getFloatId;
     static std::size_t _setFloatId;
 };
-
 };

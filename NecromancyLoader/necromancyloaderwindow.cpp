@@ -12,38 +12,39 @@
 #include "windefprettify.h"
 
 std::unordered_map<quint16, QString> NecromancyLoaderWindow::_forbiddenExternalPorts = {
-    {1080,  "SOCKS Proxy"},
-    {1433,  "Microsoft SQL Server"},
-    {1521,  "Oracle DB"},
-    {1723,  "PPTP VPN"},
-    {1883,  "MQTT"},
-    {2049,  "NFS"},
-    {2181,  "Zookeeper"},
-    {2379,  "etcd"},
-    {2380,  "etcd (peer communication)"},
-    {2480,  "OrientDB"},
-    {3306,  "MySQL"},
-    {3389,  "RDP"},
-    {3690,  "Subversion"},
-    {4369,  "RabbitMQ/Erlang"},
-    {5000,  "Flask Development Server / UPnP"},
-    {5432,  "PostgreSQL"},
-    {5672,  "RabbitMQ"},
-    {6379,  "Redis"},
-    {8000,  "HTTP (Development servers)"},
-    {8080,  "HTTP (Alternative)"},
-    {8443,  "HTTPS (Alternative)"},
-    {9000,  "SonarQube"},
-    {9092,  "Kafka"},
-    {9200,  "Elasticsearch"},
-    {9300,  "Elasticsearch (Transport)"},
-    {11211, "Memcached"},
-    {27017, "MongoDB"},
-    {50051, "gRPC"}
+    { 1080, "SOCKS Proxy" },
+    { 1433, "Microsoft SQL Server" },
+    { 1521, "Oracle DB" },
+    { 1723, "PPTP VPN" },
+    { 1883, "MQTT" },
+    { 2049, "NFS" },
+    { 2181, "Zookeeper" },
+    { 2379, "etcd" },
+    { 2380, "etcd (peer communication)" },
+    { 2480, "OrientDB" },
+    { 3306, "MySQL" },
+    { 3389, "RDP" },
+    { 3690, "Subversion" },
+    { 4369, "RabbitMQ/Erlang" },
+    { 5000, "Flask Development Server / UPnP" },
+    { 5432, "PostgreSQL" },
+    { 5672, "RabbitMQ" },
+    { 6379, "Redis" },
+    { 8000, "HTTP (Development servers)" },
+    { 8080, "HTTP (Alternative)" },
+    { 8443, "HTTPS (Alternative)" },
+    { 9000, "SonarQube" },
+    { 9092, "Kafka" },
+    { 9200, "Elasticsearch" },
+    { 9300, "Elasticsearch (Transport)" },
+    { 11211, "Memcached" },
+    { 27017, "MongoDB" },
+    { 50051, "gRPC" }
 };
 
-NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
-        : QMainWindow(parent), _injector(new Injector(this)), ui(new Ui::NecromancyLoaderWindowClass()) {
+NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget* parent)
+: QMainWindow(parent), _injector(new Injector(this)), ui(new Ui::NecromancyLoaderWindowClass())
+{
     setAttribute(Qt::WA_TranslucentBackground);
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect;
     shadow->setBlurRadius(10);
@@ -123,6 +124,8 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
 
     _gameTrackingTimer = new QTimer(this);
     _gameTrackingTimer->setInterval(200);
+    _gameTrackingTimer->start();
+    connect(_gameTrackingTimer, &QTimer::timeout, this, &NecromancyLoaderWindow::onGameTrackTimer);
 
     setupGraphicsIndicators();
 
@@ -131,11 +134,13 @@ NecromancyLoaderWindow::NecromancyLoaderWindow(QWidget *parent)
     _trackerHandle = new QProcess();
 }
 
-NecromancyLoaderWindow::~NecromancyLoaderWindow() {
+NecromancyLoaderWindow::~NecromancyLoaderWindow()
+{
     delete ui;
 }
 
-bool NecromancyLoaderWindow::injectPlugin() {
+bool NecromancyLoaderWindow::injectPlugin()
+{
     if(_injector->hasTargetLoadedLibrary()) {
         return false;
     }
@@ -148,7 +153,8 @@ bool NecromancyLoaderWindow::injectPlugin() {
         _injector->inject();
         _pluginLoaded = true;
         ui->loadButton->setText("Unload");
-    } else {
+    }
+    else {
         _injector->free();
         _pluginLoaded = false;
         makeEllipseIndicator(IndicatorState::Bad, ui->pluginIndicator);
@@ -158,7 +164,8 @@ bool NecromancyLoaderWindow::injectPlugin() {
     return true;
 }
 
-void NecromancyLoaderWindow::onInjectButtonPressed() {
+void NecromancyLoaderWindow::onInjectButtonPressed()
+{
     if(!_gameExists) {
         QProcess::startDetached("cmd.exe", { "/c", "start", "steam://rungameid/12900" });
         _timerWaitUntilGameStarts->start();
@@ -171,11 +178,13 @@ void NecromancyLoaderWindow::onInjectButtonPressed() {
     injectPlugin();
 }
 
-void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const {
+void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, const QString& stdOut) const
+{
     if(exitCode != 0) {
-        QMessageBox::critical(nullptr, "Injector error", QString("Injector process returned code %1. " 
-            "This can happens when you launch a loader without admin rights. Please, re-run loader as admin and try again. "
-            "For debug purposes, here is a Injector' stderr and stdout data:\n%2").arg(exitCode).arg(stdOut));
+        QMessageBox::critical(nullptr, "Injector error", QString("Injector process returned code %1. "
+                                                                 "This can happens when you launch a loader without admin rights. Please, re-run loader as admin and try again. "
+                                                                 "For debug purposes, here is a Injector' stderr and stdout data:\n%2").arg(exitCode).arg(stdOut));
+        return;
     }
 
     makeEllipseIndicator(IndicatorState::Fine, ui->gameIndicator);
@@ -184,23 +193,27 @@ void NecromancyLoaderWindow::onInternalInjectorProcessFinished(int exitCode, con
     _ipcChannel->startInit();
 }
 
-void NecromancyLoaderWindow::onSendingRateChanged(int value) {
+void NecromancyLoaderWindow::onSendingRateChanged(int value)
+{
     if(value == ui->sendingRateSlider->minimum()) {
         ui->leftSendingRateSpeedLabel->setText("Immediate");
         _immediateSendingRateWasReached = true;
         return;
     }
 
-    if(_immediateSendingRateWasReached) { // if this flag is set and we get there it only means that new value is not maximum
+    if(_immediateSendingRateWasReached) {
+        // if this flag is set and we get there it only means that new value is not maximum
         ui->leftSendingRateSpeedLabel->setText("Faster");
     }
 }
 
-void NecromancyLoaderWindow::onPortEntered() const {
+void NecromancyLoaderWindow::onPortEntered() const
+{
     _portEntryValidationTimer->start();
 }
 
-void NecromancyLoaderWindow::onPortValidationTimer() const {
+void NecromancyLoaderWindow::onPortValidationTimer() const
+{
     auto port = ui->webSocketPortEntry->text().toInt();
     if(port > std::numeric_limits<quint16>::max()) {
         freezeServerStartUiComponents();
@@ -210,40 +223,48 @@ void NecromancyLoaderWindow::onPortValidationTimer() const {
 
     if(!allowed) {
         freezeServerStartUiComponents();
-    } else {
+    }
+    else {
         unfreezeServerStartUiComponent();
     }
 }
 
-void NecromancyLoaderWindow::onIpcChannelConnectionTimedOut() const {
+void NecromancyLoaderWindow::onIpcChannelConnectionTimedOut() const
+{
     _ipcChannel->startInit();
 }
 
-void NecromancyLoaderWindow::onIpcChannelInitialized() const {
+void NecromancyLoaderWindow::onIpcChannelInitialized() const
+{
     makeEllipseIndicator(IndicatorState::Fine, ui->pluginIndicator);
 }
 
-void NecromancyLoaderWindow::onServerStartButtonPressed() {
+void NecromancyLoaderWindow::onServerStartButtonPressed()
+{
     if(_serverRunning) {
         if(_server->stop()) {
             ui->startServerButton->setText("Start server");
             _serverRunning = false;
             makeEllipseIndicator(IndicatorState::Bad, ui->serverIndicator);
-        } else {
+        }
+        else {
             QMessageBox::warning(this, "Ooops!", "Unable to start or stop server. Please, restart the application");
         }
-    } else {
+    }
+    else {
         if(_server->start()) {
             ui->startServerButton->setText("Stop server");
             _serverRunning = true;
             makeEllipseIndicator(IndicatorState::Fine, ui->serverIndicator);
-        } else {
+        }
+        else {
             QMessageBox::warning(this, "Ooops!", "Unable to start or stop server. Please, restart the application");
         }
     }
 }
 
-void NecromancyLoaderWindow::onGameWaitTimer() {
+void NecromancyLoaderWindow::onGameWaitTimer()
+{
     auto gamePid = ProcessUtils::findProcessNamed("QuestViewer.exe");
     if(gamePid == 0) {
         _timerWaitUntilGameStarts->start();
@@ -258,10 +279,10 @@ void NecromancyLoaderWindow::onGameWaitTimer() {
         _injector->setTargetProcPid(gamePid);
         injectPlugin();
     });
-
 }
 
-void NecromancyLoaderWindow::onGameTrackTimer() {
+void NecromancyLoaderWindow::onGameTrackTimer()
+{
     auto gameProc = ProcessUtils::findProcessNamed("QuestViewer.exe");
     if(gameProc == NULL) {
         _gameExists = false;
@@ -269,17 +290,31 @@ void NecromancyLoaderWindow::onGameTrackTimer() {
         if(_serverRunning) {
             onServerStartButtonPressed();
         }
+        ui->loadButton->setText("Launch game via Steam");
+    }
+    else if(gameProc != NULL) {
+        _gameExists = true;
+
+        scanProcessesAndPopulateSelectionCombo();
+        if(!_pluginLoaded) {
+            ui->loadButton->setText("Load");
+        } else {
+            ui->loadButton->setText("Unload");
+        }
+        showLayout(ui->gameSelectionLayout);
     }
 }
 
-void NecromancyLoaderWindow::onLaunchTrackerButtonClicked() const {
+void NecromancyLoaderWindow::onLaunchTrackerButtonClicked() const
+{
     // for testing purposes, only elite puzzle tracker is supported
 
     auto trackerFile = "plugins/elitepuzzletracker.exe";
     _trackerHandle->start(trackerFile, { QString("--ws=%1").arg(_server->port()) });
 }
 
-QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
+QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile)
+{
     QDir currentDir(QCoreApplication::applicationDirPath());
 
     QString filePath = currentDir.filePath(targetFile);
@@ -290,7 +325,8 @@ QString NecromancyLoaderWindow::locateReaderDll(const QString& targetFile) {
     return {};
 }
 
-QGraphicsEllipseItem* NecromancyLoaderWindow::makeEllipseIndicator(IndicatorState desiredState, QGraphicsView* graphicsView) {
+QGraphicsEllipseItem* NecromancyLoaderWindow::makeEllipseIndicator(IndicatorState desiredState, QGraphicsView* graphicsView)
+{
     if(!graphicsView) {
         qDebug() << "No graphics view!";
         return nullptr;
@@ -305,22 +341,22 @@ QGraphicsEllipseItem* NecromancyLoaderWindow::makeEllipseIndicator(IndicatorStat
 
     QColor color;
     switch(desiredState) {
-    case IndicatorState::Bad: 
-        color = QColor(255, 107, 107); 
-        break;
-    case IndicatorState::Well:
-        color = QColor(255, 217, 102);
-        break;
-    case IndicatorState::Fine:
-        color = QColor(119, 221, 119);
-        break;
-    case IndicatorState::Good:
-        color = QColor(102, 153, 255);
-        break;
+        case IndicatorState::Bad:
+            color = QColor(255, 107, 107);
+            break;
+        case IndicatorState::Well:
+            color = QColor(255, 217, 102);
+            break;
+        case IndicatorState::Fine:
+            color = QColor(119, 221, 119);
+            break;
+        case IndicatorState::Good:
+            color = QColor(102, 153, 255);
+            break;
     }
 
     ellipse->setBrush(color);
-    ellipse->setPen(Qt::NoPen); 
+    ellipse->setPen(Qt::NoPen);
 
     QGraphicsDropShadowEffect* glow = new QGraphicsDropShadowEffect;
     glow->setBlurRadius(15);
@@ -338,7 +374,8 @@ QGraphicsEllipseItem* NecromancyLoaderWindow::makeEllipseIndicator(IndicatorStat
     return ellipse;
 }
 
-bool NecromancyLoaderWindow::isPortAllowed(quint16 port) {
+bool NecromancyLoaderWindow::isPortAllowed(quint16 port)
+{
     if(port < _forbiddenSystemPorts) {
         return false;
     }
@@ -346,34 +383,38 @@ bool NecromancyLoaderWindow::isPortAllowed(quint16 port) {
     return _forbiddenExternalPorts.find(port) == _forbiddenExternalPorts.end();
 }
 
-void NecromancyLoaderWindow::freezeServerStartUiComponents() const {
+void NecromancyLoaderWindow::freezeServerStartUiComponents() const
+{
     ui->startServerButton->setEnabled(false);
     QString reason;
     quint16 port = ui->webSocketPortEntry->text().toInt();
     if(port <= _forbiddenSystemPorts) {
         reason = QString("Port %1 is a system port, please provide user port (>= 1024)").arg(port);
-    } else {
+    }
+    else {
         reason = QString("Port %1 can be used by %2, please provide unused port").arg(port)
-            .arg(_forbiddenExternalPorts[port]);
+        .arg(_forbiddenExternalPorts[port]);
     }
     ui->startServerButton->setToolTip(reason);
     ui->webSocketPortEntry->setProperty("validationState", "invalid");
 }
 
-void NecromancyLoaderWindow::unfreezeServerStartUiComponent() const {
+void NecromancyLoaderWindow::unfreezeServerStartUiComponent() const
+{
     ui->startServerButton->setEnabled(true);
     ui->startServerButton->setToolTip("");
     ui->webSocketPortEntry->setProperty("validationState", "invalid");
 }
 
-void NecromancyLoaderWindow::loadProperties() {
+void NecromancyLoaderWindow::loadProperties()
+{
     QString iniPath = QDir(QCoreApplication::applicationDirPath()).filePath("props.ini");
     _properties = new QSettings(iniPath, QSettings::IniFormat);
     _properties->sync();
 }
 
-void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
-
+void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo()
+{
     ui->gameProcCombo->clear();
 
     swapScannedProcesses(ProcessUtils::listActiveProcesses());
@@ -398,15 +439,17 @@ void NecromancyLoaderWindow::scanProcessesAndPopulateSelectionCombo() {
     _gameExists = audiosurfProcId != 0;
 
     if(!_gameExists) {
-        ui->loadButton->setText("Launch via Steam");
+        ui->loadButton->setText("Launch game via Steam");
         hideLayout(ui->gameSelectionLayout);
-    } else {
+    }
+    else {
         ui->loadButton->setText("Load");
         showLayout(ui->gameSelectionLayout);
     }
 }
 
-void NecromancyLoaderWindow::swapScannedProcesses(const QList<ProcessInfo*> &newScannedProcesses) {
+void NecromancyLoaderWindow::swapScannedProcesses(const QList<ProcessInfo*>& newScannedProcesses)
+{
     if(!_scannedProcesses.isEmpty()) {
         for(auto procInfo : _scannedProcesses) {
             delete procInfo;
@@ -420,7 +463,8 @@ void NecromancyLoaderWindow::swapScannedProcesses(const QList<ProcessInfo*> &new
     }
 }
 
-void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() const {
+void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() const
+{
     WinHandle token;
     if(!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
         makeEllipseIndicator(IndicatorState::Bad, ui->rightsIndicator);
@@ -439,7 +483,7 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() const {
 
     CloseHandle(token);
     if(elevation.TokenIsElevated == 0) {
-        makeEllipseIndicator(IndicatorState::Well , ui->rightsIndicator);
+        makeEllipseIndicator(IndicatorState::Well, ui->rightsIndicator);
         ui->rightsIndicator->setToolTip("Loader running as user. Mostly enough, but can lead to some issues sometimes");
         ui->appRightsLabel->setText("User");
         return;
@@ -458,7 +502,8 @@ void NecromancyLoaderWindow::checkAndAdjustAppPrivileges() const {
     }
 }
 
-void NecromancyLoaderWindow::startWebSocketServer() {
+void NecromancyLoaderWindow::startWebSocketServer()
+{
     quint16 port { _defaultPort };
     if(!ui->webSocketPortEntry->text().isEmpty()) {
         port = ui->webSocketPortEntry->text().toInt();
@@ -470,12 +515,13 @@ void NecromancyLoaderWindow::startWebSocketServer() {
 
     if(!serverStarted) {
         delete _server;
-        QMessageBox::warning(this, "Server boot error", 
-            "Server can't start with current parameters. Mostly it may be caused by wrong port number. Please, change port to any unused value and try again");
+        QMessageBox::warning(this, "Server boot error",
+                             "Server can't start with current parameters. Mostly it may be caused by wrong port number. Please, change port to any unused value and try again");
     }
 }
 
-void NecromancyLoaderWindow::hideLayout(const QLayout* layout) {
+void NecromancyLoaderWindow::hideLayout(const QLayout* layout)
+{
     auto itemCount = layout->count();
 
     for(int i { 0 }; i < itemCount; i++) {
@@ -489,7 +535,8 @@ void NecromancyLoaderWindow::hideLayout(const QLayout* layout) {
     }
 }
 
-void NecromancyLoaderWindow::showLayout(const QLayout* layout) {
+void NecromancyLoaderWindow::showLayout(const QLayout* layout)
+{
     auto itemCount = layout->count();
 
     for(int i { 0 }; i < itemCount; i++) {
@@ -503,7 +550,8 @@ void NecromancyLoaderWindow::showLayout(const QLayout* layout) {
     }
 }
 
-void NecromancyLoaderWindow::setupGraphicsIndicators() {
+void NecromancyLoaderWindow::setupGraphicsIndicators()
+{
     // todo: real implementation
 
     makeEllipseIndicator(IndicatorState::Bad, ui->gameIndicator);
