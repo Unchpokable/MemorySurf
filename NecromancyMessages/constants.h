@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Necromancy::Constants {
+namespace necromancy::Constants {
 
 inline const char* MutexName = "Local\\NecromancySharedMemMutex";
 inline const char* SharedMemoryName = "Local\\NecromancySharedMem";

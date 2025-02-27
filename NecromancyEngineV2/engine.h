@@ -1,12 +1,11 @@
 #pragma once
 
-#include "hkfunctions.h"
 #include "ipcchannel.h"
 #include "q3darraytablereader.h"
 #include "q3dfloatreader.h"
 #include "NecromancyMessages/messages.h"
 
-namespace Necromancy {
+namespace necromancy {
 
 class NecromancyEngine final {
 private:
@@ -37,7 +36,6 @@ public:
     const EngineInterface* engineInterface() const noexcept;
     void setQ3DEngineInterface(EngineInterface* q3dInterface);
 
-    const Detours::HkFunctions& functions() const noexcept;
     void setupChannelReaders();
 
 private:
@@ -46,18 +44,18 @@ private:
     inline static const char* _scoreChannelName { "Points" };
     inline static const char* _statsChannelName { "Stats Table" };
 
+    static A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group);
+
     static std::unordered_map<StatsChannels, const char*> _statsTableExternalChannels;
     static std::vector<float> _allIndices;
 
     int getStatsCollectorIndex() const noexcept;
-    A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group) const;
 
-    std::unordered_map<std::string, Memory::Q3DFloatReader*> _floatChannels;
-    Memory::Q3DArrayTableReader* _statsTable;
-    Ipc::IpcChannel _ipcChannel;
-    Detours::HkFunctions _q3dFunctions;
+    std::unordered_map<std::string, memory::Q3DFloatReader*> _floatChannels;
+    memory::Q3DArrayTableReader* _statsTable;
+    ipc::IpcChannel _ipcChannel;
 
-    Messages::ASDump::ASDumpStruct _dumped;
+    messages::ASDump::ASDumpStruct _dumped;
     EngineInterface* _q3dEngineInterface = nullptr;
 };
 

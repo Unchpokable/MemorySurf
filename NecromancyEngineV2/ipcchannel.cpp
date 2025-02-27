@@ -5,7 +5,7 @@
 #include "logger.h"
 #include "NecromancyMessages/messages.h"
 
-using namespace Necromancy::Ipc;
+using namespace necromancy::ipc;
 
 IpcChannel::IpcChannel() {
     initializeSharedMemory();
@@ -19,7 +19,7 @@ IpcChannel::~IpcChannel() {
     CloseHandle(_mutex);
 }
 
-void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool flush) const {
+void IpcChannel::writeBuffer(const messages::ASDump::ASDumpStruct& data, bool flush) const {
     if(WaitForSingleObject(_mutex, INFINITE) == WAIT_OBJECT_0) {
         if(flush) {
             std::memset(_mapView, 0, Constants::MessageMaxSize);
@@ -28,7 +28,7 @@ void IpcChannel::writeBuffer(const Messages::ASDump::ASDumpStruct& data, bool fl
         auto code = BlockwiseSerialize(data, static_cast<byte*>(_mapView), Constants::MessageMaxSize);
         ReleaseMutex(_mutex);
 
-        if(code != Messages::StatusCode::Ok) {
+        if(code != messages::StatusCode::Ok) {
             Logger::panic("IPC Buffer", "Exception during serializing scanned data into buffer");
         }
     }

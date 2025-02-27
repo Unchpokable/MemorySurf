@@ -2,7 +2,7 @@
 #include "asdump.h"
 #include "messageids.h"
 
-using namespace Necromancy::Messages;
+using namespace necromancy::messages;
 
 StatusCode ASDump::SafeSerialize(const ASDumpStruct& dump, byte** buffer) {
     if(!buffer) return StatusCode::ErrorCausedWrongData;

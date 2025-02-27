@@ -107,7 +107,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;$(LIBRARIES_DIR)\detours\lib\x86;C:\q3dsdk\lib;$(SolutionDir)x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Aco_Float.lib;Aco_Glove_Driver.lib;Aco_Matrix.lib;Aco_Serial_Plugin.lib;Aco_String.lib;Aco_Tracker_Driver.lib;Aco_Vector.lib;Editor.lib;HighPoly.lib;d3dx9.lib;detours.lib;NecromancyMessages.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -173,18 +173,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="arrayconnectitemreader.h" />
+    <ClInclude Include="acofloatchannel.h" />
+    <ClInclude Include="corechannels.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
-    <ClInclude Include="tablelayoutpresenter.h" />
+    <ClInclude Include="proxymemoryobject.h" />
+    <ClInclude Include="virtualfunction.h" />
     <ClInclude Include="vtabledef.h" />
-    <ClInclude Include="hkfunctions.h" />
     <ClInclude Include="hook.h" />
     <ClInclude Include="ipcchannel.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="q3dprimitivereader.h" />
     <ClInclude Include="q3darraytablereader.h" />
     <ClInclude Include="q3dchannelreader.h" />
     <ClInclude Include="q3ddetours.h" />
@@ -195,11 +195,12 @@
     <ClInclude Include="vftableutils.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="arrayconnectitemreader.cpp" />
+    <ClCompile Include="acofloatchannel.cpp" />
+    <ClCompile Include="arrayvaluechannel.cpp" />
+    <ClCompile Include="corechannels.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="genericutils.cpp" />
-    <ClCompile Include="hkfunctions.cpp" />
     <ClCompile Include="hook.cpp" />
     <ClCompile Include="ipcchannel.cpp" />
     <ClCompile Include="load.cpp" />
@@ -210,13 +211,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="proxymemoryobject.cpp" />
     <ClCompile Include="q3darraytablereader.cpp" />
     <ClCompile Include="q3dchannelreader.cpp" />
     <ClCompile Include="q3dfloatreader.cpp" />
-    <ClCompile Include="tablelayoutpresenter.cpp" />
     <ClCompile Include="taggedexception.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="arrayvaluechannel.h" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

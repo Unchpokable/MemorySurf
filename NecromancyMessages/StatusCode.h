@@ -1,7 +1,7 @@
 #pragma once
 
-namespace Necromancy {
-namespace Messages {
+namespace necromancy {
+namespace messages {
 
 enum class StatusCode {
     Ok = 0,

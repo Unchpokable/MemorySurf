@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Necromancy::Detours {
+namespace necromancy::hooks {
 
 enum class Status {
     AlreadyInUse, UnnecessaryOperation, DetourException, Ok, InvalidHookMode
@@ -42,4 +42,4 @@ Function Hook::detour() const noexcept {
     return reinterpret_cast<Function>(_detourFunction);
 }
 
-} // namespace Necromancy::Detours
+} // namespace necromancy::Hooks

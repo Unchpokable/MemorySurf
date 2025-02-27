@@ -5,7 +5,7 @@
 
 #include "constants.h"
 
-namespace Necromancy::Messages::ASDump {
+namespace necromancy::messages::ASDump {
 
 #pragma pack(push, 1)
 struct ASDumpStruct
