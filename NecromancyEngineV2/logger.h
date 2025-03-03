@@ -43,7 +43,7 @@ private:
     static std::string currentLogFile() noexcept;
     static std::string formatMessage(Level logLevel, const std::string& message, const std::string& category = "");
 
-    static const std::string LogFolder;
+    static const std::string _logDirectory;
 
     // buffering
     std::size_t _bufferSize;

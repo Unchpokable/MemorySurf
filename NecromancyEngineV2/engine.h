@@ -46,6 +46,8 @@ private:
     inline static const char* _scoreChannelName { "Points" };
     inline static const char* _statsChannelName { "Stats Table" };
 
+    // generics
+
     static A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group);
 
     static std::unordered_map<StatsChannels, const char*> _statsTableExternalChannels;

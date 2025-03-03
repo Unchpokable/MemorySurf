@@ -3,7 +3,7 @@
 #include "logger.h"
 #include "version.h"
 
-const std::string Logger::LogFolder = "journal";
+const std::string Logger::_logDirectory = "journal";
 
 std::string operator*(const std::string& str, int repeat)
 {
@@ -76,8 +76,8 @@ void Logger::disableBuffering()
 
 Logger::Logger(): _bufferSize(10)
 {
-    if(!std::filesystem::exists(LogFolder)) {
-        std::filesystem::create_directory(LogFolder);
+    if(!std::filesystem::exists(_logDirectory)) {
+        std::filesystem::create_directory(_logDirectory);
     }
 
     std::stringstream initMessage;
@@ -141,7 +141,7 @@ std::string Logger::currentLogFile() noexcept
     localtime_s(&tm, &time);
 
     std::ostringstream oss;
-    oss << LogFolder << "\\"
+    oss << _logDirectory << "\\"
     << std::put_time(&tm, "%d-%m-%Y")
     << ".log";
     return oss.str();

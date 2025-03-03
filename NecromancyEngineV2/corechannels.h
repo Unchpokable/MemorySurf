@@ -1,9 +1,7 @@
 #pragma once
 
-#include <type_traits>
-
 #include "proxymemoryobject.h"
-#include "typedefs.h"
+#include "signatures.h"
 #include "virtualfunction.h"
 
 class A3d_Channel;
@@ -16,10 +14,10 @@ public:
 
     static void init();
 
-    static VirtualFunction<typedefs::ChannelGroup_GetChannel> getChannel();
-    static VirtualFunction<typedefs::ChannelGroup_GetPoolName> getPoolName();
-    static VirtualFunction<typedefs::Channel_GetChannelName> getChannelName();
-    static VirtualFunction<typedefs::TrueCallChannelFn> trueCallChannel();
+    static VirtualFunction<signatures::ChannelGroup_GetChannel> getChannel();
+    static VirtualFunction<signatures::ChannelGroup_GetPoolName> getPoolName();
+    static VirtualFunction<signatures::Channel_GetChannelName> getChannelName();
+    static VirtualFunction<signatures::TrueCallChannelFn> trueCallChannel();
 
     static bool allValid();
 

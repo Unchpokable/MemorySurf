@@ -179,7 +179,6 @@
     <ClInclude Include="genericutils.h" />
     <ClInclude Include="proxymemoryobject.h" />
     <ClInclude Include="virtualfunction.h" />
-    <ClInclude Include="vtabledef.h" />
     <ClInclude Include="hook.h" />
     <ClInclude Include="ipcchannel.h" />
     <ClInclude Include="load.h" />
@@ -187,10 +186,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="q3darraytablereader.h" />
     <ClInclude Include="q3dchannelreader.h" />
-    <ClInclude Include="q3ddetours.h" />
     <ClInclude Include="q3dfloatreader.h" />
     <ClInclude Include="taggedexception.hpp" />
-    <ClInclude Include="typedefs.h" />
+    <ClInclude Include="signatures.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="vftableutils.hpp" />
   </ItemGroup>
@@ -219,7 +217,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="arrayvaluechannel.h" />
-    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

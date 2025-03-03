@@ -60,10 +60,7 @@
     <ClInclude Include="vftableutils.hpp">
       <Filter>Headers\memory</Filter>
     </ClInclude>
-    <ClInclude Include="typedefs.h">
-      <Filter>Headers\hooks</Filter>
-    </ClInclude>
-    <ClInclude Include="q3ddetours.h">
+    <ClInclude Include="signatures.h">
       <Filter>Headers\hooks</Filter>
     </ClInclude>
     <ClInclude Include="hook.h">
@@ -98,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Headers\helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="vtabledef.h">
-      <Filter>Headers\memory</Filter>
     </ClInclude>
     <ClInclude Include="proxymemoryobject.h">
       <Filter>Headers\hooks\wrappers</Filter>
@@ -166,7 +160,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="cpp.hint" />
     <None Include="arrayvaluechannel.h">
       <Filter>Headers\hooks\wrappers</Filter>
     </None>

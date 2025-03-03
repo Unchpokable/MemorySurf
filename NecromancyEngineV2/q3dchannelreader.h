@@ -1,7 +1,6 @@
 #pragma once
 
 namespace necromancy::memory {
-class Q3DChannelReader;
 
 class Q3DChannelReader
 {
