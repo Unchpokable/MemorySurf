@@ -1,8 +1,6 @@
 #pragma once
 
-namespace necromancy::messages::ASDump {
-struct ASDumpStruct;
-}
+#include "NecromancyMessages/messages.h"
 
 namespace necromancy::ipc {
 class IpcChannel final
