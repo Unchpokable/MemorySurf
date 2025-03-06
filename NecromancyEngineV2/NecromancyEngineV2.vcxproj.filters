@@ -108,6 +108,9 @@
     <ClInclude Include="virtualfunction.h">
       <Filter>Headers\hooks\wrappers</Filter>
     </ClInclude>
+    <ClInclude Include="inplacevector.h">
+      <Filter>Headers\helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

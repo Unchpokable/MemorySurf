@@ -45,22 +45,17 @@ NecromancyEngine::~NecromancyEngine()
 
 void NecromancyEngine::dump()
 {
-    std::vector<float> stats;
+    constexpr std::size_t bufferSize = 12;
+
+    float stats[bufferSize];
 
     auto totalTraffic = _statsTable->getValues(StatsTotalTraffic, _allIndices);
     auto collectedTraffic = _statsTable->getValues(StatsCollectedTraffic, _allIndices);
 
-    stats.reserve(totalTraffic.size() + collectedTraffic.size());
+    std::memcpy(stats, totalTraffic.data, sizeof(float) * totalTraffic.used);
+    std::memcpy(stats + totalTraffic.used, collectedTraffic.data, sizeof(float) * collectedTraffic.used);
 
-    stats.insert(stats.end(), totalTraffic.begin(), totalTraffic.end());
-    stats.insert(stats.end(), collectedTraffic.begin(), collectedTraffic.end());
-
-    if(static_cast<std::int32_t>(stats.size()) > _dumped.statsArraySize) {
-        Free(&_dumped);
-        Initialize(&_dumped, static_cast<std::int32_t>(stats.size()));
-    }
-
-    std::memcpy(_dumped.statsArray, stats.data(), sizeof(float) * stats.size());
+    std::memcpy(_dumped.statsArray, stats, sizeof(float) * bufferSize);
 
     _dumped.score = _floatChannels.at(_scoreChannelName)->get();
     _dumped.largestMatch = _floatChannels.at(_largestMatchChannelName)->get();

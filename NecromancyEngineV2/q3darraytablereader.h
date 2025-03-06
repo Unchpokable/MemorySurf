@@ -1,6 +1,9 @@
 #pragma once
 
+#include "inplacevector.h"
 #include "q3dchannelreader.h"
+
+#include "NecromancyMessages/constants.h"
 
 namespace necromancy::memory {
 /* Idea of this class now is:
@@ -45,7 +48,7 @@ public:
     void addIndexedChannel(int row, A3d_Channel* arrayValue, A3d_Channel* indexer);
     float getValue(int row, float index); // lol Quest3D using a float for indexing LMFAO 
 
-    std::vector<float> getValues(int row, const std::vector<float>& indexRange);
+    InPlaceVector<float> getValues(int row, const std::vector<float> &indexRange);
 
 private:
     std::unordered_map<int, IndexedArrayValue> _boundTableChannels;

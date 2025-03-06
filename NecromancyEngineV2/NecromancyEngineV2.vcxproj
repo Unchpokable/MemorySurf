@@ -177,6 +177,7 @@
     <ClInclude Include="corechannels.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="genericutils.h" />
+    <ClInclude Include="inplacevector.h" />
     <ClInclude Include="proxymemoryobject.h" />
     <ClInclude Include="virtualfunction.h" />
     <ClInclude Include="hook.h" />
