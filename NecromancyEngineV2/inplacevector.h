@@ -4,7 +4,8 @@
 #include <cstddef>
 
 template<typename T, std::size_t Size = 20>
-struct InPlaceVector final {
+struct InPlaceVector final
+{
     static_assert(std::is_trivially_copyable_v<T>);
 
     explicit InPlaceVector() { used = 0; }
@@ -22,28 +23,35 @@ struct InPlaceVector final {
 };
 
 template<typename T, std::size_t Size>
-T& InPlaceVector<T, Size>::operator[](std::size_t index) {
+T& InPlaceVector<T, Size>::operator[](std::size_t index)
+{
     assert(index < used);
     return data[index];
 }
 
 template<typename T, std::size_t Size>
-const T& InPlaceVector<T, Size>::operator[](std::size_t index) const {
+const T& InPlaceVector<T, Size>::operator[](std::size_t index) const
+{
     return const_cast<InPlaceVector*>(this)->operator[](index);
 }
 
 template <typename T, std::size_t Size>
-void InPlaceVector<T, Size>::append(const T& item) {
+void InPlaceVector<T, Size>::append(const T& item)
+{
     assert(used < Size);
     data[used++] = item;
 }
 
 template <typename T, std::size_t Size>
-void InPlaceVector<T, Size>::erase() {
-    used--;
+void InPlaceVector<T, Size>::erase()
+{
+    if(used > 0) {
+        used--;
+    }
 }
 
 template <typename T, std::size_t Size>
-void InPlaceVector<T, Size>::clear() {
+void InPlaceVector<T, Size>::clear()
+{
     used = 0;
 }

@@ -86,7 +86,8 @@ void IpcChannel::initializeSharedMemory()
     Logger::info("IPC Channel initialized");
 }
 
-void IpcChannel::setupThread() {
+void IpcChannel::setupThread()
+{
     _ipcThread = std::thread([this]() {
         while(_threadRunning) {
             std::unique_lock<std::mutex> lock(_queueMutex);
