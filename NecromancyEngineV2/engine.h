@@ -8,7 +8,6 @@
 namespace necromancy {
 class NecromancyEngine final
 {
-private:
     enum StatsChannels : int
     {
         StatsTotalTraffic           = 3,
@@ -33,7 +32,7 @@ public:
     ~NecromancyEngine();
 
     void dump();
-    void send() const;
+    void send();
 
     const EngineInterface* engineInterface() const noexcept;
     void setQ3DEngineInterface(EngineInterface* q3dInterface);

@@ -26,7 +26,7 @@ std::vector<float> NecromancyEngine::_allIndices {
 
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr)
 {
-    Initialize(&_dumped, 12); // todo: place here actual dumped array size
+    Initialize(&_dumped, constants::FullStatsArraySize); // todo: place here actual dumped array size
 
     hooks::CoreChannels::init();
     Logger::logCondition(hooks::CoreChannels::allValid(), "Accessing to core game engine functions");
@@ -45,7 +45,7 @@ NecromancyEngine::~NecromancyEngine()
 
 void NecromancyEngine::dump()
 {
-    constexpr std::size_t bufferSize = 12;
+    constexpr std::size_t bufferSize = constants::FullStatsArraySize;
 
     float stats[bufferSize];
 
@@ -62,7 +62,7 @@ void NecromancyEngine::dump()
     _dumped.timeElapsed = _floatChannels.at(_timerChannelName)->get();
 }
 
-void NecromancyEngine::send() const
+void NecromancyEngine::send()
 {
     _ipcChannel.writeBuffer(_dumped);
 }
