@@ -3,7 +3,7 @@
 #include "acofloatchannel.h"
 
 using namespace necromancy::hooks;
-using namespace necromancy::typedefs;
+using namespace necromancy::signatures;
 
 AcoFloatChannel* AcoFloatChannel::_instance = nullptr;
 std::size_t AcoFloatChannel::_getFloatId = -1;

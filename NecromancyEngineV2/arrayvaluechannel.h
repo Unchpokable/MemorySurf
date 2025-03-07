@@ -1,8 +1,8 @@
 #pragma once
 
 #include "proxymemoryobject.h"
+#include "signatures.h"
 #include "virtualfunction.h"
-#include "typedefs.h"
 
 namespace necromancy::hooks {
 class ArrayValueChannel : public ProxyMemoryObject
@@ -11,7 +11,7 @@ public:
     STATIC_DYNAMIC_CALL
 
     static void init();
-    static VirtualFunction<typedefs::ArrayValue_GetFloat> getFloat();
+    static VirtualFunction<signatures::ArrayValue_GetFloat> getFloat();
 
     static bool allValid();
 

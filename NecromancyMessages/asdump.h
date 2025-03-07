@@ -19,7 +19,7 @@ struct ASDumpStruct
 };
 #pragma pack(pop)
 
-constexpr size_t ASDumpMessageSize = Constants::MessageMaxSize; // bytes
+constexpr size_t ASDumpMessageSize = constants::MessageMaxSize; // bytes
 constexpr ptrdiff_t ASDump_ScoreFieldOffset = offsetof(ASDumpStruct, score);
 constexpr ptrdiff_t ASDump_StatsArraySizeFieldOffset = offsetof(ASDumpStruct, statsArraySize);
 constexpr ptrdiff_t ASDump_GoldThresholdFieldOffset = offsetof(ASDumpStruct, goldThreshold);

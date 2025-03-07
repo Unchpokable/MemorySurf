@@ -34,19 +34,19 @@ public:
     }
 
     // call w\o arguments
-    ReturnType operator()(void* _this)
+    ReturnType operator()(void* _this) const
     {
         return _ptr(_this);
     }
 
     // call with arguments
     template <typename... Args>
-    ReturnType operator()(void* _this, Args... args)
+    ReturnType operator()(void* _this, Args... args) const
     {
         return _ptr(_this, args...);
     }
 
-    operator CFunc()
+    operator CFunc() const
     {
         return _ptr;
     }

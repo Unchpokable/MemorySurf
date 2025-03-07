@@ -1,7 +1,7 @@
 #pragma once
 #include <A3d_Channels.h>
 
-namespace necromancy::typedefs {
+namespace necromancy::signatures {
 //    void __fastcall HkTrueCallChannel(A3d_Channel* self, DWORD edx);
 
 using ChannelGroup_GetPoolName = const char*(__thiscall*)(void*);

@@ -2,13 +2,12 @@
 
 #include "ipcchannel.h"
 #include "q3darraytablereader.h"
-#include "q3dfloatreader.h"
+#include "q3dfloatwrapper.h"
 #include "NecromancyMessages/messages.h"
 
 namespace necromancy {
 class NecromancyEngine final
 {
-private:
     enum StatsChannels : int
     {
         StatsTotalTraffic           = 3,
@@ -33,7 +32,7 @@ public:
     ~NecromancyEngine();
 
     void dump();
-    void send() const;
+    void send();
 
     const EngineInterface* engineInterface() const noexcept;
     void setQ3DEngineInterface(EngineInterface* q3dInterface);
@@ -46,6 +45,8 @@ private:
     inline static const char* _scoreChannelName { "Points" };
     inline static const char* _statsChannelName { "Stats Table" };
 
+    // generics
+
     static A3d_Channel* findChannelNamed(const std::string& name, A3d_ChannelGroup* group);
 
     static std::unordered_map<StatsChannels, const char*> _statsTableExternalChannels;
@@ -53,7 +54,7 @@ private:
 
     int getStatsCollectorIndex() const noexcept;
 
-    std::unordered_map<std::string, memory::Q3DFloatReader*> _floatChannels;
+    std::unordered_map<std::string, memory::Q3DFloatWrapper*> _floatChannels;
     memory::Q3DArrayTableReader* _statsTable;
     ipc::IpcChannel _ipcChannel;
 

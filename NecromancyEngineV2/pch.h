@@ -15,7 +15,8 @@
 #include <filesystem>
 #include <numeric>
 #include <ranges>
-
+#include <deque>
+#include <queue>
 #include <sddl.h>
 
 // === include Quest3D SDK

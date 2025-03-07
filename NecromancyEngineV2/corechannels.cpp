@@ -2,10 +2,10 @@
 
 #include "corechannels.h"
 
-#include "typedefs.h"
+#include "signatures.h"
 
 using namespace necromancy::hooks;
-using namespace necromancy::typedefs;
+using namespace necromancy::signatures;
 
 CoreChannels* CoreChannels::_instance = nullptr;
 std::size_t CoreChannels::_getChannelId = -1;

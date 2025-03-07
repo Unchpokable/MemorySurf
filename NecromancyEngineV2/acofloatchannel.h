@@ -1,7 +1,7 @@
 #pragma once
 
 #include "proxymemoryobject.h"
-#include "typedefs.h"
+#include "signatures.h"
 #include "virtualfunction.h"
 
 namespace necromancy::hooks {
@@ -13,9 +13,9 @@ public:
     STATIC_DYNAMIC_CALL
 
     static void init();
-    static VirtualFunction<typedefs::Aco_FloatChannel_GetFloat> getFloat();
-    static VirtualFunction<typedefs::Aco_FloatChannel_GetDefaultFloat> getDefaultFloat();
-    static VirtualFunction<typedefs::Aco_FloatChannel_SetFloat> setFloat();
+    static VirtualFunction<signatures::Aco_FloatChannel_GetFloat> getFloat();
+    static VirtualFunction<signatures::Aco_FloatChannel_GetDefaultFloat> getDefaultFloat();
+    static VirtualFunction<signatures::Aco_FloatChannel_SetFloat> setFloat();
 
     static bool allValid();
 

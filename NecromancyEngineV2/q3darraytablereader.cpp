@@ -8,7 +8,7 @@
 using namespace necromancy::memory;
 using namespace necromancy::hooks;
 
-Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue>& arrays) : Q3DChannelReader(nullptr)
+Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue>& arrays) : Q3DChannelWrapper(nullptr)
 {
     _boundTableChannels = arrays;
 }
@@ -34,14 +34,12 @@ float Q3DArrayTableReader::getValue(int row, float index)
     return value;
 }
 
-std::vector<float> Q3DArrayTableReader::getValues(int row, const std::vector<float>& indexRange)
+InPlaceVector<float> Q3DArrayTableReader::getValues(int row, const std::vector<float> &indexRange)
 {
-    std::vector<float> result;
+    InPlaceVector<float> result;
 
-    result.reserve(indexRange.size());
-
-    for(auto index : indexRange) {
-        result.push_back(getValue(row, index));
+    for(auto arrayIndex : indexRange) {
+        result.append(getValue(row, arrayIndex));
     }
 
     return result;

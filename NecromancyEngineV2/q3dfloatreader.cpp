@@ -1,27 +1,30 @@
 #include "pch.h"
 
-#include "q3dfloatreader.h"
 #include "acofloatchannel.h"
+#include "q3dfloatwrapper.h"
 
 using namespace necromancy::memory;
 using namespace necromancy::hooks;
 
-Q3DFloatReader::Q3DFloatReader(A3d_Channel* target) : Q3DChannelReader(target)
+Q3DFloatWrapper::Q3DFloatWrapper(A3d_Channel* target)
+    : Q3DChannelWrapper(target),
+    _setFloatImpl(AcoFloatChannel::setFloat()),
+    _getFloatImpl(AcoFloatChannel::getFloat()),
+    _getDefaultFloatImpl(AcoFloatChannel::getDefaultFloat())
 {
-    // empty
 }
 
-float Q3DFloatReader::get() const
+float Q3DFloatWrapper::get() const
 {
-    return AcoFloatChannel::getFloat()(_target);
+    return _getFloatImpl(_target);
 }
 
-float Q3DFloatReader::getDefault() const
+float Q3DFloatWrapper::getDefault() const
 {
-    return AcoFloatChannel::getDefaultFloat()(_target);
+    return _getDefaultFloatImpl(_target);
 }
 
-void Q3DFloatReader::set(float value) const
+void Q3DFloatWrapper::set(float value) const
 {
-    AcoFloatChannel::setFloat()(_target, value);
+   _setFloatImpl(_target, value);
 }

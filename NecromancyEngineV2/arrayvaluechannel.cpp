@@ -3,7 +3,7 @@
 #include "arrayvaluechannel.h"
 
 using namespace necromancy::hooks;
-using namespace necromancy::typedefs;
+using namespace necromancy::signatures;
 
 ArrayValueChannel* ArrayValueChannel::_instance = nullptr;
 std::size_t ArrayValueChannel::_getFloatId = -1;
