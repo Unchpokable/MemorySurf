@@ -8,7 +8,7 @@
 using namespace necromancy::memory;
 using namespace necromancy::hooks;
 
-Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue>& arrays) : Q3DChannelReader(nullptr)
+Q3DArrayTableReader::Q3DArrayTableReader(const std::unordered_map<int, IndexedArrayValue>& arrays) : Q3DChannelWrapper(nullptr)
 {
     _boundTableChannels = arrays;
 }

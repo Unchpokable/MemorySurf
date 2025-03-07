@@ -1,22 +1,21 @@
 #include "pch.h"
 
 #include "load.h"
+#include "corechannels.h"
 #include "engine.h"
 #include "genericutils.h"
 #include "hook.h"
 #include "logger.h"
-#include "taggedexception.hpp"
-#include "corechannels.h"
 
 #define UNUSED(x) (void)x;
 
 namespace {
 // constants
 
-constexpr ptrdiff_t DirectX_EndSceneOffset = 42;
+constexpr std::ptrdiff_t DirectX_EndSceneOffset = 42;
 
 // runtime global variables
-constexpr std::chrono::duration<long long, std::milli> g_deltaTime { 100 };
+constexpr std::chrono::duration<long long, std::milli> g_deltaTime { 20 };
 
 necromancy::NecromancyEngine* g_necromancyEngine = nullptr;
 necromancy::hooks::Hook* g_endSceneHook = nullptr;

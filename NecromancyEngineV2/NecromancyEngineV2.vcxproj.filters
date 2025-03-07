@@ -69,10 +69,10 @@
     <ClInclude Include="taggedexception.hpp">
       <Filter>Headers\exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="q3dchannelreader.h">
+    <ClInclude Include="q3dchannelwrapper.h">
       <Filter>Headers\memory</Filter>
     </ClInclude>
-    <ClInclude Include="q3dfloatreader.h">
+    <ClInclude Include="q3dfloatwrapper.h">
       <Filter>Headers\memory</Filter>
     </ClInclude>
     <ClInclude Include="q3darraytablereader.h">

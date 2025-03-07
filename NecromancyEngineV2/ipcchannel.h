@@ -9,7 +9,7 @@ public:
     IpcChannel();
     ~IpcChannel();
 
-    void writeBuffer(const messages::ASDump::ASDumpStruct& data, bool flush = true);
+    void writeBuffer(const messages::ASDump::ASDumpStruct& data);
 
 private:
     void initializeSharedMemory();

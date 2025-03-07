@@ -186,8 +186,8 @@
     <ClInclude Include="logger.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="q3darraytablereader.h" />
-    <ClInclude Include="q3dchannelreader.h" />
-    <ClInclude Include="q3dfloatreader.h" />
+    <ClInclude Include="q3dchannelwrapper.h" />
+    <ClInclude Include="q3dfloatwrapper.h" />
     <ClInclude Include="taggedexception.hpp" />
     <ClInclude Include="signatures.h" />
     <ClInclude Include="version.h" />

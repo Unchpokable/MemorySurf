@@ -1,7 +1,7 @@
 #pragma once
 
 #include "inplacevector.h"
-#include "q3dchannelreader.h"
+#include "q3dchannelwrapper.h"
 
 #include "NecromancyMessages/constants.h"
 
@@ -33,7 +33,7 @@ MUST keep this order:
 4 - reset index to initial to keep game functionality
 */
 
-class Q3DArrayTableReader final : public Q3DChannelReader
+class Q3DArrayTableReader final : public Q3DChannelWrapper
 {
 public:
     struct IndexedArrayValue

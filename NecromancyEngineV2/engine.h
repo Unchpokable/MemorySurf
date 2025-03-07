@@ -2,7 +2,7 @@
 
 #include "ipcchannel.h"
 #include "q3darraytablereader.h"
-#include "q3dfloatreader.h"
+#include "q3dfloatwrapper.h"
 #include "NecromancyMessages/messages.h"
 
 namespace necromancy {
@@ -54,7 +54,7 @@ private:
 
     int getStatsCollectorIndex() const noexcept;
 
-    std::unordered_map<std::string, memory::Q3DFloatReader*> _floatChannels;
+    std::unordered_map<std::string, memory::Q3DFloatWrapper*> _floatChannels;
     memory::Q3DArrayTableReader* _statsTable;
     ipc::IpcChannel _ipcChannel;
 

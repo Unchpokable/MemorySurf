@@ -110,15 +110,15 @@ void NecromancyEngine::setupChannelReaders()
 
     auto points = findChannelNamed(_scoreChannelName, statsGroup);
     Logger::logCondition(notNull(points), "points table available");
-    _floatChannels.insert_or_assign(_scoreChannelName, new memory::Q3DFloatReader(points));
+    _floatChannels.insert_or_assign(_scoreChannelName, new memory::Q3DFloatWrapper(points));
 
     auto largestMatch = findChannelNamed(_largestMatchChannelName, statsGroup);
     Logger::logCondition(notNull(largestMatch), "largest match available");
-    _floatChannels.insert_or_assign(_largestMatchChannelName, new memory::Q3DFloatReader(largestMatch));
+    _floatChannels.insert_or_assign(_largestMatchChannelName, new memory::Q3DFloatWrapper(largestMatch));
 
     auto timer = findChannelNamed(_timerChannelName, statsGroup);
     Logger::logCondition(notNull(timer), "timer available");
-    _floatChannels.insert_or_assign(_timerChannelName, new memory::Q3DFloatReader(timer));
+    _floatChannels.insert_or_assign(_timerChannelName, new memory::Q3DFloatWrapper(timer));
 
     Logger::forceWrite();
 }

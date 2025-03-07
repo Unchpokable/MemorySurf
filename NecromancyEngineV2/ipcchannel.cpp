@@ -27,7 +27,7 @@ IpcChannel::~IpcChannel()
     CloseHandle(_mutex);
 }
 
-void IpcChannel::writeBuffer(const messages::ASDump::ASDumpStruct& data, bool flush)
+void IpcChannel::writeBuffer(const messages::ASDump::ASDumpStruct& data)
 {
     {
         std::lock_guard<std::mutex> lock(_queueMutex);
