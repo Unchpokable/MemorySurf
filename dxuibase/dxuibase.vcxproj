@@ -19,11 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="alignment.h" />
     <ClInclude Include="includetweeny.h" />
+    <ClInclude Include="layout.h" />
     <ClInclude Include="smoothincnumericlabel.h" />
     <ClInclude Include="iuicomponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="layout.cpp" />
     <ClCompile Include="smoothincreasetext.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

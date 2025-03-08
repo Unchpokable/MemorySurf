@@ -20,7 +20,7 @@ public:
     virtual ~SmoothIncNumericLabel() override;
 
     virtual void update() override;
-    virtual void render() override;
+    virtual void render(ImVec2& cursorPosition) override;
 
     /// @brief appends a new value to queue that will partition added to final value
     void enqueueAppend(double value);

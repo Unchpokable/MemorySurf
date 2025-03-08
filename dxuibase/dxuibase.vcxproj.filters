@@ -24,9 +24,18 @@
     <ClInclude Include="includetweeny.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="layout.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="alignment.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="smoothincreasetext.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="layout.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
