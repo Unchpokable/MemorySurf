@@ -37,7 +37,7 @@
         return await invoke("get_cli_args");
     }
 
-    function update() {
+    function update(content: any) {
         if(content != null) {
             console.log("going to update dump!");
             fullDump = FullDump.fromRaw(content);
@@ -45,8 +45,8 @@
     }
 
     function onSocketMessage(event : MessageEvent) {
-        content = event.data;
-        update();
+        content = JSON.parse(event.data);
+        update(content);
     }
 
     function onSocketOpen(event : Event) {
@@ -67,10 +67,11 @@
         async function setupWebSocket() {
             try {
                 const args: Record<string, string> = await getArgs();
-                const ws = args.ws;
+                let ws = args.ws;
                 if (!ws) {
                     console.error('Параметр ws не найден');
-                    return;
+                    //return;
+                    ws = "20080";
                 }
                 webSocket = new WebSocket(`ws://localhost:${ws}`);
                 webSocket.addEventListener('message', onSocketMessage);
@@ -84,7 +85,7 @@
         setupWebSocket();
 
         content = initial;
-        update();
+        update(content);
         console.log("updating");
 
         return () => {

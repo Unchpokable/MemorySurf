@@ -15,7 +15,7 @@ SharedMemoryReader::SharedMemoryReader(QObject* parent) : QObject(parent)
     _pollTimer->setInterval(_initInterval);
     _initTimer = new QElapsedTimer();
 
-    _buffer = new byte[necromancy::Constants::MessageMaxSize];
+    _buffer = new byte[necromancy::constants::MessageMaxSize];
 }
 
 SharedMemoryReader::~SharedMemoryReader()
@@ -56,11 +56,11 @@ void SharedMemoryReader::startInit()
 void SharedMemoryReader::readBuffer()
 {
     if(WaitForSingleObject(_mutex, INFINITE) == WAIT_OBJECT_0) {
-        std::memcpy(_buffer, _smMapView, necromancy::Constants::MessageMaxSize);
+        std::memcpy(_buffer, _smMapView, necromancy::constants::MessageMaxSize);
         ReleaseMutex(_mutex);
 
         Buffer data;
-        data.from(_buffer, necromancy::Constants::MessageMaxSize);
+        data.from(_buffer, necromancy::constants::MessageMaxSize);
 
         emit messageAcquired(data);
     }
@@ -93,7 +93,7 @@ void SharedMemoryReader::tryInit()
 
 bool SharedMemoryReader::init()
 {
-    auto mutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, necromancy::Constants::MutexName);
+    auto mutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, necromancy::constants::MutexName);
 
     if(!mutex) {
         return false;
@@ -101,14 +101,14 @@ bool SharedMemoryReader::init()
 
     _mutex = mutex;
 
-    auto memoryMap = OpenFileMapping(FILE_MAP_READ, FALSE, necromancy::Constants::SharedMemoryName);
+    auto memoryMap = OpenFileMapping(FILE_MAP_READ, FALSE, necromancy::constants::SharedMemoryName);
     if(!memoryMap) {
         return false;
     }
 
     _sharedMemoryHandle = memoryMap;
 
-    _smMapView = MapViewOfFile(_sharedMemoryHandle, FILE_MAP_READ, NULL, NULL, necromancy::Constants::MessageMaxSize);
+    _smMapView = MapViewOfFile(_sharedMemoryHandle, FILE_MAP_READ, NULL, NULL, necromancy::constants::MessageMaxSize);
     if(_smMapView == nullptr) {
         throw std::runtime_error("Unable to map view of file when file exists");
     }
