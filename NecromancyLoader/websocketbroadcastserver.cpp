@@ -97,17 +97,25 @@ QString WebSocketBroadcastServer::makeJsonFromRawData(const SharedMemoryReader::
 
     QJsonObject jsonData;
     jsonData["score"] = data.score;
-    jsonData["statsArraySize"] = data.statsArraySize;
-    jsonData["goldThreshold"] = data.goldThreshold;
     jsonData["trafficChainMax"] = data.trafficChainMax;
     jsonData["largestMatch"] = data.largestMatch;
     jsonData["timeElapsed"] = data.timeElapsed;
 
-    QJsonArray statsJsonArray;
-    for(std::int32_t i = 0; i < data.statsArraySize; ++i) {
-        statsJsonArray.append(data.statsArray[i]);
+    QJsonArray totalColorsArray;
+
+    for(std::int32_t i = 0; i < data.totalColorsUsed && i < 32; ++i) {
+        totalColorsArray.append(data.totalColors[i]);
     }
-    jsonData["statsArray"] = statsJsonArray;
+
+    jsonData["totalColors"] = totalColorsArray;
+
+    QJsonArray collectedColorsArray;
+
+    for(std::int32_t i = 0; i < data.collectedColorsUsed && i < 32; ++i) {
+        collectedColorsArray.append(data.collectedColors[i]);
+    }
+
+    jsonData["collectedColors"] = collectedColorsArray;
 
     QJsonDocument jsonDoc(jsonData);
     return jsonDoc.toJson(QJsonDocument::Compact);

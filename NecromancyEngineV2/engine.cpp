@@ -26,7 +26,7 @@ std::vector<float> NecromancyEngine::_allIndices {
 
 NecromancyEngine::NecromancyEngine(): _statsTable(nullptr)
 {
-    Initialize(&_dumped, constants::FullStatsArraySize); // todo: place here actual dumped array size
+    Initialize(&_dumped); // todo: place here actual dumped array size
 
     hooks::CoreChannels::init();
     Logger::logCondition(hooks::CoreChannels::allValid(), "Accessing to core game engine functions");
@@ -38,24 +38,21 @@ NecromancyEngine::NecromancyEngine(): _statsTable(nullptr)
     Logger::logCondition(hooks::ArrayValueChannel::allValid(), "Accessing to Array Value functions");
 }
 
-NecromancyEngine::~NecromancyEngine()
-{
-    Free(&_dumped);
-}
+NecromancyEngine::~NecromancyEngine() = default;
 
 void NecromancyEngine::dump()
 {
-    constexpr std::size_t bufferSize = constants::FullStatsArraySize;
-
-    float stats[bufferSize];
-
     auto totalTraffic = _statsTable->getValues(StatsTotalTraffic, _allIndices);
     auto collectedTraffic = _statsTable->getValues(StatsCollectedTraffic, _allIndices);
 
-    std::memcpy(stats, totalTraffic.data, sizeof(float) * totalTraffic.used);
-    std::memcpy(stats + totalTraffic.used, collectedTraffic.data, sizeof(float) * collectedTraffic.used);
+    assert(totalTraffic.used < 32);
+    assert(collectedTraffic.used < 32);
 
-    std::memcpy(_dumped.statsArray, stats, sizeof(float) * bufferSize);
+    std::memcpy(_dumped.totalColors, totalTraffic.data, totalTraffic.used);
+    std::memcpy(_dumped.collectedColors, collectedTraffic.data, collectedTraffic.used);
+
+    _dumped.totalColorsUsed = totalTraffic.used;
+    _dumped.collectedColorsUsed = collectedTraffic.used;
 
     _dumped.score = _floatChannels.at(_scoreChannelName)->get();
     _dumped.largestMatch = _floatChannels.at(_largestMatchChannelName)->get();

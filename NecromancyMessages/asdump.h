@@ -79,7 +79,6 @@ StatusCode Deserialize(const byte* buffer, ASDumpStruct* result);
 /**
  * \brief Initializes a new \c ASDumpStruct struct object by setting all fields to 0 and initialize array of \c ASDumpStruct::statsArray by given size
  * \param dumpStruct pointer to newly created \c ASDumpStruct
- * \param statsArraySize size of \c ASDumpStruct::statsArray array
  */
-void Initialize(ASDumpStruct* dumpStruct, int statsArraySize);
+void Initialize(ASDumpStruct* dumpStruct);
 }
