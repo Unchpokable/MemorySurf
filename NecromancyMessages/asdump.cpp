@@ -38,12 +38,6 @@ StatusCode ASDump::FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, si
     std::memcpy(serializationPtr, structPtr + ASDump_ScoreFieldOffset, ASDump_ScoreFieldOffset);
     serializationPtr += ASDump_ScoreFieldSize;
 
-    std::memcpy(serializationPtr, structPtr + ASDump_StatsArraySizeFieldOffset, ASDump_StatsArraySizeFieldSize);
-    serializationPtr += ASDump_StatsArraySizeFieldSize;
-
-    std::memcpy(serializationPtr, structPtr + ASDump_GoldThresholdFieldOffset, ASDump_GoldThresholdFieldSize);
-    serializationPtr += ASDump_GoldThresholdFieldSize;
-
     std::memcpy(serializationPtr, structPtr + ASDump_TrafficChainMaxFieldOffset, ASDump_TrafficChainMaxFieldSize);
     serializationPtr += ASDump_TrafficChainMaxFieldSize;
 
@@ -52,8 +46,6 @@ StatusCode ASDump::FieldwiseSerialize(const ASDumpStruct& dump, byte* buffer, si
 
     std::memcpy(serializationPtr, structPtr + ASDump_TimestampFieldOffset, ASDump_TimestampFieldSize);
     serializationPtr += ASDump_TimestampFieldSize;
-
-    std::memcpy(serializationPtr, dump.statsArray, sizeof(float) * dump.statsArraySize);
 
     return StatusCode::Ok;
 }
@@ -76,11 +68,7 @@ StatusCode ASDump::BlockwiseSerialize(const ASDumpStruct& dump, byte* buffer, si
     serializationPtr += sizeof(uint16_t);
 
     // fast copy chunk of stable structure data
-    std::memcpy(serializationPtr, structPtr, ASDump_TimestampFieldOffset + ASDump_TimestampFieldSize);
-
-    serializationPtr += ASDump_TimestampFieldOffset + ASDump_TimestampFieldSize;
-
-    std::memcpy(serializationPtr, dump.statsArray, sizeof(float) * dump.statsArraySize);
+    std::memcpy(serializationPtr, structPtr, sizeof(ASDumpStruct));
 
     return StatusCode::Ok;
 }
@@ -104,12 +92,6 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result)
     std::memcpy(structPtr + ASDump_ScoreFieldOffset, serializationPtr, ASDump_ScoreFieldSize);
     serializationPtr += ASDump_ScoreFieldSize;
 
-    std::memcpy(structPtr + ASDump_StatsArraySizeFieldOffset, serializationPtr, ASDump_StatsArraySizeFieldSize);
-    serializationPtr += ASDump_StatsArraySizeFieldSize;
-
-    std::memcpy(structPtr + ASDump_GoldThresholdFieldOffset, serializationPtr, ASDump_GoldThresholdFieldSize);
-    serializationPtr += ASDump_GoldThresholdFieldSize;
-
     std::memcpy(structPtr + ASDump_TrafficChainMaxFieldOffset, serializationPtr, ASDump_TrafficChainMaxFieldSize);
 
     serializationPtr += ASDump_TrafficChainMaxFieldSize;
@@ -119,10 +101,6 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result)
     std::memcpy(structPtr + ASDump_TimestampFieldOffset, serializationPtr, ASDump_TimestampFieldSize);
 
     serializationPtr += ASDump_TimestampFieldSize;
-    // copy array
-    float* arrayBuffer = new float[data.statsArraySize]; // should be filled already
-    std::memcpy(arrayBuffer, serializationPtr, sizeof(float) * data.statsArraySize);
-    data.statsArray = arrayBuffer;
 
     *result = data;
     return StatusCode::Ok;
@@ -131,15 +109,6 @@ StatusCode ASDump::Deserialize(const byte* buffer, ASDumpStruct* result)
 void ASDump::Initialize(ASDumpStruct* dumpStruct, int statsArraySize)
 {
     dumpStruct->score = 0.0;
-    dumpStruct->statsArraySize = statsArraySize;
-    dumpStruct->statsArray = new float[statsArraySize];
-    dumpStruct->goldThreshold = 0.0;
     dumpStruct->trafficChainMax = 0.0;
     dumpStruct->largestMatch = 0.0;
-}
-
-void ASDump::Free(ASDumpStruct* dumpStruct)
-{
-    delete[] dumpStruct->statsArray;
-    dumpStruct->statsArray = nullptr;
 }
